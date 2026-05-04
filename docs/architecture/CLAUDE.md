@@ -6,15 +6,15 @@
 
 | ID | 제목 | 상태 | 작성자 |
 |---|---|---|---|
-| 001 | 모듈 경계 (Clean Architecture) | TBD | `ios-lead` |
-| 002 | 의존성 주입 전략 | TBD | `ios-lead` |
-| 003 | 테스트 전략 (TDD + UI/Snapshot) | TBD | `ios-lead` / `qa-lead` |
+| 001 | 모듈 경계 (Clean Architecture) | **Accepted v0.1** (po-lead 사인오프 2026-05-04) — LocalPackages 9 모듈 + 의존 표 | `ios-lead` |
+| 002 | 의존성 주입 전략 | **Accepted v0.1** (po-lead 사인오프 2026-05-04) — Composition Root + Factory closure (no DI 라이브러리) | `ios-lead` |
+| 003 | 테스트 전략 (TDD + Layer별 책임) | **Accepted v0.1** (po-lead 사인오프 2026-05-04, qa-lead 검토 중) — swift test 16건 PASS | `ios-lead` / `qa-lead` |
 | 101 | Google Maps SDK 통합 | TBD | `ios-map` |
 | 201 | Auth 전략 (Apple+Passkey) | TBD | `ios-auth-monetize` |
 | 202 | 수익화 구현 (AdMob) | TBD | `ios-auth-monetize` |
-| 301 | 백엔드 선택 (Firebase vs Supabase) | **확정: Firebase** | `server-lead` |
-| 302 | 데이터 모델 (Firestore 스키마) | TBD | `server-data` |
-| 303 | App Check / 보안 규칙 | TBD | `server-auth` |
+| 301 | 백엔드 선택 (Firebase vs Supabase) | **확정 v2: Firebase** (가중 매트릭스 + 정량 트리거) | `server-lead` |
+| 302 | 데이터 모델 (Firestore 스키마) | **Accepted** — D1~D7 결정 + schema.md SSOT + indexes + migrations 템플릿 | `server-data` |
+| 303 | App Check / 보안 규칙 / Auth 비용 옵션 | **Accepted v1** (2026-05-04) — 5섹션(App Check + Firestore Rules + Storage Rules + AASA + Auth 비용 (a)/(b)/(c)) | `server-auth` |
 
 ## 모듈 다이어그램
 

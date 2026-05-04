@@ -15,5 +15,6 @@ type: project
 - 인증: Apple Sign In + Passkey (이메일/비번 미사용).
 - 수익화 MVP: AdMob 3슬롯(배너/인터/보상). 첫 60초 광고 금지(UX).
 - 다국어 우선: ko → ja → en-US → en-GB → de-DE → fr-FR.
+- **출시 시퀀스(ADR-PROD-003, 2026-05-04 확정)**: 3그룹 시차 출시 — APAC 비치헤드(KR+JP D0) → 글로벌 매출(US+UK D+30) → EU 확장(DE+FR D+60). KR vs US 비치헤드 동률(8.0=8.0) 해소 결과. 30일 간격은 운영 부담 분산 + 데이터 보강 윈도우.
 - 핵심 화면(v2 화이트톤): Splash → Login(Apple/Passkey) → 위치권한 → 지도 → 매장 상세/리뷰/검색 → 피드 → 위시리스트 → 프로필.
 - Bundle ID: `th1ngjin.MatchaMap` / 빌드 번호 = `YYMMDD_HHMM` KST.

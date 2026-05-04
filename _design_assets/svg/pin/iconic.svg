@@ -1,0 +1,19 @@
+<!-- name=pin-iconic, viewBox=36x44, grade=iconic, color=rose(#c98b85)+deep(#3d4a2d), halo=on, source=hand, symmetry=vertical-axis(cx=18) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 44" width="36" height="44">
+  <!-- halo ring (rose) -->
+  <circle cx="18" cy="15" r="16" fill="#c98b85" opacity="0.18"/>
+  <ellipse cx="18" cy="42" rx="6" ry="1.5" fill="#000" opacity="0.14"/>
+  <!-- pin body deep -->
+  <path d="M18 42 C 6 28, 4 22, 4 15 a 14 14 0 0 1 28 0 c 0 7 -2 13 -14 27 Z"
+        fill="#3d4a2d" stroke="#2a2a2a" stroke-width="1" stroke-linejoin="round"/>
+  <!-- 6-petal rosette centered cx=18 cy=15, r=4 -->
+  <g transform="translate(18 15)">
+    <ellipse cx="0"     cy="-4"   rx="1.6" ry="3.2" fill="#c98b85"/>
+    <ellipse cx="3.46"  cy="-2"   rx="1.6" ry="3.2" fill="#c98b85" transform="rotate(60)"/>
+    <ellipse cx="3.46"  cy="2"    rx="1.6" ry="3.2" fill="#c98b85" transform="rotate(120)"/>
+    <ellipse cx="0"     cy="4"    rx="1.6" ry="3.2" fill="#c98b85" transform="rotate(180)"/>
+    <ellipse cx="-3.46" cy="2"    rx="1.6" ry="3.2" fill="#c98b85" transform="rotate(240)"/>
+    <ellipse cx="-3.46" cy="-2"   rx="1.6" ry="3.2" fill="#c98b85" transform="rotate(300)"/>
+    <circle cx="0" cy="0" r="1.4" fill="#fff"/>
+  </g>
+</svg>

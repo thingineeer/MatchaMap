@@ -1,0 +1,12 @@
+<!-- name=pin-premium, viewBox=36x44, grade=premium, color=gold(#c9a566)+deep(#3d4a2d), source=hand, symmetry=vertical-axis(cx=18) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 44" width="36" height="44">
+  <ellipse cx="18" cy="42" rx="6" ry="1.5" fill="#000" opacity="0.12"/>
+  <path d="M18 42 C 6 28, 4 22, 4 15 a 14 14 0 0 1 28 0 c 0 7 -2 13 -14 27 Z"
+        fill="#3d4a2d" stroke="#2a2a2a" stroke-width="1" stroke-linejoin="round"/>
+  <!-- gold ring around inner badge -->
+  <circle cx="18" cy="15" r="9" fill="none" stroke="#c9a566" stroke-width="1"/>
+  <!-- inner gold leaf -->
+  <path d="M18 8 C 11 10, 10 17, 13 22 C 18 24, 24 19, 25 11 C 22 9, 20 8, 18 8 Z"
+        fill="#c9a566"/>
+  <path d="M18 9 C 16 14, 15 19, 13 22" stroke="#3d4a2d" stroke-width="0.75" stroke-linecap="round" fill="none"/>
+</svg>

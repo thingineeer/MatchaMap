@@ -6,16 +6,22 @@
 //
 
 import SwiftUI
+import DesignSystem
+import Domain
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
+        VStack(spacing: MMSpacing.md) {
+            Image(systemName: "leaf.fill")
                 .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+                .foregroundStyle(MMColor.matchaPrimary)
+            Text("MatchaMap")
+                .font(.title)
+            Text("Domain v\(Domain.version) · DesignSystem v\(DesignSystem.version)")
+                .font(.caption)
+                .foregroundStyle(MMColor.onSurface.opacity(0.6))
         }
-        .padding()
+        .padding(MMSpacing.xl)
     }
 }
 

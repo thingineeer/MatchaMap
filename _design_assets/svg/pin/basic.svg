@@ -1,0 +1,14 @@
+<!-- name=pin-basic, viewBox=36x44, grade=basic, color=matcha(#7a9560), source=hand, symmetry=vertical-axis(cx=18) -->
+<!-- Tear-drop pin. Tip at (18, 42). Bulb cy=15 r=14 from rounded shape. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 44" width="36" height="44">
+  <!-- shadow ellipse under tip -->
+  <ellipse cx="18" cy="42" rx="6" ry="1.5" fill="#000" opacity="0.12"/>
+  <!-- pin body -->
+  <path d="M18 42 C 6 28, 4 22, 4 15 a 14 14 0 0 1 28 0 c 0 7 -2 13 -14 27 Z"
+        fill="#7a9560" stroke="#3d4a2d" stroke-width="1" stroke-linejoin="round"/>
+  <!-- inner leaf, centered cx=18 cy=14 -->
+  <path d="M18 7 C 11 9, 9 16, 12 21 C 17 23, 23 18, 25 11 C 22 8, 20 7, 18 7 Z"
+        fill="#e6ecde" opacity="0.95"/>
+  <!-- leaf vein -->
+  <path d="M18 8 C 16 14, 15 18, 13 21" stroke="#7a9560" stroke-width="0.75" stroke-linecap="round" fill="none"/>
+</svg>

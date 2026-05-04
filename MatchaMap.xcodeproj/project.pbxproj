@@ -6,6 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		71ADE2AC012FA87741002AF431 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB012FA87741002AF431 /* Core */; };
+		71ADE2AC022FA87741002AF431 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB022FA87741002AF431 /* DesignSystem */; };
+		71ADE2AC032FA87741002AF431 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB032FA87741002AF431 /* Domain */; };
+		71ADE2AC042FA87741002AF431 /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB042FA87741002AF431 /* Data */; };
+		71ADE2AC052FA87741002AF431 /* FeatureMap in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB052FA87741002AF431 /* FeatureMap */; };
+		71ADE2AC062FA87741002AF431 /* FeatureAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB062FA87741002AF431 /* FeatureAuth */; };
+		71ADE2AC072FA87741002AF431 /* FeatureStore in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB072FA87741002AF431 /* FeatureStore */; };
+		71ADE2AC082FA87741002AF431 /* FeatureSocial in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB082FA87741002AF431 /* FeatureSocial */; };
+		71ADE2AC092FA87741002AF431 /* FeatureCollection in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB092FA87741002AF431 /* FeatureCollection */; };
+		71ADE2AC102FA87741002AF431 /* FeatureMonetize in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB102FA87741002AF431 /* FeatureMonetize */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		71ADE2542FA8773F002AF431 /* MatchaMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatchaMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +36,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71ADE2AC012FA87741002AF431 /* Core in Frameworks */,
+				71ADE2AC022FA87741002AF431 /* DesignSystem in Frameworks */,
+				71ADE2AC032FA87741002AF431 /* Domain in Frameworks */,
+				71ADE2AC042FA87741002AF431 /* Data in Frameworks */,
+				71ADE2AC052FA87741002AF431 /* FeatureMap in Frameworks */,
+				71ADE2AC062FA87741002AF431 /* FeatureAuth in Frameworks */,
+				71ADE2AC072FA87741002AF431 /* FeatureStore in Frameworks */,
+				71ADE2AC082FA87741002AF431 /* FeatureSocial in Frameworks */,
+				71ADE2AC092FA87741002AF431 /* FeatureCollection in Frameworks */,
+				71ADE2AC102FA87741002AF431 /* FeatureMonetize in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +88,16 @@
 			);
 			name = MatchaMap;
 			packageProductDependencies = (
+				71ADE2AB012FA87741002AF431 /* Core */,
+				71ADE2AB022FA87741002AF431 /* DesignSystem */,
+				71ADE2AB032FA87741002AF431 /* Domain */,
+				71ADE2AB042FA87741002AF431 /* Data */,
+				71ADE2AB052FA87741002AF431 /* FeatureMap */,
+				71ADE2AB062FA87741002AF431 /* FeatureAuth */,
+				71ADE2AB072FA87741002AF431 /* FeatureStore */,
+				71ADE2AB082FA87741002AF431 /* FeatureSocial */,
+				71ADE2AB092FA87741002AF431 /* FeatureCollection */,
+				71ADE2AB102FA87741002AF431 /* FeatureMonetize */,
 			);
 			productName = MatchaMap;
 			productReference = 71ADE2542FA8773F002AF431 /* MatchaMap.app */;
@@ -95,7 +128,19 @@
 			mainGroup = 71ADE24B2FA8773F002AF431;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 71ADE2552FA8773F002AF431 /* Products */;
+				packageReferences = (
+				71ADE2AA012FA87741002AF431 /* XCLocalSwiftPackageReference "Core" */,
+				71ADE2AA022FA87741002AF431 /* XCLocalSwiftPackageReference "DesignSystem" */,
+				71ADE2AA032FA87741002AF431 /* XCLocalSwiftPackageReference "Domain" */,
+				71ADE2AA042FA87741002AF431 /* XCLocalSwiftPackageReference "Data" */,
+				71ADE2AA052FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureMap" */,
+				71ADE2AA062FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureAuth" */,
+				71ADE2AA072FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureStore" */,
+				71ADE2AA082FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureSocial" */,
+				71ADE2AA092FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureCollection" */,
+				71ADE2AA102FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureMonetize" */,
+			);
+		productRefGroup = 71ADE2552FA8773F002AF431 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -332,6 +377,93 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		71ADE2AA012FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Core" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Core;
+		};
+		71ADE2AA022FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/DesignSystem;
+		};
+		71ADE2AA032FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Domain" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Domain;
+		};
+		71ADE2AA042FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Data" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Data;
+		};
+		71ADE2AA052FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureMap" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Feature/FeatureMap;
+		};
+		71ADE2AA062FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureAuth" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Feature/FeatureAuth;
+		};
+		71ADE2AA072FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureStore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Feature/FeatureStore;
+		};
+		71ADE2AA082FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureSocial" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Feature/FeatureSocial;
+		};
+		71ADE2AA092FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureCollection" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Feature/FeatureCollection;
+		};
+		71ADE2AA102FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureMonetize" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/Feature/FeatureMonetize;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		71ADE2AB012FA87741002AF431 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		71ADE2AB022FA87741002AF431 /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
+		71ADE2AB032FA87741002AF431 /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Domain;
+		};
+		71ADE2AB042FA87741002AF431 /* Data */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Data;
+		};
+		71ADE2AB052FA87741002AF431 /* FeatureMap */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureMap;
+		};
+		71ADE2AB062FA87741002AF431 /* FeatureAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureAuth;
+		};
+		71ADE2AB072FA87741002AF431 /* FeatureStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureStore;
+		};
+		71ADE2AB082FA87741002AF431 /* FeatureSocial */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureSocial;
+		};
+		71ADE2AB092FA87741002AF431 /* FeatureCollection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureCollection;
+		};
+		71ADE2AB102FA87741002AF431 /* FeatureMonetize */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeatureMonetize;
+		};
+/* End XCSwiftPackageProductDependency section */
+
 	};
 	rootObject = 71ADE24C2FA8773F002AF431 /* Project object */;
 }

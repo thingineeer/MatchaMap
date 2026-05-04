@@ -1,0 +1,13 @@
+<!-- name=logo-wordmark, viewBox=240x60, source=hand, symmetry=baseline -->
+<!-- 마크(작게) + "MATCHAMAP" 워드 (Plex Mono letter-spacing 0.3em 시각화). -->
+<!-- 실제 SwiftUI 사용 시 Image("logo-mark") + Text("MATCHAMAP")로 분리 권장. 본 SVG는 ASO/스토어/마케팅 자료용 단일 자산. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <!-- mark on left -->
+  <g transform="translate(8, 8) scale(0.44)">
+    <path d="M42 6 C18 6, 4 24, 4 46 C4 70, 42 96, 42 96 C42 96, 80 70, 80 46 C80 24, 66 6, 42 6 Z" fill="#3d4a2d"/>
+    <path d="M22 56 C22 36, 36 24, 60 24 C58 46, 44 56, 22 56 Z" fill="#a8b994" opacity="0.95"/>
+  </g>
+  <!-- wordmark — text rendered as paths via geometric shapes is heavy; use system font reference at consume-time. -->
+  <!-- 실제 사용처에서 Text("MATCHAMAP", font: .custom("IBM Plex Mono")) 권장. -->
+  <text x="62" y="36" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" font-size="20" font-weight="500" fill="#3d4a2d" letter-spacing="6">MATCHAMAP</text>
+</svg>

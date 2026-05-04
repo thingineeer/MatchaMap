@@ -1,0 +1,59 @@
+<!-- name=appicon-B, concept=단일 잎 글래스(Liquid Glass Single Leaf), grid=1024, source=hand, symmetry=vertical-axis(cx=512) -->
+<!-- iOS 26 Liquid Glass aesthetic: translucent rounded square layer + leaf inside.
+     Background gradient (cream → matchaPale).
+     Glass plate (rounded) with subtle inner shadow.
+     Single matcha leaf centered. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f1ea"/>
+      <stop offset="100%" stop-color="#a8b994"/>
+    </linearGradient>
+    <linearGradient id="glassB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="leafB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#7a9560"/>
+      <stop offset="100%" stop-color="#3d4a2d"/>
+    </linearGradient>
+    <filter id="blurB" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bgB)"/>
+
+  <!-- Soft matcha bokeh discs (background depth) -->
+  <circle cx="220" cy="220" r="120" fill="#7a9560" opacity="0.25" filter="url(#blurB)"/>
+  <circle cx="820" cy="180" r="90"  fill="#c9a566" opacity="0.25" filter="url(#blurB)"/>
+  <circle cx="860" cy="820" r="140" fill="#c98b85" opacity="0.20" filter="url(#blurB)"/>
+  <circle cx="180" cy="820" r="100" fill="#3d4a2d" opacity="0.18" filter="url(#blurB)"/>
+
+  <!-- Glass plate. Liquid Glass: rounded rect inset. cx=512 -->
+  <rect x="172" y="172" width="680" height="680" rx="180" ry="180"
+        fill="url(#glassB)" stroke="#ffffff" stroke-opacity="0.6" stroke-width="3"/>
+
+  <!-- inner top highlight strip -->
+  <rect x="200" y="200" width="624" height="28" rx="14" fill="#ffffff" opacity="0.35"/>
+
+  <!-- Leaf, centered. Tip top y=260, base y=820. cx=512. -->
+  <path d="M 512 260
+           C 320 320, 270 540, 360 720
+           C 420 770, 510 780, 512 780
+           C 514 780, 604 770, 664 720
+           C 754 540, 704 320, 512 260 Z"
+        fill="url(#leafB)"/>
+  <!-- central vein -->
+  <path d="M 512 280 L 512 770" stroke="#2a3520" stroke-width="8" stroke-linecap="round" opacity="0.85"/>
+  <!-- side veins (mirrored pairs) -->
+  <path d="M 512 360 Q 432 392 388 440" stroke="#2a3520" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M 512 360 Q 592 392 636 440" stroke="#2a3520" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M 512 470 Q 416 510 372 580" stroke="#2a3520" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.65"/>
+  <path d="M 512 470 Q 608 510 652 580" stroke="#2a3520" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.65"/>
+  <path d="M 512 600 Q 432 640 408 690" stroke="#2a3520" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.55"/>
+  <path d="M 512 600 Q 592 640 616 690" stroke="#2a3520" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.55"/>
+
+  <!-- leaf specular -->
+  <path d="M 430 350 Q 380 480 380 620" stroke="#e6ecde" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.45"/>
+</svg>
