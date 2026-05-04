@@ -15,31 +15,43 @@ reviews:
   path_instructions:
     - path: "LocalPackages/Domain/**"
       instructions: |
-        Domain 레이어. 외부 의존성 0(Firebase/UIKit/SwiftUI 금지). Entities/UseCases/Repository 프로토콜만.
+        Domain 레이어. **외부 의존성 0**(Firebase/UIKit/SwiftUI/Combine/URLSession 금지).
+        Entities/UseCases/Repository 프로토콜만. Foundation은 값 타입(Date/UUID)에 한해 허용.
         SOLID + POP 준수. 단일 책임 위반/의존성 누수를 지적하라.
+        모든 public 타입은 Sendable. Repository/UseCase는 protocol + Sendable 필수.
     - path: "LocalPackages/Data/**"
       instructions: |
         Data 레이어. Domain 프로토콜 구현. Firebase/Network/GoogleMaps 의존 OK.
         DTO ↔ Entity 변환 누락, 에러 매핑 미흡, 동시성(MainActor 외 작업) 누락 체크.
     - path: "LocalPackages/Feature/**"
       instructions: |
-        Feature 레이어. UseCase 프로토콜만 의존(Data/Firebase 직접 import 금지).
+        Feature 레이어. **UseCase 프로토콜만 의존(import Data, import Firebase*, import GoogleMaps 직접 금지)** — 위반 시 즉시 PR 차단.
         SwiftUI View는 ViewModel 통해서만 상태 변경. View에 비즈니스 로직 누수 체크.
+        ViewModel은 @MainActor + @Observable (Observation framework). ObservableObject/@Published 사용 금지(레거시).
+        다른 Feature/* 모듈을 직접 import 하지 않는다 — 크로스 컷 콜백은 Composition Root에서 closure로 주입.
+        접근성: VoiceOver 레이블 누락, 터치 타깃 < 44pt, Dynamic Type 미지원(font 고정 크기) 지적.
     - path: "LocalPackages/Core/**"
       instructions: |
         Core 유틸리티. 외부 의존성 최소. 로깅/네트워크 헬퍼/DI 컨테이너만.
     - path: "LocalPackages/DesignSystem/**"
       instructions: |
-        디자인 토큰 + 컴포넌트. 색상 리터럴 금지(MM2 토큰 통해서만).
+        디자인 토큰 + 컴포넌트. **색상 리터럴 금지(MM2 토큰 통해서만)** — Color(red:green:blue:), Color("MyColor"),
+        UIColor(...), .red/.blue 등 Color 값을 직접 쓰면 PR 차단. 반드시 MMColor.* 통해.
         SF Symbols 의존 지양, 직접 SVG 자산 사용.
+        Dynamic Type: .font(.system(size:)) 대신 .font(.body)/.title/.callout 등 시스템 스타일 사용.
+        relativeTo 매핑은 docs/design/design-system.md §2.5 참조.
+        Sendable 누락(public struct/enum/class의 Sendable 미준수)을 지적하라.
     - path: "MatchaMap/**/*.swift"
       instructions: |
         앱 본체. 컴포지션 루트 + AppDelegate. UseCase 직접 호출 금지(Feature 통해서).
         @MainActor 기본 — 백그라운드 작업은 명시적 nonisolated.
     - path: "**/*.xcstrings"
       instructions: |
-        String Catalog. 6개 언어(ko, en-US, en-GB, de-DE, ja, fr-FR) 모두 채워졌는지 체크.
+        String Catalog. 6개 언어(ko, en-US, en-GB, de-DE, ja, fr-FR) **모두 채워졌는지** 체크.
+        누락 키 1건이라도 있으면 차단. 빈 문자열 또는 영문 fallback도 누락으로 간주.
         독일어 카피가 가장 긴 경우가 많아 레이아웃 오버플로우 가능성 지적.
+        raw key 사용 시(NSLocalizedString("...") 등) — String Catalog 생성 심볼만 사용해야 함을 지적하라.
+        세부 정책은 docs/design/localization-policy.md.
     - path: "firebase-functions/**"
       instructions: |
         Firebase Cloud Functions. 리전 asia-northeast3. 콜드 스타트 비용/타임아웃 체크.

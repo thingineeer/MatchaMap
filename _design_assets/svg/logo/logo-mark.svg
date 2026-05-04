@@ -1,0 +1,12 @@
+<!-- name=logo-mark, viewBox=84x100, source=hand (정전 mm-screens-v2.jsx Screen2Splash line 11-15), symmetry=vertical-axis(cx=42) -->
+<!-- Splash 로고: 매장 핀 형태 + 잎. -->
+<!-- 본체: deep matcha (#3d4a2d). 잎: matchaSoft (#a8b994). -->
+<!-- 정전 viewBox 그대로 유지. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 100" width="84" height="100">
+  <path d="M42 6 C18 6, 4 24, 4 46 C4 70, 42 96, 42 96 C42 96, 80 70, 80 46 C80 24, 66 6, 42 6 Z"
+        fill="#3d4a2d"/>
+  <path d="M22 56 C22 36, 36 24, 60 24 C58 46, 44 56, 22 56 Z"
+        fill="#a8b994" opacity="0.95"/>
+  <path d="M22 56 Q40 46, 56 30"
+        stroke="#3d4a2d" stroke-width="0.8" fill="none" opacity="0.4"/>
+</svg>

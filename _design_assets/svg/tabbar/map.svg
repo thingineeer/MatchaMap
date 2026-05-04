@@ -1,0 +1,7 @@
+<!-- name=tabbar-map (inactive), grid=28, stroke=1.5, padding=2, source=hand -->
+<!-- Folded map with two creases. Left fold at x=10, right fold at x=18. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 5 L3 7.5 V23 L10 20.5 L18 23 L25 20.5 V5 L18 7.5 Z"/>
+  <line x1="10" y1="5" x2="10" y2="20.5"/>
+  <line x1="18" y1="7.5" x2="18" y2="23"/>
+</svg>

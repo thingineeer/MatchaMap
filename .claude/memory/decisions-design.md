@@ -20,6 +20,13 @@ type: project
 
 **아이콘**: Apple SF Symbols 의존 금지. 직접 SVG로 픽셀 단위 정렬된 컴포넌트 제작 (`designer-icon` 책임).
 
+**앱 아이콘 (2026-05-04 ACCEPTED, po-lead 사인오프)**:
+- 채택 = **B 단일 잎 글래스** (`_design_assets/svg/appicon/B-glass-leaf.svg`). 1024 마스터, cx=512 좌우 대칭.
+- canon: B만. A/C는 회수성/시즌 변형 참고용으로 보존.
+- vein 시그니처(6 비대칭) = MM 동결 패턴 — v2.x까지 vein 좌표 변경 금지, 색/그라데이션만 시즌 변형.
+- 약점 보강: 음료 시그널은 스토어 스크린샷 + 온보딩 키비주얼에서 컵+잎 컴포지션으로 보강 (`docs/design/store-screenshots-spec.md`).
+- 참고: `docs/design/app-icon-decision.md` 가중 매트릭스 합계 B=67 / A=52 / C=43.
+
 **Why:**
 - v2가 사용자 마지막 의도. 흰 톤이 글로벌(여행자) 타깃에 더 친화적이고 광고 슬롯과의 충돌 적음.
 - 더스티 로즈 액센트는 "여성 친화 + 말차 보색" 조합.

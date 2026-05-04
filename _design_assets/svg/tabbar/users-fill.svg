@@ -1,0 +1,7 @@
+<!-- name=tabbar-users (active), grid=28, stroke=1.5, padding=2, source=hand -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="9" r="4"/>
+  <path d="M3 23 a8 8 0 0 1 16 0 v0 H3 z"/>
+  <circle cx="20" cy="10" r="3"/>
+  <path d="M19 16 a6 6 0 0 1 7 5 v0 h-7 z" fill-opacity="0.85"/>
+</svg>
