@@ -3,6 +3,6 @@ import XCTest
 
 final class FeatureCollectionTests: XCTestCase {
     func test_version_isStable() {
-        XCTAssertEqual(FeatureCollection.version, "0.1.0")
+        XCTAssertEqual(FeatureCollection.version, "0.2.0")
     }
 }
