@@ -1,0 +1,10 @@
+MatchaMap is the world map for matcha lovers — discover, log, and collect.
+
+- Global map: Powered by Google Maps. City zoom and pins to scan a neighbourhood at a glance.
+- Place details: menu, popular times, directions, Street View.
+- Matcha journal: collect every matcha you taste. Track grade, origin, colour, and notes.
+- Friends feed: see your friends' journals and reviews on a timeline.
+- Wishlist: places you want to visit, grouped by country with a mini world map.
+- Sign in with Apple / Passkey: no passwords.
+
+Launching first in Korea, Japan, United States, United Kingdom, Germany, and France.

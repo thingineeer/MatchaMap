@@ -1,0 +1,19 @@
+app_identifier  ENV["APP_IDENTIFIER"] || "th1ngjin.MatchaMap"
+username        ENV["APPLE_ID"]
+team_id         ENV["TEAM_ID"]
+
+force                true
+skip_screenshots     true
+skip_metadata        false
+submit_for_review    false
+automatic_release    false
+precheck_include_in_app_purchases false
+
+submission_information(
+  add_id_info_uses_idfa: true,                # AdMob 광고 ID 사용
+  export_compliance_uses_encryption: false,
+  add_id_info_serves_ads: true,
+  add_id_info_tracks_action: false,
+  add_id_info_tracks_install: true,
+  add_id_info_limits_tracking: true
+)

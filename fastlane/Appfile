@@ -1,0 +1,7 @@
+app_identifier ENV["APP_IDENTIFIER"] || "th1ngjin.MatchaMap"
+apple_id       ENV["APPLE_ID"]
+team_id        ENV["TEAM_ID"]
+itc_team_id    ENV["ITC_TEAM_ID"]
+
+# 시크릿은 ~/.env-vault/projects/matchamap-ios/.env 에서 로드
+# 본 파일에는 절대 평문 ID 적지 말 것 (CodeRabbit 자유 활용 위해 public 가능하므로)

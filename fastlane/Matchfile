@@ -1,0 +1,10 @@
+git_url       ENV["MATCH_GIT_URL"] || "https://github.com/thingineeer/thingineeer-env"
+storage_mode  "git"
+type          "appstore"
+
+app_identifier  [ENV["APP_IDENTIFIER"] || "th1ngjin.MatchaMap"]
+username        ENV["APPLE_ID"]
+team_id         ENV["TEAM_ID"]
+
+# match는 인증서/프로비저닝 프로파일을 git 레포에 암호화 저장.
+# 비밀번호는 MATCH_PASSWORD 환경변수.

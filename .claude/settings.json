@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "TZ": "Asia/Seoul"
+  },
+  "teammateMode": "in-process",
+  "permissions": {
+    "allow": [
+      "Bash(open MatchaMap.xcodeproj)",
+      "Bash(xcodebuild *)",
+      "Bash(xcrun *)",
+      "Bash(swift *)",
+      "Bash(pod *)",
+      "Bash(bundle exec fastlane *)",
+      "Bash(fastlane *)",
+      "Bash(gh *)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git branch:*)",
+      "Bash(git switch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge --no-ff:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull --ff-only:*)",
+      "Bash(git push:*)",
+      "Bash(git tag:*)",
+      "Bash(git stash:*)",
+      "Bash(ls *)",
+      "Bash(find . *)",
+      "Bash(grep *)",
+      "Bash(rg *)",
+      "Bash(cat ./*)",
+      "Bash(unzip *)",
+      "Bash(plutil *)",
+      "Bash(security find-identity:*)",
+      "Read(./**)",
+      "Read(/Users/imyeongjin/Desktop/FearIndex-iOS/**)",
+      "Read(/Users/imyeongjin/.env-vault/projects/matchamap-ios/**)",
+      "Read(/Users/imyeongjin/.env-vault/CLAUDE.md)",
+      "Read(/Users/imyeongjin/.env-vault/apple/**)",
+      "Edit(./**)",
+      "Write(./**)",
+      "Write(/Users/imyeongjin/.env-vault/projects/matchamap-ios/**)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git merge --squash:*)",
+      "Bash(git commit --no-verify:*)",
+      "Bash(gh repo edit --visibility public:*)",
+      "Bash(rm -rf /:*)",
+      "Bash(rm -rf ~:*)",
+      "Bash(rm -rf .git:*)",
+      "Read(/Users/imyeongjin/.ssh/**)",
+      "Read(/Users/imyeongjin/.aws/**)",
+      "Read(./.env)",
+      "Write(./.env)",
+      "Write(./GoogleService-Info.plist)",
+      "Write(./fastlane/.env)",
+      "Write(./fastlane/.env.*)",
+      "Write(./**/AuthKey_*.p8)",
+      "Write(./**/*.cer)",
+      "Write(./**/*.mobileprovision)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/no-squash-guard.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/git-safety.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

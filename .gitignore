@@ -1,0 +1,88 @@
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# --- Xcode ---
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.moved-aside
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+project.xcworkspace/
+
+# --- Swift Package Manager ---
+.swiftpm/
+Package.resolved
+.build/
+Packages/
+
+# --- CocoaPods ---
+Pods/
+
+# --- Carthage ---
+Carthage/Build/
+Carthage/Checkouts
+
+# --- fastlane ---
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/screenshots/**/*.png.metadata
+fastlane/test_output/
+fastlane/.env
+fastlane/.env.*
+fastlane/api_key.json
+fastlane/AuthKey_*.p8
+fastlane/Deliverfile.local
+
+# --- Secrets / Credentials (NEVER commit) ---
+.env
+.env.*
+!.env.example
+GoogleService-Info.plist
+!GoogleService-Info.plist.example
+**/AuthKey_*.p8
+**/*.cer
+**/*.mobileprovision
+**/*.p12
+**/*.keystore
+**/credentials.json
+**/admob.json
+!**/admob.json.example
+
+# --- Claude / agent runtime ---
+.claude/teams/*/runtime/
+.claude/tasks/*/runtime/
+.claude/.cache/
+
+# --- Tooling outputs ---
+*.log
+*.tmp
+.DS_Store
+node_modules/
+coverage/
+
+# --- Local handoff (designer source) ---
+_handoff/
+
+# --- Build / artifact ---
+*.ipa
+*.dSYM.zip
+*.xcarchive
+build/
+out/

@@ -1,0 +1,10 @@
+MatchaMap est la carte mondiale des amateurs de matcha — découvrir, noter, collectionner.
+
+- Carte mondiale : propulsée par Google Maps. Zoom par ville et épingles pour balayer un quartier d'un coup d'œil.
+- Détails des cafés : menu, heures d'affluence, itinéraires, Street View.
+- Journal du matcha : collectez chaque matcha dégusté avec son grade, son origine, sa couleur et vos notes.
+- Fil d'amis : retrouvez les journaux et avis de vos amis sur une timeline.
+- Liste de souhaits : les cafés à visiter, regroupés par pays avec une mini carte du monde.
+- Connexion avec Apple / Passkey : sans mot de passe.
+
+Lancement initial en Corée du Sud, au Japon, aux États-Unis, au Royaume-Uni, en Allemagne et en France.
