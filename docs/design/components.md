@@ -482,7 +482,19 @@ iOS 기본 `.sheet(isPresented:)` 사용 + presentation detents `[.medium, .larg
 | `menu` | 더보기 ⋯ |
 | `sort` | 정렬 |
 
-→ `designer-icon`이 위 28개 아이콘을 SVG로 납품. SF Symbols 의존 금지.
+#### 8.1.1 § 8.2 후보 → 정전 추가 (2026-05-04 designer-icon 7 SVG 납품)
+
+| name | 우선순위 | 사용처 |
+|---|---|---|
+| `leaf-fill` | P2 | RewardedAdSheet (M4) 잠금 → 잎 reveal 시각 효과 |
+| `lock` | P2 | C3 Locked Card 잠금 표시 |
+| `lock-open` | P2 | C3 보상형 광고 시청 후 잠금 해제 상태 |
+| `globe-search` | P1 | 04 World "여행 모드" 인디케이터 (icp.md P1 Top Need 2) |
+| `card-stack` | P1 | C1 Collection Grid → 도감 진입점 |
+| `flame` | P2 | 인기 매장 표시 (검색 09b "지금 인기") |
+| `info` | P2 | tooltip / 광고 disclosure inline 안내 |
+
+→ 인벤토리 합계 = **35종** (UI 28 + 신규 7). icons.md § 1 line 64-70 정합. SF Symbols 의존 0건 유지.
 
 ### 8.2 컴포넌트 → 아이콘 사용 매트릭스 (designer-icon 정합 검증용)
 
@@ -523,30 +535,37 @@ iOS 기본 `.sheet(isPresented:)` 사용 + presentation detents `[.medium, .larg
 | **Quick action grid (07 Detail)** | 4개 액션: `compass` (길찾기 강조 deep) / `phone` / `globe` / `share` | grid 4×1 |
 | **영업시간 카드 (07 Detail)** | leading: `clock` / trailing: `chevron-down` (expand) | — |
 | **Story Ring (11 Feed)** | "내" 추가 표시: `plus` (small badge) | 다른 친구는 아이콘 없음 |
-| **AdBannerSlot (M2)** | (아이콘 없음 — 광고 disclosure mono 라벨 "광고/Ad" 만) | — |
+| **AdBannerSlot (M2)** | (아이콘 없음 — 광고 disclosure mono 라벨 "광고/Ad" 만) / settings inline 안내: `info` (옵션) | — |
 | **InterstitialAdHost (M3)** | (시스템 GMS SDK 자체 처리 — 본 디자인 시스템 외) | — |
-| **RewardedAdSheet (M4)** | 잠금 → 잎 모핑: `bookmark-fill` 또는 leaf-fill (별도 자산 — designer-icon P2) / close: `close` | — |
+| **RewardedAdSheet (M4)** | 헤더 잠금: `lock` → 보상 후 reveal: `leaf-fill` (모핑) → unlock 완료: `lock-open` / close: `close` | icons.md § 1.1 P2 자산 |
 | **ATT Prompt (M1)** | 중앙 SVG (별 + 잎 sparkle) — designer-icon P2 자산 / CTA: 아이콘 없음 | — |
 | **NavBar (모든 화면)** | leading: `arrow-left` (push 화면) | — |
 | **Bell trailing (11 Feed / 13 Profile)** | `bell` | — |
 | **List/Grid view toggle (12 Wishlist)** | `list` + `grid` | active 색 deep / inactive muted |
 | **Settings entry (13 Profile)** | leading: `settings` | — |
 | **Disclosure rows (13 Profile menu list)** | leading 컨텍스트별: `bookmark` (위시) / `edit` (내 리뷰) / `users` (친구) / `bell` (알림) / trailing: `chevron-right` | — |
+| **04 World 여행 모드 인디케이터** | leading: `globe-search` (해외 도시 미리보기 활성 시 검색바 좌측 표시) | icp.md P1 Top Need 2 / icons.md P1 |
+| **C1 Collection Grid 도감 진입점** | 매장 상세 → 도감 진입 transition: `card-stack` | icons.md P1 |
+| **C3 Locked Card** | thumb 좌상단 lock 표시: `lock` / 풀스크린 modal 헤드라인 영역: `lock` (큰 사이즈) → 보상 후 `lock-open` 모핑 (0.4s) | icons.md P2 |
+| **C3 보상 reveal 애니메이션** | `lock` → `leaf-fill` (matchaPale → matcha 그라디언트 0.4s) | RewardedAdSheet M4와 동일 자산 |
+| **09b Empty Search "지금 인기"** | section header trailing: `flame` (인기 매장 강조 라벨) | icons.md P2 |
+| **광고 disclosure 확장 (M2 배너 / 13c Settings 광고 환경)** | inline 안내 prefix: `info` (탭하면 광고 정책 설명 모달) | icons.md P2 |
 
-#### 누락/추가 후보
+#### 후보 6건 처리 완료 (2026-05-04)
 
-본 매트릭스 작성 시점 누락 0건. 후속 컴포넌트 추가 시 designer-icon에 즉시 SendMessage:
+designer-icon이 후보 6건 모두 수용 + 7 SVG 신규 작성 + icons.md § 1 line 64-70 적재 완료. 본인 측 § 8.1.1로 정전 등록 + § 8.2 컴포넌트 매트릭스 7행 추가 (위 표 마지막 7행). MMIcon enum도 갱신됨 (icons.md § 1 SwiftUI 예시 line 96-100).
 
-| 후보 | 컨텍스트 | 우선순위 |
-|---|---|---|
-| `leaf-fill` | RewardedAdSheet 모핑 reveal | P2 (v1.0 또는 v1.1) |
-| `lock` / `lock-open` | C3 Locked Card 잠금 표시 | P2 |
-| `globe-search` | 04 World "여행 모드" 인디케이터 (해외 도시 미리보기) | P1 (po-growth 합의 후) |
-| `card-stack` | C1 Collection Grid 도감 진입점 | P1 |
-| `flame` / `fire` | 인기 매장 표시 (검색 09b "지금 인기") | P2 |
-| `info` | tooltip / 광고 disclosure 확장 | P2 |
+| 후보 | 결정 | 우선순위 | 정전 위치 |
+|---|---|---|---|
+| `leaf-fill` | ✓ 수용 | P2 | icons.md § 1 line 64 |
+| `lock` | ✓ 수용 | P2 | icons.md § 1 line 65 |
+| `lock-open` | ✓ 수용 | P2 | icons.md § 1 line 66 |
+| `globe-search` | ✓ 수용 | P1 | icons.md § 1 line 67 |
+| `card-stack` | ✓ 수용 | P1 | icons.md § 1 line 68 |
+| `flame` | ✓ 수용 | P2 | icons.md § 1 line 69 |
+| `info` | ✓ 수용 | P2 | icons.md § 1 line 70 |
 
-→ designer-icon은 본 후보 6건 검토 후 `icons.md § 1` 인벤토리에 추가 또는 거절. 결정 시 본 § 8.2도 갱신.
+→ 향후 신규 후보 발생 시 designer-icon에 SendMessage. 본 표는 처리 이력 보존.
 
 ---
 

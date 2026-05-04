@@ -133,7 +133,7 @@
 | `primaryPhoto` | string? | N | — | 카드 미리보기. 없으면 photos[0]. |
 | `coverPhoto` | string? | N | — | 매장 상세 헤더(고화질). |
 | `origin` | map? | N | — | **말차 원산지 메타** (po-lead 요청, designer-lead screens.md 정합). v1.0.0 MVP는 알려진 노포/브랜드만 시드 채움. 페르소나 2(로컬 도감러) "원산지/등급/색감 비교" Top 3 Need 핵심. 도감 카드 등록 시 country는 자동, region/grade는 사용자 선택 입력으로 보완. |
-| `origin.region` | string? | N | enum 권장 + free string 허용 | `uji`, `nishio`, `shizuoka`, `kagoshima`, `boseong`, `hadong`, `jeju`, `other`. enum 외 값은 큐레이터 입력 허용(자유 문자열). 도감 그리드 원산지별 그룹핑의 SSOT. |
+| `origin.region` | string? | N | enum 권장 + free string 허용 | `uji`, `nishio`, `shizuoka`, `kagoshima`, `boseong`, `hadong`, `jeju`, `other`. enum 외 값은 큐레이터 입력 허용(자유 문자열). 도감 그리드 원산지별 그룹핑의 SSOT. **mini-map 좌표는 디자인 시스템 측 hardcoded 매핑** (designer-lead Q1 합의 v1.1: enum 8종 × {lat,lng} 고정. server 비용 0). free string region은 mini-map 표시 안 함. |
 | `origin.country` | string? | N | ISO-3166 alpha-2 | 원산지 국가. 매장 country와 다를 수 있음(예: 한국 카페에서 우지 말차 사용 = `stores.country=KR`, `origin.country=JP`). |
 | `origin.grade` | string? | N | enum: `ceremonial`, `premium`, `standard`, `culinary` | 등급. 사용자 입력보다 큐레이터/공급원 정보가 우선. `collections/items.grade`(사용자 도감 입력)와 별개의 매장 단위 SSOT. |
 | `origin.notes` | string? | N | 0 – 200 chars | 사용자 표시용 짧은 설명("우지산 격조 등급, 마루큐 코야마엔 공급"). |
@@ -142,6 +142,7 @@
 | `ratingHistogram` | map? | N | `{"1":int,...,"5":int}` | **→ Functions only**. 평점 분포. |
 | `tagsTop` | array<string> | N | 0–10 items | **→ Functions only**. 리뷰 태그 빈도 상위. |
 | `verified` | bool | Y | default false | **→ Functions only**. 큐레이터 인증 매장. |
+| `pinTier` | string | Y | enum: `S`, `A`, `B`, `C`, default `C` | **→ Functions only**. 매장 핀 4등급 (designer-icon MatchaPin S/A/B/C 정합). `matchaScore` + `verified` 조합으로 Functions가 derive: `S` = `verified && matchaScore ≥ 4.5`, `A` = `verified && 4.0 ≤ matchaScore < 4.5`, `B` = `3.0 ≤ matchaScore < 4.0` 또는 `verified && matchaScore < 4.0`, `C` = `matchaScore < 3.0`. ios-lead 의제 2 옵션 C 변형 채택(server-side derive + 캐시). 클라 분기 단순화 + 인덱스 가능. |
 | `seedSource` | string | N | enum: `google_places`, `editor`, `partner` | 시드 출처. |
 | `createdAt` | timestamp | Y | server | |
 | `updatedAt` | timestamp | Y | server | |
@@ -161,6 +162,7 @@
 | 타입 필터 | `country` ASC, `types` ARRAY, `matchaScore` DESC | "도쿄에서 omakase 매장" |
 | 인증 매장 | `country` ASC, `verified` ASC, `matchaScore` DESC | 큐레이션 추천 |
 | 원산지 필터 | `origin.region` ASC, `matchaScore` DESC | "우지산 말차 사용 매장" 도감 그리드 그룹/필터 (po-lead 요청) |
+| 등급(핀) 필터 | `country` ASC, `pinTier` ASC, `matchaScore` DESC | "S등급만" / "A이상만" 카메라 줌 아웃 시 viewport 디클러스터링 (ios-map Phase 3) |
 
 > **Geohash 전략**: Phase 2에서는 9자리 geohash prefix 매칭으로 viewport 조회. v1.1.0+에서 정밀도 부족(km 단위) 시 GeoFirestore 라이브러리 또는 S2 cell 도입 검토 (ADR-302 § viewport 쿼리 결정 참조).
 
@@ -271,9 +273,10 @@
 | `uid` | string | Y | == 부모 path uid | invariant. |
 | `storeId` | string | Y | Google Place ID | |
 | `drink` | string | Y | enum: `usucha`, `koicha`, `matcha_latte`, `iced_matcha`, `matcha_dessert`, `other` | |
-| `grade` | string? | N | enum: `ceremonial`, `premium`, `cooking`, `unknown` | 사용자 입력. |
-| `originRegion` | string? | N | enum: `uji`, `nishio`, `kagoshima`, `shizuoka`, `boseong`, `hadong`, `other`, `unknown` | 산지. |
-| `colorHex` | string? | N | `#RRGGBB` | 사용자 추출 색감(시그니처 카드). designer-lead 도감 카드 사양 참조. |
+| `grade` | string? | N | enum: `ceremonial`, `premium`, `standard`, `culinary`, `unknown` | 사용자 입력. **`stores.origin.grade` enum과 동일 4종 정합** (designer-lead screens.md § 6.3 5언어 매핑) + `unknown`. v1.0(초안)의 `cooking`은 `culinary`로 통합. |
+| `originRegion` | string? | N | enum: `uji`, `nishio`, `kagoshima`, `shizuoka`, `boseong`, `hadong`, `jeju`, `other`, `unknown` | 산지. **`stores.origin.region` enum과 정합** + `unknown`. `jeju` 추가. |
+| `colorTier` | string? | N | enum: `matchaSoft`, `matchaPale`, `matcha`, `deepMatcha`, `deep` | **5단계 색감 enum** (designer-lead Q2 합의 v1.1). 사용자 입력 단순화 + 분석/필터 효율. `MMColor` 디자인 토큰과 1:1. |
+| `colorHex` | string? | N | `#RRGGBB` | **렌더용 hex 미러** (디자인 토큰에서 `colorTier`로 매핑된 값). 미래 free hex picker(v1.x.x) 도입 시 `colorTier=null` + `colorHex` 직접 입력 케이스 호환. v1.0.0은 `colorTier`로 채워지고 Functions가 hex로 미러. |
 | `note` | string? | N | 0 – 500 chars | 메모. |
 | `photos` | array<string> | N | 0 – 3 items, gs:// | Storage `users/{uid}/collection/{itemId}/{n}.jpg`. |
 | `country` | string | Y | ISO-3166 alpha-2 | **디노멀** from `stores.country`. |
@@ -298,6 +301,8 @@
 | 국가별 도감 | `country` ASC, `visitedAt` DESC | 미니 세계지도 그룹 |
 | 음료 종류별 | `drink` ASC, `visitedAt` DESC | 필터 |
 | 등급별 | `grade` ASC, `visitedAt` DESC | "Ceremonial 등급만" |
+| 원산지별 | `originRegion` ASC, `visitedAt` DESC | "우지산 시음 컬렉션" (designer-lead C2 메모리 페이지) |
+| 색감별 | `colorTier` ASC, `visitedAt` DESC | 5단계 색감 분포 분석 (H1 보조) |
 
 ### 5.4 observability 정합 — 도감 등록률 SSOT
 
@@ -508,3 +513,5 @@ read = `request.auth.uid in audienceUids`. write = Functions Admin SDK만.
 | 일자 | 변경 | 작성자 |
 |---|---|---|
 | 2026-05-04 | 초안 (10 컬렉션 + 컬렉션 그룹 + 변경 영향 매트릭스) | server-data |
+| 2026-05-04 | v1.1: designer-lead 합의 반영 — `collections/items.colorTier` 5단계 enum 추가 + `colorHex` 미러 정책, `grade`/`originRegion` enum을 `stores.origin`과 정합(`culinary`로 통합, `jeju` 추가), `origin.region` mini-map 좌표는 디자인 시스템 hardcoded 매핑(server 비용 0) | server-data |
+| 2026-05-04 | v1.2: ios-lead 의제 2 합의 — `stores.pinTier` 추가(S/A/B/C, Functions derive). designer-icon MatchaPin 4등급 + ios-map viewport 인덱스 정합. 클라 분기 0, 인덱스 가능. | server-data |

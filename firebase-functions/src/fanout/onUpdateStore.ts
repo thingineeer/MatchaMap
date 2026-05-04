@@ -9,8 +9,8 @@ import { BACKGROUND_DEFAULTS } from '../utils/region.js';
  *
  * 갱신 대상 (schema.md §0.3 + ADR-302 § Functions 표):
  *   - reviews where storeId == X → store.{name, city, country, primaryPhoto}
- *   - wishlists/*/items/{X} → store.{...}
- *   - collections/*/items where storeId == X (collection group) → store.{...}
+ *   - wishlists/[uid]/items/[X] → store.{...}
+ *   - collections/[uid]/items where storeId == X (collection group) → store.{...}
  *   - feed_events where target.placeId == X → target.{...}
  *
  * 정책:

@@ -14,7 +14,7 @@
 | 202 | 수익화 구현 (AdMob) | TBD | `ios-auth-monetize` |
 | 301 | 백엔드 선택 (Firebase vs Supabase) | **확정 v2: Firebase** (가중 매트릭스 + 정량 트리거) | `server-lead` |
 | 302 | 데이터 모델 (Firestore 스키마) | **Accepted** — D1~D7 결정 + schema.md SSOT + indexes + migrations 템플릿 | `server-data` |
-| 303 | App Check / 보안 규칙 | TBD | `server-auth` |
+| 303 | App Check / 보안 규칙 / Auth 비용 옵션 | **Accepted v1** (2026-05-04) — 5섹션(App Check + Firestore Rules + Storage Rules + AASA + Auth 비용 (a)/(b)/(c)) | `server-auth` |
 
 ## 모듈 다이어그램
 

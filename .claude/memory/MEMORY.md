@@ -14,6 +14,7 @@
 - [decisions-monetization.md](decisions-monetization.md) — MVP 광고 = AdMob 3슬롯(배너/인터/보상). 첫 60초 광고 차단. 유료 전환 임계 미정.
 - [decisions-design.md](decisions-design.md) — v2 화이트톤 팔레트 + Pretendard + 앱 아이콘 B(단일 잎 글래스) ACCEPTED 2026-05-04. vein 시그니처 동결.
 - [decisions-ios-architecture.md](decisions-ios-architecture.md) — LocalPackages 9 모듈 + Composition Root DI(라이브러리 미사용) + TDD. ADR-001/002/003 Accepted, swift test 16 PASS.
+- [decisions-auth-cost.md](decisions-auth-cost.md) — Auth 비용 단계 전환: Phase 2 (a)단독 → MAU 50K (a)+(c) → MAU 100K (a)+(b)+(c). ADR-303 §5 정합.
 
 ## Conventions
 

@@ -324,13 +324,15 @@ Apple App Store Review Guideline 5.1.1(v): Sign in with Apple로 가입한 사�
 2. `requestAccountDeletion()` 콜러블 (server-functions Phase 2-3) — 사용자 작성 자원 통계만 반환 (리뷰 N개, 사진 M개, 도감 K개) + 확인 토큰 발급.
 3. 사용자 최종 확인 → 콜러블 `confirmAccountDeletion(token)` 호출.
 4. `confirmAccountDeletion`이 Auth `deleteUser(uid)` 실행 → **Auth onDelete 트리거 발화**.
-5. **`onUserDelete` Auth 트리거** (server-auth 작성, 본 ADR 산출물 §6.2):
-   - Firestore: `users/{uid}` + 모든 서브컬렉션(`wishlist`, `collection`, `private`) 삭제.
-   - Firestore: 사용자 작성 `reviews/*` (uid == request.auth.uid) 삭제 + 연관 사진 Storage 객체 삭제.
-   - Firestore: 사용자 작성 `likes/*` 삭제 (좋아요 해제 카운터 감소).
-   - Firestore: 친구 관계(`users/{otherUid}/friends/{uid}`) 삭제.
-   - Storage: `users/{uid}/`, `collections/{uid}/` 모든 객체 삭제.
-   - Analytics: GA4 user_id를 `deleted_user_<hash>`로 익명화.
+5. **`onUserDelete` Auth 트리거** (server-auth 작성, 본 ADR 산출물 §6.2 — schema.md SSOT 정합):
+   - Firestore: 사용자 작성 `reviews/*` (uid == auth.uid) 삭제 + 연관 사진(`reviews.photos[]`) Storage 객체 + 썸네일 삭제.
+   - Firestore: 사용자가 누른 `likes/{reviewId}/users/{uid}` 마커 삭제 (`reviews.likeCount` 감소는 onLikeWrite 트리거가 처리).
+   - Firestore: `friendships/{uid}/edges/*` (본인 노드) 삭제 + collection group `edges` 중 `friendUid==uid` (반대 노드) 삭제 + `accepted` 상태였던 친구의 `users/{otherUid}.stats.friendCount` -1.
+   - Firestore: `feed_events` 중 `actorUid == uid` doc 삭제 (audience-only doc은 90일 retention에 위임).
+   - Firestore: `wishlists/{uid}/items/*`, `collections/{uid}/items/*` 삭제.
+   - Firestore: `users/{uid}/fcmTokens/*`, `users/{uid}/private/*`, `users/{uid}` 본 doc 삭제 (마지막).
+   - Storage: `users/{uid}/` 전체(프로필 + 도감 사진 `users/{uid}/collection/{itemId}/{n}.jpg`) + `thumbnails/users/{uid}/` 전체 삭제.
+   - Analytics: GA4 user_id를 `deleted_user_<hash>`로 익명화 (별도 cron, 본 트리거 비범위).
 6. 7일 보존 후 Cloud Logging의 사용자 관련 로그도 자동 만료(Cloud Logging retention 30일 → 별도 30일 cron으로 user_id를 hash로 변환).
 
 ### 6.2 트랜잭션 보장
@@ -406,11 +408,14 @@ Apple App Store Review Guideline 5.1.1(v): Sign in with Apple로 가입한 사�
 
 ## §10. 영향
 
-- **server-functions**: `requestReviewPhotoUploadURL`, `requestAccountDeletion`, `confirmAccountDeletion`, `passkeyChallenge`, `passkeyVerify` 콜러블 추가 (Phase 2-3).
-- **server-data**: ADR-302 사인오프 시 P1~P6 패턴과 컬렉션 정합 검증.
-- **ios-auth-monetize**: Apple Sign In + Passkey 통합 (Phase 3). App Check 토큰 prefetch 패턴 적용.
+- **server-functions**:
+  - `onUserCreated` Auth blocking trigger (v2 `beforeUserCreated`) — Phase 2 작성 완료. `users/{uid}` 시드(uid/displayName/cohortD0/authMethod/stats=0). 본 ADR P1 (users.create 규칙)과 정합 — blocking trigger는 Admin SDK로 set이므로 보안 규칙 우회. 클라가 직접 `users` create는 거의 없음 (race-condition 방지를 위한 trigger 선행).
+  - 추가 콜러블 (Phase 2-3): `requestReviewPhotoUploadURL`, `requestAccountDeletion`, `confirmAccountDeletion`, `passkeyChallenge`, `passkeyVerify`, `addCollectionItem`/`updateCollectionItem`/`deleteCollectionItem`, `requestFriend`/`acceptFriend`/`removeFriend`, `submitReview`, `recordSession`, scheduled cron(`recomputeStoreAggregates`/`cleanupFeedEvents`/`cleanupStaleFcmTokens`/`finishStaleDeletions`).
+  - `onLikeWrite` 트리거 (P6 패턴 — `reviews.likeCount` 증감) — server-functions Phase 2-3.
+- **server-data**: ADR-302 사인오프 완료 → 본 ADR-303 firestore.rules가 schema.md SSOT의 10개 컬렉션 정합 (P1~P8 + analytics).
+- **ios-auth-monetize**: Apple Sign In + Passkey 통합 (Phase 3). App Check 토큰 prefetch 패턴 적용 (auth-strategy.md § 2-3 정합).
 - **qa-functional**: 계정 삭제 시나리오 + 푸시 시나리오 회귀 테스트 (Phase 3-4).
-- **po-lead**: Auth 비용 절감 옵션 (a)/(b)/(c) 단계 전환 추적. MAU 40K 사전 경보 발화 시 ADR-303-rev1 작성 트리거.
+- **po-lead**: Auth 비용 절감 옵션 (a)/(b)/(c) 단계 전환 추적. MAU 40K 사전 경보 발화 시 ADR-303-rev1 작성 트리거. (auth-cost-mitigation.md § 8 의사결정 책임 표 정합.)
 
 ---
 
@@ -434,3 +439,4 @@ Apple App Store Review Guideline 5.1.1(v): Sign in with Apple로 가입한 사�
 | 일자 | 변경 | 사인오프 |
 |---|---|---|
 | 2026-05-04 | 초안 v1 (App Check + 보안 규칙 + AASA + 계정 삭제 + Auth 비용 절감 옵션 (a)/(b)/(c) 정량 비교) | server-auth · server-lead 리뷰 대기 · po-lead 리뷰 대기 |
+| 2026-05-04 | v1.1 — ADR-302 도착 정합 갱신: P7 friendships/edges, P8 feed_events 패턴 추가 + analytics 컬렉션 / fcmTokens 보강 + onUserCreated blocking trigger 정합 | server-auth |

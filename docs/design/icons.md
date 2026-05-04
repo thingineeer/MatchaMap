@@ -61,6 +61,13 @@
 | world-pin | `icon/world-pin.svg` | 좌우 | line | 지도 컨트롤 (글로벌 토글) |
 | menu | `icon/menu.svg` | 좌우 (3 dots ⋯) | fill | 더보기 ⋯ (components.md §8.1 menu = ⋯) |
 | sort | `icon/sort.svg` | 좌우 | line | 정렬 토글 |
+| leaf-fill | `icon/leaf-fill.svg` | 대각선(NE-SW) | fill | RewardedAdSheet (M4) 잠금 → 잎 reveal 시각 효과. P2 |
+| lock | `icon/lock.svg` | 좌우 | line | C3 Locked Card 잠금 표시. P2 |
+| lock-open | `icon/lock-open.svg` | 본체 좌우 (shackle 비대칭) | line | 잠금 해제 상태 (보상형 광고 시청 후). P2 |
+| globe-search | `icon/globe-search.svg` | 비대칭 | line | 04 World "여행 모드" 인디케이터 (icp.md P1 Top Need 2). P1 |
+| card-stack | `icon/card-stack.svg` | 좌우 | line | C1 Collection Grid → 도감 진입점. P1 |
+| flame | `icon/flame.svg` | 좌우 | line | 인기 매장 표시 (검색 09b "지금 인기"). P2 |
+| info | `icon/info.svg` | 좌우 | line | tooltip / 광고 disclosure inline 안내. P2 |
 
 > **star-empty 정책**: 별도 파일 미작성. `star.svg`는 `fill="none"` line이므로 그대로가 line variant. SwiftUI에서 `Image("star").renderingMode(.template).foregroundStyle(...)`로 사용. fill variant가 필요하면 `star-fill.svg` 추후 추가.
 >
@@ -86,6 +93,11 @@ public enum MMIcon: String, CaseIterable {
     case worldPin = "world-pin"
     case menu, sort
     case map, user, users  // 탭바 공유
+    case leafFill = "leaf-fill"
+    case lock, lockOpen = "lock-open"
+    case globeSearch = "globe-search"
+    case cardStack = "card-stack"
+    case flame, info
 }
 
 public extension Image {
@@ -222,6 +234,7 @@ PDF vector + favicon 32×32 export는 P1.
 |---|---|
 | 2026-05-04 | 초안 — UI 17 + 탭바 4쌍 + 핀 3종 + 앱아이콘 후보 3 |
 | 2026-05-04 | 앱 아이콘 B 채택 canon. 핀 4등급(S/A/B/C) 추가 — components.md §8 정전 매핑. UI 누락 13건(heart-fill/bookmark-fill/list/grid/compass/clock/phone/globe/edit/settings/bell/message/world-pin) 추가. 충돌 4건 rename(location→pin, x-close→close, arrow-back→arrow-left+arrow-right 신규, more→menu). 로고 마크 추가. components §8.1 28종 1:1 매칭. |
+| 2026-05-04 | designer-lead §8.2 후보 6건 모두 수용. 7 SVG 신규 (leaf-fill, lock, lock-open, globe-search, card-stack, flame, info). MMIcon enum 갱신. P1: globe-search/card-stack. P2: leaf-fill/lock/lock-open/flame/info. |
 
 ---
 

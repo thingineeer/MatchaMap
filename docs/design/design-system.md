@@ -129,25 +129,60 @@ MVP는 라이트 단일이지만, 다크 추가 시 토큰만 갈아끼우면 �
 
 프로필/지도 통계의 큰 숫자(`28`, `1,847`, `4.8`)는 **Noto Serif KR / 22~44pt / 700 / line-height 1**. 별도 토큰: `MMTypography.statNumber`.
 
-### 2.5 SwiftUI 매핑
+### 2.5 SwiftUI 매핑 (Dynamic Type relativeTo SSOT)
+
+> 본 표는 **Dynamic Type relativeTo 매핑 SSOT** (po-lead 권고 #2 / ios-lead 위임 2026-05-04). 본 매핑이 PR 단계 .coderabbit.yaml DesignSystem path 룰에서 인용됨.
+> 사이즈 값은 v2 시안 기준(`mm-screens-v2.jsx`). Apple HIG 기본값(body 17pt 등)과 다르나 정전 우선.
+
+#### Dynamic Type 매핑 표
+
+| MMTypography 토큰 | base size | weight | relativeTo (Dynamic Type) | 용도 |
+|---|---|---|---|---|
+| `display` | 40 | 700 (Bold) | `.largeTitle` | Splash 로고 헤드라인 |
+| `title1` | 32 | 700 (Bold) | `.title` | 로그인 헤드라인 |
+| `title2` | 26 | 700 (Bold) | `.title2` | 위치권한, 매장 상세 매장명 hero |
+| `headline` | 22 | 700 (Bold) | `.title3` | 매장 미리보기, 피드/위시리스트 헤더 |
+| `body` | 14 | 400 (Regular) | `.body` | 본문 단락 (가독성 기준) |
+| `callout` | 13 | 500 (Medium) | `.callout` | 리뷰 본문, 영업 상태 |
+| `subhead` | 12 | 500/600 | `.subheadline` | UI 라벨, 칩 텍스트, 거리/메타 |
+| `footnote` | 11 | 500 (Medium) | `.footnote` | 작은 메타 (카운트, 부가설명) |
+| `caption` | 10 | 500 (Medium) | `.caption` | 탭바 라벨, 미니 메타 |
+| `monoLabel` | 10 | 400/500 | `.caption2` | 모노 라벨 (대문자 + letterSpacing) |
+| `statNumber` | 28 | 700 (Bold) | `.largeTitle` | StatHero 큰 숫자 |
+
+#### SwiftUI 코드
 
 ```swift
 public enum MMTypography {
-    public static let display    = Font.custom("NotoSerifKR-Bold",  size: 40)
-    public static let title1     = Font.custom("NotoSerifKR-Bold",  size: 32)
-    public static let title2     = Font.custom("NotoSerifKR-Bold",  size: 26)
-    public static let headline   = Font.custom("NotoSerifKR-Bold",  size: 22)
-    public static let body       = Font.custom("Pretendard-Regular", size: 14)
-    public static let callout    = Font.custom("Pretendard-Medium",  size: 13)
-    public static let subhead    = Font.custom("Pretendard-Medium",  size: 12)
-    public static let footnote   = Font.custom("Pretendard-Medium",  size: 11)
-    public static let caption    = Font.custom("Pretendard-Medium",  size: 10)
-    public static let monoLabel  = Font.custom("IBMPlexMono-Regular", size: 10)
-    public static let statNumber = Font.custom("NotoSerifKR-Bold",  size: 28)
+    public static let display    = Font.custom("NotoSerifKR-Bold",   size: 40, relativeTo: .largeTitle)
+    public static let title1     = Font.custom("NotoSerifKR-Bold",   size: 32, relativeTo: .title)
+    public static let title2     = Font.custom("NotoSerifKR-Bold",   size: 26, relativeTo: .title2)
+    public static let headline   = Font.custom("NotoSerifKR-Bold",   size: 22, relativeTo: .title3)
+    public static let body       = Font.custom("Pretendard-Regular", size: 14, relativeTo: .body)
+    public static let callout    = Font.custom("Pretendard-Medium",  size: 13, relativeTo: .callout)
+    public static let subhead    = Font.custom("Pretendard-Medium",  size: 12, relativeTo: .subheadline)
+    public static let footnote   = Font.custom("Pretendard-Medium",  size: 11, relativeTo: .footnote)
+    public static let caption    = Font.custom("Pretendard-Medium",  size: 10, relativeTo: .caption)
+    public static let monoLabel  = Font.custom("IBMPlexMono-Regular", size: 10, relativeTo: .caption2)
+    public static let statNumber = Font.custom("NotoSerifKR-Bold",   size: 28, relativeTo: .largeTitle)
 }
 ```
 
-> `LOCALIZATION_PREFERS_STRING_CATALOGS = YES` 환경에서 텍스트는 모두 String Catalog 통해 주입. Dynamic Type 호환을 위해 `relativeTo:` 매핑은 `ios-lead`가 별도 ADR로 결정.
+#### 룰
+
+1. **`Font.system(size:)` 직접 사용 금지** — `.coderabbit.yaml` PR 차단 룰에 등록됨.
+2. **`Font.custom(_:size:)` (relativeTo 누락) 사용 금지** — Dynamic Type 비호환. 항상 `relativeTo:` 명시.
+3. **`MMTypography.*` 통해서만 사용** — 위 enum 외 폰트 정의 PR 차단.
+4. **AX1 이상 (Larger Layout 모드)** — `accessibility.md` § 3.3 6개 룰 적용.
+
+#### relativeTo 선택 사유 (디자인 vs HIG 절충)
+
+- **`headline` → `.title3`**: 22pt → 본 토큰은 매장 미리보기/피드 헤더 등 hero 다음 강조. `.title3`(20pt 기본) relativeTo가 AX 모드 확대 비율 가장 자연. `.headline`(17pt)은 본문 강조용으로 너무 작음.
+- **`body` → `.body`**: 14pt → 본 토큰은 v2 시안 본문 단락 표준. Apple HIG `.body` (17pt)보다 작으나 정전 우선. AX 모드 확대 시 `.body` relativeTo가 가독성 보장.
+- **`subhead` → `.subheadline`**: 12pt → UI 라벨 표준. relativeTo `.subheadline`은 13pt 기본이라 base 12pt보다 살짝 큼 — 의도. AX 모드 확대 시 적절히 stretch.
+- **`monoLabel` → `.caption2`**: 10pt → 가장 작은 텍스트 (uppercase + letterSpacing). `.caption2` (11pt) relativeTo가 AX 모드에서 가장 보수적 확대.
+
+> `LOCALIZATION_PREFERS_STRING_CATALOGS = YES` 환경에서 텍스트는 모두 String Catalog 통해 주입.
 
 ---
 

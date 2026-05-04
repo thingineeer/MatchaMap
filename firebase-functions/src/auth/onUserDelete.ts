@@ -40,9 +40,9 @@ import {
   type WriteBatch,
 } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-import { db } from '../utils/admin';
-import { DEFAULT_REGION } from '../utils/region';
-import { logInfo, logWarn, logError } from '../utils/logger';
+import { db } from '../utils/admin.js';
+import { DEFAULT_REGION } from '../utils/region.js';
+import { logInfo, logWarn, logError } from '../utils/logger.js';
 
 const BATCH_LIMIT = 500;
 const STORAGE_BATCH_LIMIT = 100;

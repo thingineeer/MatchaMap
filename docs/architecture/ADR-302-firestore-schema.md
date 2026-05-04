@@ -289,9 +289,59 @@ origin: {
 
 ---
 
+## v1.1 보강 — designer-lead 합의 2건 (2026-05-04)
+
+screens.md C2 Memory Card Detail 정합 후 designer-lead 2건 합의 요청 → 본인 결정:
+
+### Q1 — origin coords (mini-map 표시용)
+
+**결정: (b) 디자인 시스템 hardcoded 매핑 채택**.
+
+- `stores.origin.coords` 신설 ❌. `origin.region` enum 8종(`uji`/`nishio`/`shizuoka`/`kagoshima`/`boseong`/`hadong`/`jeju`/`other`) × {lat, lng} 매핑은 **DesignSystem 모듈**에서 정의.
+- **근거**:
+  1. region이 enum이고 좌표 이동 없음(우지, 시즈오카 등은 지리적 고정 지역). 데이터로 저장할 가치 0.
+  2. server 비용 절감: 모든 매장 doc에 coords 필드 추가하면 storage + read 비용. enum→hardcoded 매핑은 클라 측에서 O(1).
+  3. 8개 enum × 2 double = 16 double = ~128 bytes. 클라 컴파일 상수로 충분.
+- **fallback 정책**: `origin.region`이 enum 외 free string이거나 `null`이면 mini-map 섹션 hide (designer-lead C2 와이어프레임 § 6.3 정합 — "필드 0인 섹션 비표시").
+- **DesignSystem 측 매핑 정의 책임**: `designer-lead`가 `LocalPackages/DesignSystem/Sources/DesignSystem/MatchaOriginCoords.swift` (또는 동일 역할의 토큰)에 정의 + `qa-localization` 회귀 항목 추가.
+
+### Q2 — `collections/items.colorHex` 입력 UX
+
+**결정: 하이브리드 채택** — 사용자 입력은 **5단계 enum**, 저장은 **enum + hex 둘 다**.
+
+- 신규 필드: `colorTier` (enum: `matchaSoft`, `matchaPale`, `matcha`, `deepMatcha`, `deep`) — 디자인 시스템 `MMColor` 토큰과 1:1.
+- 기존 `colorHex` 필드 유지 — 렌더용 hex 미러. 5단계 → hex 매핑은 DesignSystem 측 토큰. Functions(또는 클라)이 `colorTier` 저장 시 `colorHex` 자동 채움.
+- **근거**:
+  1. 사용자 입력 단순화: 5단계 슬라이더 stop UX (designer-lead screens.md § 6.3 "5단계 색 슬라이더").
+  2. 분석 효율: H1 가설 보조(travel_mode × 색감 분포) 분석 시 5 enum group-by가 free hex보다 효율 100배+.
+  3. 디자인 토큰 일관성: 5 enum이 `MMColor` 5개 토큰과 정합 → 다국어/접근성 일관.
+  4. 미래 호환: v1.x.x 자유 hex picker 도입 시 `colorTier=null` + `colorHex` 직접 입력 케이스 호환. 기존 5 enum 데이터는 그대로 유지.
+- **인덱스**: `colorTier` ASC + `visitedAt` DESC (분석/필터).
+
+### v1.1 부수 결정
+
+- `collections/items.grade` enum 정합: 초안 `cooking` → **`culinary`** 변경 (`stores.origin.grade`와 통일). 4종 + `unknown`.
+- `collections/items.originRegion` enum 정합: `jeju` 추가 + `other`/`unknown` 유지. `stores.origin.region` 8종과 통일.
+- 인덱스 추가: `originRegion` + `colorTier` × `visitedAt` (firestore.indexes.json).
+
+### Phase 3 후속 책임
+
+- **`designer-lead`** → DesignSystem 측 정의:
+  1. `MMColor` 5단계 토큰 (`matchaSoft`/`matchaPale`/`matcha`/`deepMatcha`/`deep`) + `colorTier` enum → hex 매핑.
+  2. `MatchaOriginCoords` 매핑 (enum 8종 × {lat, lng}).
+- **`qa-localization`** → 다국어 회귀 항목 추가:
+  1. `origin.grade` 4종 (`ceremonial`/`premium`/`standard`/`culinary`) × 5언어.
+  2. `origin.region` 8종 × 5언어.
+  3. String Catalog 키 `origin.grade.{enum}` / `origin.region.{enum}`.
+- **`ios-social-collection`** → Phase 3 도감 카드 구현 시 `colorTier` 입력 UX = 5단계 슬라이더, 저장은 `colorTier`로(Functions가 hex 미러).
+
+---
+
 ## Changelog
 
 | 일자 | 변경 | 사인오프 |
 |---|---|---|
 | 2026-05-04 | 초안 (D1~D7 결정 + observability/security/functions 정합) — `stores.origin` po-lead 요청 반영 | server-data (server-lead + po-lead 사인오프 대기) |
 | 2026-05-04 | **server-lead 사인오프 완료**. observability 정합 4건(users.friend_count / stores.country / reviews.{rating,body,photos} 디노멀 / collections.itemId 카드 매핑) 모두 통과. OPEN-302-1 해결: cost-projection.md v3에 디노멀 절감 반영(시나리오 B 월 $16.55 → $13.79, 17% 절감). | server-lead |
+| 2026-05-04 | **v1.1 보강**: designer-lead Q1(coords hardcoded, server 비용 0) + Q2(colorTier 5단계 enum + colorHex 미러 하이브리드) 합의 채택. grade/originRegion enum 정합 통일(`culinary`/`jeju` 추가). 인덱스 2건 추가. | server-data (designer-lead 합의 완료, server-lead 추가 사인오프 권장) |
+| 2026-05-04 | **v1.2 보강**: ios-lead 의제 6건 회신 — `stores.pinTier` 신설(S/A/B/C, Functions derive: `verified` + `matchaScore` 조합). designer-icon MatchaPin 4등급 + ios-map viewport 디클러스터링 정합. 인덱스 1건 추가. 의제 1/3/4/5/6은 Domain 측 결정으로 ios-lead 권한 위임. | server-data (ios-lead 합의) |

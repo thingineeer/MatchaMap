@@ -58,6 +58,16 @@
         { "fieldPath": "matchaScore", "order": "DESCENDING" }
       ]
     },
+    {
+      "_comment": "stores: pinTier filter for viewport declustering (zoom-out 'S only'/'A+' filters) — ios-lead 의제 2 합의 v1.2",
+      "collectionGroup": "stores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "pinTier", "order": "ASCENDING" },
+        { "fieldPath": "matchaScore", "order": "DESCENDING" }
+      ]
+    },
 
     {
       "_comment": "reviews: latest reviews for a store (store detail screen)",
@@ -126,11 +136,29 @@
       ]
     },
     {
-      "_comment": "collections items: grade filter (ceremonial/premium/cooking)",
+      "_comment": "collections items: grade filter (ceremonial/premium/standard/culinary) — aligned with stores.origin.grade",
       "collectionGroup": "items",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "grade", "order": "ASCENDING" },
+        { "fieldPath": "visitedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "collections items: origin region filter — aligned with stores.origin.region (designer-lead C2 memory page)",
+      "collectionGroup": "items",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "originRegion", "order": "ASCENDING" },
+        { "fieldPath": "visitedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "collections items: 5-tier color filter (matchaSoft..deep) — analytics + filter, designer-lead Q2 hybrid",
+      "collectionGroup": "items",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "colorTier", "order": "ASCENDING" },
         { "fieldPath": "visitedAt", "order": "DESCENDING" }
       ]
     },
