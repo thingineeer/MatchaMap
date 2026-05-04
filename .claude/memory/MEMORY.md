@@ -30,3 +30,4 @@
 - [feedback-no-squash.md](feedback-no-squash.md) — 스쿼시 머지 금지. 모든 머지는 --no-ff. 이력 보존이 사용자 핵심 요구.
 - [feedback-build-number-format.md](feedback-build-number-format.md) — 빌드 번호는 사람이 읽을 수 있는 YYMMDD_HHMM. 자동 증가 정수 금지.
 - [feedback-emoji-restraint.md](feedback-emoji-restraint.md) — 이모지는 사용자가 명시 요청한 곳에서만. CLAUDE.md/코드 등 자동 추가 금지.
+- [feedback-info-plist-conflict.md](feedback-info-plist-conflict.md) — `MatchaMap/Info.plist` 두지 말 것. Synced group + GENERATE_INFOPLIST_FILE 충돌. Phase 4에서 ios-lead가 확정.
