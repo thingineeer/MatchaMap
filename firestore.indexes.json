@@ -1,0 +1,252 @@
+{
+  "indexes": [
+    {
+      "_comment": "stores: viewport bbox in country, ordered by matchaScore (map pin loading)",
+      "collectionGroup": "stores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "geohash", "order": "ASCENDING" },
+        { "fieldPath": "matchaScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "stores: city search ordered by matchaScore",
+      "collectionGroup": "stores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "city", "order": "ASCENDING" },
+        { "fieldPath": "matchaScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "stores: type filter within country (e.g. 'omakase in JP') ordered by matchaScore",
+      "collectionGroup": "stores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "types", "arrayConfig": "CONTAINS" },
+        { "fieldPath": "matchaScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "stores: verified curation list per country",
+      "collectionGroup": "stores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "verified", "order": "ASCENDING" },
+        { "fieldPath": "matchaScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "stores: origin region filter (e.g. 'matcha from Uji') ordered by matchaScore — po-lead origin field request",
+      "collectionGroup": "stores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "origin.region", "order": "ASCENDING" },
+        { "fieldPath": "matchaScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "stores: origin region within country (e.g. 'Uji-sourced matcha cafes in KR')",
+      "collectionGroup": "stores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "origin.region", "order": "ASCENDING" },
+        { "fieldPath": "matchaScore", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "_comment": "reviews: latest reviews for a store (store detail screen)",
+      "collectionGroup": "reviews",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "storeId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "reviews: top-rated reviews for a store",
+      "collectionGroup": "reviews",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "storeId", "order": "ASCENDING" },
+        { "fieldPath": "rating", "order": "DESCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "reviews: a user's reviews (profile screen)",
+      "collectionGroup": "reviews",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uid", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "reviews: moderation queue (admin/Functions)",
+      "collectionGroup": "reviews",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "flagged", "order": "ASCENDING" },
+        { "fieldPath": "flagCount", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "_comment": "wishlists items: country grouping (mini world map view)",
+      "collectionGroup": "items",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "addedAt", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "_comment": "collections items: country grouping for collection grid",
+      "collectionGroup": "items",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "visitedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "collections items: drink filter (e.g. only koicha)",
+      "collectionGroup": "items",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "drink", "order": "ASCENDING" },
+        { "fieldPath": "visitedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "collections items: grade filter (ceremonial/premium/cooking)",
+      "collectionGroup": "items",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "grade", "order": "ASCENDING" },
+        { "fieldPath": "visitedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "collections items: cohort analytics — 7d window join with store_view (storeId + createdAt)",
+      "collectionGroup": "items",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        { "fieldPath": "storeId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "_comment": "friendships edges: accepted friend list ordered by acceptedAt",
+      "collectionGroup": "edges",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "acceptedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "friendships edges: pending incoming requests",
+      "collectionGroup": "edges",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "requestedAt", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "_comment": "feed_events: friend feed via fanout-on-write audience array",
+      "collectionGroup": "feed_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "audienceUids", "arrayConfig": "CONTAINS" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "feed_events: actor activity (profile activity tab, fanout-on-read fallback)",
+      "collectionGroup": "feed_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "actorUid", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "feed_events: country filter for analytics segmentation",
+      "collectionGroup": "feed_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "audienceUids", "arrayConfig": "CONTAINS" },
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+
+    {
+      "_comment": "analytics events: optional internal mirror (GA4 export is SSOT)",
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "eventName", "order": "ASCENDING" },
+        { "fieldPath": "serverTs", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "_comment": "analytics events: per-user event timeline",
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uid", "order": "ASCENDING" },
+        { "fieldPath": "serverTs", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    {
+      "_comment": "stores.types: array-contains queries are common; keep array index ON (default)",
+      "collectionGroup": "stores",
+      "fieldPath": "types",
+      "indexes": [
+        { "queryScope": "COLLECTION", "arrayConfig": "CONTAINS" }
+      ]
+    },
+    {
+      "_comment": "feed_events.audienceUids: array-contains is the primary access path",
+      "collectionGroup": "feed_events",
+      "fieldPath": "audienceUids",
+      "indexes": [
+        { "queryScope": "COLLECTION", "arrayConfig": "CONTAINS" }
+      ]
+    },
+    {
+      "_comment": "reviews.tags: array-contains for tag filter (e.g. 'koicha tagged reviews')",
+      "collectionGroup": "reviews",
+      "fieldPath": "tags",
+      "indexes": [
+        { "queryScope": "COLLECTION", "arrayConfig": "CONTAINS" }
+      ]
+    },
+    {
+      "_comment": "reviews.body: opt-out single-field index (write cost reduction; full-text via Functions/external)",
+      "collectionGroup": "reviews",
+      "fieldPath": "body",
+      "indexes": []
+    },
+    {
+      "_comment": "users.notification.fcmToken: opt-out (PII-adjacent, never queried client-side)",
+      "collectionGroup": "users",
+      "fieldPath": "notification.fcmToken",
+      "indexes": []
+    }
+  ]
+}

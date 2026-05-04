@@ -1,0 +1,123 @@
+// MatchaMap — Cloud Storage Security Rules
+// ============================================================================
+// 작성: server-auth (ADR-303 §3)
+// 정책 출처:
+//   - docs/architecture/ADR-303-app-check-security-rules.md §3 (Storage Rules)
+//   - docs/server/storage-paths.md (경로 컨벤션)
+// 절대 원칙:
+//   1. App Check 강제 — request.app != null.
+//   2. 사이즈/MIME 화이트리스트.
+//   3. 소유권 검증 — uid 일치 (또는 Functions가 발급한 short-lived signed URL).
+//   4. 매장 커버 이미지는 Admin SDK만 (관리자 업로드).
+
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ------------------------------------------------------------------------
+    // 헬퍼
+    // ------------------------------------------------------------------------
+    function isAuthed() {
+      return request.auth != null;
+    }
+    function isSelf(uid) {
+      return isAuthed() && request.auth.uid == uid;
+    }
+    function isAppCheckOk() {
+      return request.app != null;
+    }
+    function isImageJpeg() {
+      return request.resource.contentType == 'image/jpeg';
+    }
+    function isImagePng() {
+      return request.resource.contentType == 'image/png';
+    }
+    function isImageHeic() {
+      return request.resource.contentType == 'image/heic';
+    }
+    function sizeUnder(maxBytes) {
+      return request.resource.size < maxBytes;
+    }
+
+    // ========================================================================
+    // [S1] 사용자 프로필 사진 — users/{uid}/profile.{ext}
+    //   읽기: 인증된 사용자(친구 피드/리뷰 작성자 노출 등)
+    //   쓰기: 본인만, 1MB 이내, jpeg/png 단일.
+    //   HEIC 직접 업로드 금지 — 클라가 jpeg로 변환 후 업로드 (썸네일 일관성).
+    // ========================================================================
+    match /users/{uid}/profile.jpg {
+      allow read:  if isAuthed() && isAppCheckOk();
+      allow write: if isSelf(uid)
+                   && isAppCheckOk()
+                   && sizeUnder(1 * 1024 * 1024)
+                   && isImageJpeg();
+    }
+
+    match /users/{uid}/profile.png {
+      allow read:  if isAuthed() && isAppCheckOk();
+      allow write: if isSelf(uid)
+                   && isAppCheckOk()
+                   && sizeUnder(1 * 1024 * 1024)
+                   && isImagePng();
+    }
+
+    // ========================================================================
+    // [S2] 리뷰 사진 — reviews/{reviewId}/{photoIdx}.jpg
+    //   읽기: 인증된 사용자.
+    //   쓰기: 콜러블 함수 'requestReviewPhotoUploadURL'가 발급한 short-lived signed URL 패턴 권장 (ADR-303 §3.2 옵션 A).
+    //   본 rules는 사이즈/MIME만 검증. 작성자 검증은 signed URL 발급 시 Functions에서.
+    //   5장/리뷰 한도는 Firestore reviews/{reviewId}.photoCount 검증으로 보강 (Functions에서 batch).
+    // ========================================================================
+    match /reviews/{reviewId}/{photoIdx} {
+      allow read:  if isAuthed() && isAppCheckOk();
+      allow write: if isAuthed()
+                   && isAppCheckOk()
+                   && sizeUnder(5 * 1024 * 1024)
+                   && (isImageJpeg() || isImageHeic());
+    }
+
+    // ========================================================================
+    // [S3] 도감 사진 — users/{uid}/collection/{itemId}/{photoIdx}.jpg
+    //   schema.md §5.1 SSOT — 도감 사진은 users 네임스페이스 하위 경로.
+    //   읽기: 본인만 (도감은 사적).
+    //   쓰기: 본인만, 3MB 이내, jpeg/heic.
+    //   3장/도감 한도는 Firestore collections/{uid}/items/{itemId}.photos 배열 검증.
+    // ========================================================================
+    match /users/{uid}/collection/{itemId}/{photoIdx} {
+      allow read:  if isSelf(uid) && isAppCheckOk();
+      allow write: if isSelf(uid)
+                   && isAppCheckOk()
+                   && sizeUnder(3 * 1024 * 1024)
+                   && (isImageJpeg() || isImageHeic());
+    }
+
+    // ========================================================================
+    // [S4] 매장 커버 이미지 — stores/{storeId}/cover/{filename}
+    //   읽기: 비로그인 OK (매장 카드 미리보기). App Check는 강제.
+    //   쓰기: false (Admin SDK / 관리자 콘솔만).
+    // ========================================================================
+    match /stores/{storeId}/cover/{filename} {
+      allow read:  if isAppCheckOk();
+      allow write: if false;
+    }
+
+    // ========================================================================
+    // [S5] 썸네일 — thumbnails/{path=**}
+    //   server-functions가 onObjectFinalized 트리거로 256px 썸네일 생성.
+    //   읽기: 인증된 사용자.
+    //   쓰기: false (Functions Admin SDK만).
+    // ========================================================================
+    match /thumbnails/{path=**} {
+      allow read:  if isAuthed() && isAppCheckOk();
+      allow write: if false;
+    }
+
+    // ========================================================================
+    // Default Deny — 위에 정의되지 않은 모든 경로
+    // ========================================================================
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

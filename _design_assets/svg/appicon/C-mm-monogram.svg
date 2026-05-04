@@ -1,0 +1,61 @@
+<!-- name=appicon-C, concept=MM 모노그램(M+M as Leaf), grid=1024, source=hand, symmetry=vertical-axis(cx=512) -->
+<!-- Two M letters mirrored across cx=512, top edges curve into a leaf tip.
+     Solid deep matcha on cream background. Liquid Glass shine subtle. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#fbfaf7"/>
+      <stop offset="100%" stop-color="#e6ecde"/>
+    </linearGradient>
+    <linearGradient id="markC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#7a9560"/>
+      <stop offset="100%" stop-color="#3d4a2d"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bgC)"/>
+
+  <!-- Soft saucer shadow under mark -->
+  <ellipse cx="512" cy="860" rx="300" ry="28" fill="#3d4a2d" opacity="0.10"/>
+
+  <!-- Leaf-shaped backplate (subtle), so the MM appears to grow from a leaf. -->
+  <path d="M 512 200
+           C 250 240, 200 520, 320 760
+           C 420 800, 604 800, 704 760
+           C 824 520, 774 240, 512 200 Z"
+        fill="#e6ecde"/>
+
+  <!-- Left M (open leaf vein style). Stroke, cap=square corners but smooth on top. -->
+  <!-- Coordinates designed for cx=512 mirror. -->
+  <!-- Left M points: outer-left foot (296, 760), top-left (296, 320), valley apex (512, 540), top-right (728, 320), outer-right foot (728, 760). -->
+  <!-- Build single closed shape so it reads as one mark. -->
+  <path d="M 296 760
+           L 296 320
+           Q 296 280 336 280
+           Q 376 280 396 320
+           L 512 540
+           L 628 320
+           Q 648 280 688 280
+           Q 728 280 728 320
+           L 728 760
+           L 660 760
+           L 660 420
+           L 560 600
+           Q 540 632 512 632
+           Q 484 632 464 600
+           L 364 420
+           L 364 760
+           Z"
+        fill="url(#markC)"/>
+
+  <!-- Tiny leaf flourish at top-center valley (between M peaks) -->
+  <path d="M 512 260
+           C 488 280, 488 320, 512 340
+           C 536 320, 536 280, 512 260 Z"
+        fill="#7a9560"/>
+  <line x1="512" y1="262" x2="512" y2="338" stroke="#3d4a2d" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Liquid Glass top highlight -->
+  <path d="M 296 320 Q 360 295 396 320" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.55"/>
+  <path d="M 628 320 Q 664 295 728 320" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.55"/>
+</svg>

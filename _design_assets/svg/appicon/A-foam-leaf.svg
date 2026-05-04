@@ -1,0 +1,62 @@
+<!-- name=appicon-A, concept=거품 위 잎(Foam-on-Cup with Leaf), grid=1024, source=hand, symmetry=vertical-axis(cx=512) -->
+<!-- Background = MM2.cream (#f5f1ea) with subtle radial vignette to matchaPale.
+     Cup = deep matcha (#3d4a2d). Foam circle = matchaPale (#e6ecde).
+     Leaf = matcha (#7a9560) centered cx=512.  -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="bgA" cx="50%" cy="45%" r="65%">
+      <stop offset="0%"  stop-color="#fbfaf7"/>
+      <stop offset="100%" stop-color="#e6ecde"/>
+    </radialGradient>
+    <linearGradient id="cupA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#3d4a2d"/>
+      <stop offset="100%" stop-color="#2a3520"/>
+    </linearGradient>
+    <linearGradient id="foamA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e6ecde"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bgA)"/>
+
+  <!-- saucer ellipse (subtle) -->
+  <ellipse cx="512" cy="820" rx="320" ry="38" fill="#3d4a2d" opacity="0.12"/>
+
+  <!-- Cup body (rounded bowl). Top opening 240..784 (width 544). Bottom 320..704 (width 384). -->
+  <!-- Symmetric around cx=512. -->
+  <path d="M 240 360
+           C 240 360, 260 720, 320 780
+           L 704 780
+           C 764 720, 784 360, 784 360
+           Z"
+        fill="url(#cupA)"/>
+
+  <!-- Foam (top inside cup): ellipse top of cup. Center cy=370 rx=270 ry=46 -->
+  <ellipse cx="512" cy="370" rx="272" ry="48" fill="url(#foamA)"/>
+
+  <!-- Inner foam micro-bubbles (decorative, small, symmetric pairs) -->
+  <circle cx="392" cy="368" r="10" fill="#ffffff" opacity="0.85"/>
+  <circle cx="632" cy="368" r="10" fill="#ffffff" opacity="0.85"/>
+  <circle cx="448" cy="380" r="6"  fill="#ffffff" opacity="0.7"/>
+  <circle cx="576" cy="380" r="6"  fill="#ffffff" opacity="0.7"/>
+
+  <!-- Floating leaf, centered cx=512, sitting on the foam. Leaf height ~210. -->
+  <!-- Symmetric leaf with central vein along x=512 -->
+  <path d="M 512 200
+           C 392 230, 360 360, 420 470
+           C 470 510, 555 510, 605 470
+           C 665 360, 632 230, 512 200 Z"
+        fill="#7a9560"/>
+  <!-- vein -->
+  <path d="M 512 210 L 512 500" stroke="#3d4a2d" stroke-width="6" stroke-linecap="round" opacity="0.85"/>
+  <!-- side veins (mirrored) -->
+  <path d="M 512 270 Q 460 290 432 320" stroke="#3d4a2d" stroke-width="4" stroke-linecap="round" opacity="0.65" fill="none"/>
+  <path d="M 512 270 Q 564 290 592 320" stroke="#3d4a2d" stroke-width="4" stroke-linecap="round" opacity="0.65" fill="none"/>
+  <path d="M 512 350 Q 458 372 432 408" stroke="#3d4a2d" stroke-width="4" stroke-linecap="round" opacity="0.6" fill="none"/>
+  <path d="M 512 350 Q 566 372 592 408" stroke="#3d4a2d" stroke-width="4" stroke-linecap="round" opacity="0.6" fill="none"/>
+
+  <!-- leaf highlight (specular) -->
+  <path d="M 470 260 Q 440 320 432 390" stroke="#a8b994" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.6"/>
+</svg>

@@ -25,3 +25,8 @@ type: project
 
 **How to apply:**
 - 모든 서버 에이전트는 본 결정을 디폴트로 진행. Supabase 비교 보고는 ADR로 별도 작성하되 채택은 임계 도달 시.
+
+**Auth 비용 우려 (2026-05-04 po-lead 게이트 사인오프 시 추가)**:
+- Firebase Identity Platform 시나리오 C(MAU 100K) = $275/월 추정 — ADR-301 재검토 트리거 #1($100/월)을 *Auth 단독으로* 압도.
+- **Phase 2 ADR-303(server-auth)** 우선 검토 #1: Identity Platform 미사용(Auth만으로) 운영 가능 여부, MAU 임계 시 비용 절감 옵션(클라 직접 OIDC, Apple Auth만으로 사용자 ID 매핑 등).
+- 현 단계에서는 Firebase Auth Apple Provider + Passkey AASA 호스팅 디폴트 유지. 비용 절감 옵션은 ADR-303에서 정량 비교 후 결정.

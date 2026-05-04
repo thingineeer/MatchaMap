@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "__APPLE_TEAM_ID__.th1ngjin.MatchaMap",
+        "paths": ["*"]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["__APPLE_TEAM_ID__.th1ngjin.MatchaMap"]
+  },
+  "appclips": {
+    "apps": []
+  }
+}

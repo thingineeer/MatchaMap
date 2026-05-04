@@ -1,0 +1,9 @@
+<!-- name=matcha-pin-B, viewBox=36x44, grade=B, source=hand (정전 mm-shared-v2.jsx line 135-136), symmetry=vertical-axis(cx=18) -->
+<!-- B: bg=MM2.rose(#c98b85), leaf=#fff. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 44" width="36" height="44">
+  <ellipse cx="18" cy="42" rx="6" ry="1.5" fill="#000" opacity="0.12"/>
+  <path d="M18 2 C8 2, 2 9, 2 18 C2 28, 18 42, 18 42 C18 42, 34 28, 34 18 C34 9, 28 2, 18 2 Z"
+        fill="#c98b85" stroke="rgba(0,0,0,0.06)" stroke-width="0.6"/>
+  <path d="M11 22 C11 14, 17 10, 25 10 C24 18, 19 22, 11 22 Z"
+        fill="#ffffff" opacity="0.95"/>
+</svg>

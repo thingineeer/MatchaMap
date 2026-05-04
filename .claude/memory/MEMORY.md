@@ -12,7 +12,8 @@
 
 - [decisions-stack.md](decisions-stack.md) — 백엔드 Firebase 우선(MatchaMapAPP 프로젝트 재활용), Supabase는 비용 임계 도달 시 재검토.
 - [decisions-monetization.md](decisions-monetization.md) — MVP 광고 = AdMob 3슬롯(배너/인터/보상). 첫 60초 광고 차단. 유료 전환 임계 미정.
-- [decisions-design.md](decisions-design.md) — v2 화이트톤 팔레트(deep #3d4a2d, matcha #7a9560, rose #c98b85) + Pretendard.
+- [decisions-design.md](decisions-design.md) — v2 화이트톤 팔레트 + Pretendard + 앱 아이콘 B(단일 잎 글래스) ACCEPTED 2026-05-04. vein 시그니처 동결.
+- [decisions-ios-architecture.md](decisions-ios-architecture.md) — LocalPackages 9 모듈 + Composition Root DI(라이브러리 미사용) + TDD. ADR-001/002/003 Accepted, swift test 16 PASS.
 
 ## Conventions
 
@@ -31,3 +32,9 @@
 - [feedback-build-number-format.md](feedback-build-number-format.md) — 빌드 번호는 사람이 읽을 수 있는 YYMMDD_HHMM. 자동 증가 정수 금지.
 - [feedback-emoji-restraint.md](feedback-emoji-restraint.md) — 이모지는 사용자가 명시 요청한 곳에서만. CLAUDE.md/코드 등 자동 추가 금지.
 - [feedback-info-plist-conflict.md](feedback-info-plist-conflict.md) — `MatchaMap/Info.plist` 두지 말 것. Synced group + GENERATE_INFOPLIST_FILE 충돌. Phase 4에서 ios-lead가 확정.
+
+## Phase 핸드오프 (이연된 합의)
+
+- [handoff-phase3-ios-map.md](handoff-phase3-ios-map.md) — Phase 3 ios-map 시작 시 즉시 처리: 매장 핀 5건 합의(viewBox/anchor/그림자/등급매핑/Asset 이름).
+- [handoff-phase2-server.md](handoff-phase2-server.md) — Phase 2 server 시작 시: 이벤트 스키마 사인오프, 여행 모드 클라+서버 백업 정책, App Check enforce 전환, Blaze + Budget, MAU 40K 사전 경보.
+- [handoff-xcode-integration.md](handoff-xcode-integration.md) — ios-lead Phase 2 후속: 사용자 Xcode UI에서 LocalPackages 9개 Local Package 등록 + Unit Testing Bundle + Info.plist 권한 키 5단계.
