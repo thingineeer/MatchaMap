@@ -83,17 +83,35 @@
 ### 2. `DesignSystem`
 - **외부 의존**: `SwiftUI`만 + Resource bundle(컬러/폰트/SVG 아이콘).
 - **내부 의존**: 없음.
-- **책임**:
-  - MM2 화이트톤 팔레트 토큰 (`MMColor.matchaPrimary` 등) — `docs/design/design-system.md` 매핑.
-  - Pretendard 폰트 등록 + `MMTypography` 토큰.
-  - 공통 컴포넌트: `MMButton`, `MMCard`, `MMTag`, `MMRatingBadge`, `MMSearchBar`, `MMEmptyState` 등 (`docs/design/components.md` 13개 카탈로그).
-  - 매장 핀 SVG (`MatchaPinBasic/Premium/Iconic`) — `_design_assets/svg/pin/`에서 Asset Catalog로 변환.
-  - Liquid Glass 머터리얼 헬퍼 (`MMGlassBackground` ViewModifier).
-- **금지**: `Domain` import, 비즈니스 로직, 네트워크.
+- **책임 — 토큰 SSOT (단일 진실 원천)**:
+  - 디자인 토큰 6 카테고리는 본 모듈이 **단일 진실 원천**. 다른 어떤 모듈도 색상/폰트/스페이싱을 직접 정의하거나 리터럴로 사용할 수 없다.
+    | 카테고리 | 토큰 enum | SSOT 문서 |
+    |---|---|---|
+    | Color | `MMColor` | `docs/design/design-system.md` § 컬러 |
+    | Typography | `MMTypography` | `docs/design/design-system.md` § 2.5 |
+    | Spacing | `MMSpacing` | `docs/design/design-system.md` § 스페이싱 |
+    | Radius | `MMRadius` | `docs/design/design-system.md` § 라디우스 |
+    | Shadow | `MMShadow` | `docs/design/design-system.md` § 섀도 |
+    | Motion | `MMMotion` | `docs/design/design-system.md` § 모션 |
+  - **Pretendard 폰트 등록** + `MMTypography` 토큰 (Dynamic Type `relativeTo` 매핑은 `docs/design/design-system.md` § 2.5 본문 참조 — 본 ADR은 SSOT를 위치만 인용).
+  - **공통 컴포넌트**: `MMButton`, `MMCard`, `MMTag`, `MMRatingBadge`, `MMSearchBar`, `MMEmptyState` 등 (`docs/design/components.md` 13개 카탈로그).
+  - **매장 핀 SVG** (`MatchaPinBasic/Premium/Iconic`) — `_design_assets/svg/pin/`에서 Asset Catalog로 변환.
+  - **Liquid Glass 머터리얼** 헬퍼 (`MMGlassBackground` ViewModifier).
+- **금지**: `Domain` import, 비즈니스 로직, 네트워크. **Sendable 미준수** public 타입 금지(아래).
+- **Sendable 강제**: 모든 public `struct`/`enum`/`class` 타입은 `Sendable` 준수.
+  - `enum` + `static let` 토큰은 자동 Sendable (`MMColor`, `MMTypography`, `MMSpacing`, `MMRadius`, `MMShadow`, `MMMotion`).
+  - `struct Shadow`처럼 컴포지트 값 타입은 명시 `: Sendable` 필수.
+  - 위반 시 PR 차단 (`.coderabbit.yaml` DesignSystem path_instructions 룰).
+- **Feature/* 강제 규칙**: 다른 LocalPackages는 `DesignSystem`만 import. Color 리터럴/폰트 리터럴/하드코딩 spacing 사용 시 `.coderabbit.yaml`이 PR 차단.
 - **Public API 예시**:
   ```swift
-  public enum MMColor {
+  public enum MMColor: Sendable {
       public static let matchaPrimary: Color = Color("MatchaPrimary", bundle: .module)
+  }
+  public enum MMTypography: Sendable {
+      // Dynamic Type relativeTo 매핑은 design-system.md §2.5 SSOT 참조.
+      public static let body: Font = .system(.body, design: .default)
+      public static let title2: Font = .system(.title2, design: .default).weight(.semibold)
   }
   public struct MMButton<Label: View>: View {
       public init(action: @escaping () -> Void, @ViewBuilder label: () -> Label)

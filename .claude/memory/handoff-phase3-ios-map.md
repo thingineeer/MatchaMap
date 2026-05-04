@@ -1,6 +1,6 @@
 ---
 name: handoff-phase3-ios-map
-description: Phase 3 ios-map 시작 시 즉시 처리할 합의 의제 — 매장 핀 SVG 명세, anchor, 등급 매핑, Asset 이름 규약 5건. designer-icon이 mailbox로 보낸 상태
+description: Phase 3 ios-map 시작 시 즉시 처리할 합의 의제 — 매장 핀 SVG 명세, anchor, 등급 매핑, Asset 이름 규약 + S핀 glow 정책 6건
 type: project
 ---
 
@@ -15,6 +15,7 @@ type: project
 3. **그림자**: SVG 본체와 별도 레이어 (CAShapeLayer 또는 GMSMarker.opacity로 처리). designer-icon SVG에는 그림자 미포함.
 4. **등급 매핑**: 매장 등급 S/A/B/C → 핀 종류 iconic/premium/premium/basic 또는 별도 합의. server-data의 store schema의 `matchaScore` 또는 별도 `grade` 필드와 정합 필요.
 5. **Asset 이름 규약**: `Pin/basic.svg → AssetCatalog "MatchaPin/Basic"` 또는 `MatchaMap/Assets.xcassets/Pin.symbolset/` 후보 — ios-lead가 결정.
+6. **S핀 glow 15초 후 정지** (po-lead 결정, designer-lead 회신 2026-05-04): 지도 화면 onAppear 시 S핀(iconic) 마커에 `MMMotion.pulse` 애니메이션 적용 → 15초 타이머 → expire 시 정지. 사용자가 카메라 이동/줌 시 타이머 리셋. 정책은 components.md § 2.3 MatchaPin 스펙 + decisions-design.md 동기화. ios-map이 ADR-101에 최종 결정.
 
 **위치**:
 - 명세 본문: `docs/design/icons.md` § 3 매장 핀
