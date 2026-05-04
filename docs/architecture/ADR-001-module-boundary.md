@@ -87,13 +87,13 @@
   - 디자인 토큰 6 카테고리는 본 모듈이 **단일 진실 원천**. 다른 어떤 모듈도 색상/폰트/스페이싱을 직접 정의하거나 리터럴로 사용할 수 없다.
     | 카테고리 | 토큰 enum | SSOT 문서 |
     |---|---|---|
-    | Color | `MMColor` | `docs/design/design-system.md` § 컬러 |
-    | Typography | `MMTypography` | `docs/design/design-system.md` § 2.5 |
-    | Spacing | `MMSpacing` | `docs/design/design-system.md` § 스페이싱 |
-    | Radius | `MMRadius` | `docs/design/design-system.md` § 라디우스 |
-    | Shadow | `MMShadow` | `docs/design/design-system.md` § 섀도 |
-    | Motion | `MMMotion` | `docs/design/design-system.md` § 모션 |
-  - **Pretendard 폰트 등록** + `MMTypography` 토큰 (Dynamic Type `relativeTo` 매핑은 `docs/design/design-system.md` § 2.5 본문 참조 — 본 ADR은 SSOT를 위치만 인용).
+    | Color | `MMColor` | `docs/design/design-system.md` §1 컬러 토큰 |
+    | Typography | `MMTypography` | `docs/design/design-system.md` §2 (특히 §2.5 Dynamic Type `relativeTo` SSOT 11개 토큰) |
+    | Spacing | `MMSpacing` | `docs/design/design-system.md` §3 스페이싱 |
+    | Radius | `MMRadius` | `docs/design/design-system.md` §4 라운드 |
+    | Shadow | `MMShadow` | `docs/design/design-system.md` §5 그림자 |
+    | Motion | `MMMotion` | `docs/design/design-system.md` §6 모션/애니메이션 |
+  - **폰트 등록**: 디자인 시스템이 결정한 폰트 패밀리(NotoSerifKR + Pretendard 등 — 본문은 `docs/design/design-system.md` §2.1 폰트 스택 SSOT). `MMTypography` 11개 토큰 모두 `Font.custom(_:size:relativeTo:)` 패턴으로 정의 — `Font.system(size:)` 직접 사용은 PR 차단.
   - **공통 컴포넌트**: `MMButton`, `MMCard`, `MMTag`, `MMRatingBadge`, `MMSearchBar`, `MMEmptyState` 등 (`docs/design/components.md` 13개 카탈로그).
   - **매장 핀 SVG** (`MatchaPinBasic/Premium/Iconic`) — `_design_assets/svg/pin/`에서 Asset Catalog로 변환.
   - **Liquid Glass 머터리얼** 헬퍼 (`MMGlassBackground` ViewModifier).
