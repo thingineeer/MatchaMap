@@ -10,7 +10,9 @@ public extension Color {
         public static let cream       = Color(hex: 0xF5F1EA)
 
         // Brand — matcha 5단계 (ADR-302 v1.1 colorTier와 1:1)
+        // SSOT: design-system.md §1.5.1 (designer-lead). server-functions utils/colorTier.ts 정합.
         public static let deep        = Color(hex: 0x3D4A2D)
+        public static let deepMatcha  = Color(hex: 0x5A7A4A)   // designer-lead 사인오프 2026-05-04
         public static let matcha      = Color(hex: 0x7A9560)
         public static let matchaSoft  = Color(hex: 0xA8B994)
         public static let matchaPale  = Color(hex: 0xE6ECDE)
@@ -33,14 +35,15 @@ public extension Color {
         public static let appleBlack  = Color.black
 
         /// colorTier (CollectionItem.ColorTier) 5단계 → hex 매핑.
-        /// designer-lead Q2 합의 v1.1 — MMColor 5단계 토큰과 1:1.
+        /// SSOT: design-system.md §1.5.1 (designer-lead). MMColor 5단계 토큰과 1:1.
+        /// server-functions utils/colorTier.ts와 hex 정합 — 변경 시 3곳 동기화.
         public static func matchaTier(_ tier: MatchaColorTier) -> Color {
             switch tier {
-            case .matchaSoft:  return matchaSoft   // #A8B994 — 가장 옅음
-            case .matchaPale:  return matchaPale   // #E6ECDE
-            case .matcha:      return matcha       // #7A9560
-            case .deepMatcha:  return Color(hex: 0x556B43)  // matcha와 deep 사이 보간
-            case .deep:        return deep         // #3D4A2D — 가장 짙음
+            case .matchaSoft:  return matchaSoft    // #A8B994 — 가장 옅음
+            case .matchaPale:  return matchaPale    // #E6ECDE
+            case .matcha:      return matcha        // #7A9560
+            case .deepMatcha:  return deepMatcha    // #5A7A4A
+            case .deep:        return deep          // #3D4A2D — 가장 짙음
             }
         }
     }

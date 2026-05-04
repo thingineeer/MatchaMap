@@ -26,6 +26,15 @@ type: project
 - 전환 임계 PMF 신호: 1주 ≥ 1.5%, 1개월 ≥ 3%. 연 갱신율 ≥ 50%.
 - 결제 SDK: StoreKit 2.
 
+**AdMob 슬롯 ID 발급 완료 (2026-05-04, vault `~/.env-vault/projects/matchamap-ios/admob.json`)**:
+- App ID: `ca-app-pub-5283496525222246~9629032489`
+- Banner-Map: `ca-app-pub-5283496525222246/6560016017`
+- Interstitial-Store: `ca-app-pub-5283496525222246/8764567012`
+- Rewarded-Collection: `ca-app-pub-5283496525222246/2979863655` (CollectionSlot ×1)
+- 게재 시작까지 최대 1시간 지연 가능. 개발 중에는 Google Test Ad Unit ID 사용 권장.
+
 **How to apply:**
-- `ios-monetize` 에이전트(역할 통합: `ios-auth-monetize`)가 슬롯 설정 + ATT 프롬프트 + 정책 가드를 책임.
-- ATT 다국어 카피는 `qa-localization`이 검수.
+- `ios-auth-monetize`가 슬롯 ID를 vault에서 빌드 타임 주입 (Configs/AdMob.xcconfig 또는 Info.plist build setting).
+- `Bundle.main.object(forInfoDictionaryKey: "GADApplicationIdentifier")`로 App ID 로드.
+- ATT 다국어 카피는 `qa-localization`이 Phase 4에 검수.
+- 광고 정책 가드(첫 60초 차단/인터스티셜 5회 쿨다운/보상형 자발 시청)는 ADR-202 `MonetizeRules` 강제.
