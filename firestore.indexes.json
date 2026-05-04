@@ -173,6 +173,15 @@
     },
 
     {
+      "_comment": "fcmTokens: active push tokens per user (Functions push fanout) — server-auth ADR-303 P1.1",
+      "collectionGroup": "fcmTokens",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "pushPermission", "order": "ASCENDING" },
+        { "fieldPath": "lastSeenAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "_comment": "friendships edges: accepted friend list ordered by acceptedAt",
       "collectionGroup": "edges",
       "queryScope": "COLLECTION",
