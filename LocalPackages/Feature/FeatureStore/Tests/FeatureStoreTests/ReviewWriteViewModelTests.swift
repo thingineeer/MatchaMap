@@ -6,19 +6,20 @@ import Domain
 final class ReviewWriteViewModelTests: XCTestCase {
 
     /// 임의 결과 또는 에러 큐를 따라 응답하는 mock uploader.
-    final class StubUploader: PhotoUploader, @unchecked Sendable {
+    /// MainActor 격리 — 테스트가 MainActor에서 호출하므로 안전. 직접 outcomes/calls 접근 가능.
+    @MainActor
+    final class StubUploader: PhotoUploader {
         // FIFO outcomes
         var outcomes: [Result<URL, Error>] = []
         private(set) var calls: Int = 0
-        let lock = NSLock()
+
+        nonisolated init() {}
 
         func upload(localData: Data, fileName: String) async throws -> URL {
-            lock.lock()
             calls += 1
             let outcome = outcomes.isEmpty
                 ? Result<URL, Error>.success(URL(string: "https://uploaded.example.com/\(fileName)")!)
                 : outcomes.removeFirst()
-            lock.unlock()
             switch outcome {
             case .success(let u): return u
             case .failure(let e): throw e

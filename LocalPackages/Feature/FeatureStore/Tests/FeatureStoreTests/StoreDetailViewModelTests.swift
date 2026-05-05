@@ -124,7 +124,7 @@ final class StoreDetailViewModelTests: XCTestCase {
         XCTAssertEqual(dist?.last?.rating, 1)
         let five = dist?.first
         XCTAssertEqual(five?.count, 5)
-        XCTAssertEqual(five?.fraction, 0.5, accuracy: 0.001)
+        XCTAssertEqual(five?.fraction ?? -1, 0.5, accuracy: 0.001)
     }
 
     func test_selectedTab_isOverviewByDefault_andCanChange() async {

@@ -8,8 +8,7 @@ let package = Package(
     name: "FeatureMap",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v18),
-        .macOS(.v14)
+        .iOS(.v18)
     ],
     products: [
         .library(name: "FeatureMap", targets: ["FeatureMap"])
