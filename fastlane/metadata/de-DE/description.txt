@@ -1,10 +1,23 @@
-MatchaMap ist die Weltkarte für Matcha-Liebhaber — entdecken, dokumentieren, sammeln.
+MatchaMap ist die Weltkarte für Matcha-Liebhaber — eine App zum Entdecken, Dokumentieren und Sammeln jedes Matcha, den du probierst, von Tokio und Kyoto bis Seoul, New York, London und Paris.
 
-- Globale Karte: Mit Google Maps. Stadt-Zoom und Pins für einen schnellen Überblick.
-- Café-Details: Menü, Stoßzeiten, Wegbeschreibung, Street View.
-- Matcha-Tagebuch: Sammle jeden Matcha, den du verkostest — mit Sorte, Herkunft, Farbe und Notizen.
-- Freunde-Feed: Sieh die Tagebücher und Bewertungen deiner Freunde auf einer Zeitachse.
-- Wunschliste: Cafés, die du besuchen möchtest — nach Ländern gruppiert mit Mini-Weltkarte.
-- Anmeldung mit Apple / Passkey: ohne Passwort.
+[ Funktionen ]
+• Globale Café-Karte — basierend auf Google Maps, mit flüssigem Stadt-Zoom, Matcha-Pins und Clustering.
+• Café-Details — Menü, Preise, Öffnungszeiten, Stoßzeiten, Wegbeschreibung und Street View auf einem Bildschirm.
+• Matcha-Tagebuch — sammle jeden Matcha als Karte. Halte Sorte, Herkunft, Farbe und Verkostungsnotizen fest.
+• Bewertungen — schnelle Foto-Rezensionen und Tags für jedes Café.
+• Freunde-Feed — sieh, was deine Freunde trinken, auf einer aufgeräumten Zeitachse.
+• Wunschliste — speichere Cafés, die du besuchen möchtest, nach Ländern gruppiert mit einer Mini-Weltkarte.
+• Anmeldung mit Apple oder Passkey — ohne Passwort, vollkommen sicher.
 
-Erster Start in Südkorea, Japan, USA, Vereinigtem Königreich, Deutschland und Frankreich.
+[ Warum MatchaMap ]
+• Farbbewertung in 5 Stufen — von Pale Spring bis Deep Forest. Vergleiche Matcha nach Farbe, nicht nur nach Marke.
+• 9 Herkunftskategorien — Uji, Shizuoka, Kagoshima, Korea, Taiwan und mehr. Filtere Cafés nach der Herkunft der Blätter.
+• Mini-Weltkarten-Wunschliste — verwandle deine Reiseliste in eine Konstellation von Sternen rund um den Globus.
+
+[ Sprachen ]
+Koreanisch, Englisch (US und UK), Japanisch, Deutsch und Französisch — sechs vollständige Lokalisierungen. Reise in deiner Sprache.
+
+[ Loslegen ]
+App öffnen, Standort akzeptieren, in einer Sekunde mit Apple oder Passkey anmelden — und die Matcha-Cafés in deiner Umgebung erscheinen auf der Karte.
+
+MatchaMap startet zuerst in Südkorea, dann in Japan, den USA, dem Vereinigten Königreich, Deutschland und Frankreich. In den ersten 60 Sekunden zeigen wir keine Werbung — du entdeckst zuerst, Werbung kommt später.
