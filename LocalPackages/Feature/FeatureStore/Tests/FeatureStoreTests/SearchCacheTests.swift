@@ -47,12 +47,16 @@ final class SearchCacheTests: XCTestCase {
         let cache = SearchCache()
         await cache.addQuery("matcha")
         await cache.touchStore(.preview())
-        XCTAssertGreaterThan(await cache.queries().count, 0)
-        XCTAssertGreaterThan(await cache.stores().count, 0)
+        let qCount1 = await cache.queries().count
+        let sCount1 = await cache.stores().count
+        XCTAssertGreaterThan(qCount1, 0)
+        XCTAssertGreaterThan(sCount1, 0)
 
         await cache.clearQueries()
         await cache.clearStores()
-        XCTAssertEqual(await cache.queries().count, 0)
-        XCTAssertEqual(await cache.stores().count, 0)
+        let qCount2 = await cache.queries().count
+        let sCount2 = await cache.stores().count
+        XCTAssertEqual(qCount2, 0)
+        XCTAssertEqual(sCount2, 0)
     }
 }
