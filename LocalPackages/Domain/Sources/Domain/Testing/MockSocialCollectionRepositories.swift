@@ -343,6 +343,25 @@ public actor MockFeedRepository: FeedRepository {
     public func likedBy(targetId: String) -> Set<String> { likes[targetId] ?? [] }
 }
 
+/// 인메모리 사용자 프로필 저장소 — MVP/Preview용.
+public actor MockUserRepository: UserRepository {
+    public private(set) var profiles: [String: UserProfile] = [:]
+    public var stubError: Error?
+
+    public init(initial: [String: UserProfile] = [:]) {
+        self.profiles = initial
+    }
+
+    public func setStubError(_ error: Error?) { self.stubError = error }
+    public func upsert(_ profile: UserProfile) { profiles[profile.uid] = profile }
+
+    public func profile(uid: String) async throws -> UserProfile {
+        if let stubError { throw stubError }
+        if let p = profiles[uid] { return p }
+        return UserProfile.fixture(uid: uid)
+    }
+}
+
 /// 인메모리 친구 그래프 — 양방향 정합 검증용.
 public actor MockFriendshipRepository: FriendshipRepository {
     public private(set) var edges: [String: [String: Friendship]] = [:]  // uid → friendUid → edge

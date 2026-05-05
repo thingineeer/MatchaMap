@@ -3,11 +3,17 @@
 //  MatchaMap
 //
 //  앱 진입 컨테이너. Splash → Login(Apple/Passkey) → MainTab 라우팅.
-//  Phase 3 placeholder — Phase 4에서 실 인증 결과로 분기.
+//  Phase 3 통합 — Feature 모듈의 실제 View로 4탭 wire.
 //
 
 import SwiftUI
+import Domain
 import DesignSystem
+import FeatureAuth
+import FeatureMap
+import FeatureSocial
+import FeatureCollection
+import FeatureStore
 
 struct RootView: View {
     @State private var phase: Phase = .splash
@@ -23,7 +29,7 @@ struct RootView: View {
                         withAnimation(.easeOut(duration: 0.4)) { phase = .login }
                     }
             case .login:
-                LoginPlaceholderView { phase = .main }
+                LoginView { phase = .main }
                     .transition(.opacity)
             case .main:
                 MainTabView()
@@ -35,7 +41,7 @@ struct RootView: View {
     enum Phase { case splash, login, main }
 }
 
-/// Phase 3 placeholder. Phase 4에서 FeatureAuth.LoginView로 교체.
+/// Phase 3 placeholder — Phase 5에서 실 인증 결과로 main 전환. 디버그/Preview용으로 보존.
 struct LoginPlaceholderView: View {
     let onSignIn: () -> Void
     var body: some View {
@@ -78,21 +84,90 @@ struct LoginPlaceholderView: View {
 }
 
 /// 4탭: 지도 / 피드 / 위시리스트 / 내정보.
+/// Phase 3 mock: in-process Mock repositories로 4 화면 모두 렌더링 가능.
 struct MainTabView: View {
+    @State private var mockUid: String = "uid_self"
+    // Mock repos — Phase 4에서 AppContainer.shared로 교체.
+    private let mockCollection = MockCollectionRepository()
+    private let mockWishlist = MockWishlistRepository()
+    private let mockFeed = MockFeedRepository(seed: [
+        FeedEvent.fixture(id: "fe-1"),
+        FeedEvent.fixture(id: "fe-2", actorUid: "uid_friend_2", type: .review)
+    ])
+    private let mockUser = MockUserRepository()
+
+    @State private var pushedStore: Store?
+
     var body: some View {
         TabView {
-            MapPlaceholderView()
+            mapTab
                 .tabItem { Label("지도", systemImage: "map") }
-            FeedPlaceholderView()
+            feedTab
                 .tabItem { Label("피드", systemImage: "person.2") }
-            WishlistPlaceholderView()
+            wishlistTab
                 .tabItem { Label("위시리스트", systemImage: "bookmark") }
-            ProfilePlaceholderView()
+            profileTab
                 .tabItem { Label("내정보", systemImage: "person.crop.circle") }
         }
         .tint(Color.MM.deep)
     }
+
+    @ViewBuilder
+    private var mapTab: some View {
+        NavigationStack {
+            MapView(
+                onTapStore: { _ in },
+                onTapSearch: {}
+            )
+            .navigationBarHidden(true)
+        }
+    }
+
+    @ViewBuilder
+    private var feedTab: some View {
+        let vm = FeedViewModel(
+            uid: mockUid,
+            loadFeed: LoadFeedUseCaseImpl(repository: mockFeed),
+            toggleLike: ToggleLikeUseCaseImpl(repository: mockFeed),
+            addComment: AddCommentUseCaseImpl(repository: mockFeed)
+        )
+        NavigationStack {
+            FeedView(viewModel: vm)
+                .navigationTitle("피드")
+                .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    @ViewBuilder
+    private var wishlistTab: some View {
+        let vm = WishlistViewModel(
+            uid: mockUid,
+            listUseCase: ListWishlistItemsUseCaseImpl(repository: mockWishlist),
+            toggleUseCase: ToggleWishlistUseCaseImpl(repository: mockWishlist)
+        )
+        NavigationStack {
+            WishlistView(viewModel: vm)
+                .navigationTitle("위시리스트")
+                .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    @ViewBuilder
+    private var profileTab: some View {
+        let vm = ProfileViewModel(
+            uid: mockUid,
+            userRepository: mockUser,
+            listCollections: ListCollectionItemsUseCaseImpl(repository: mockCollection)
+        )
+        NavigationStack {
+            ProfileView(viewModel: vm)
+                .navigationTitle("내정보")
+                .navigationBarTitleDisplayMode(.inline)
+        }
+    }
 }
+
+// MARK: - Placeholders (디버그/Preview 용도, MainTabView에서 더 이상 사용하지 않음)
 
 private struct MapPlaceholderView: View {
     var body: some View {
@@ -101,7 +176,7 @@ private struct MapPlaceholderView: View {
             VStack(spacing: 16) {
                 Image(systemName: "map.fill").font(.system(size: 56)).foregroundStyle(Color.MM.matchaSoft)
                 Text("지도").font(.system(size: 28, weight: .bold, design: .serif)).foregroundStyle(Color.MM.deep)
-                Text("Google Maps SDK 통합 — Phase 3 ios-map worktree").font(.caption).foregroundStyle(Color.MM.muted)
+                Text("Google Maps SDK 통합 — Phase 5").font(.caption).foregroundStyle(Color.MM.muted)
             }
         }
     }
