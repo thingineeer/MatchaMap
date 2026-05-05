@@ -5,7 +5,7 @@ import { onRequest } from 'firebase-functions/v2/https';
 
 import { db } from '../utils/admin.js';
 import { logError, logInfo, logWarn } from '../utils/logger.js';
-import { HTTPS_DEFAULTS } from '../utils/region.js';
+import { DEFAULT_REGION } from '../utils/region.js';
 
 interface VerifierKey {
   keyId: number;
@@ -59,7 +59,9 @@ function base64UrlToBuffer(s: string): Buffer {
 
 export const verifyAdMobSsvCallback = onRequest(
   {
-    ...HTTPS_DEFAULTS,
+    region: DEFAULT_REGION,
+    timeoutSeconds: 30,
+    memory: '256MiB',
     cors: false,
     invoker: 'public',
   },
