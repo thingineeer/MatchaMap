@@ -87,31 +87,40 @@
   - 디자인 토큰 6 카테고리는 본 모듈이 **단일 진실 원천**. 다른 어떤 모듈도 색상/폰트/스페이싱을 직접 정의하거나 리터럴로 사용할 수 없다.
     | 카테고리 | 토큰 enum | SSOT 문서 |
     |---|---|---|
-    | Color | `MMColor` | `docs/design/design-system.md` §1 컬러 토큰 |
+    | Color | `Color.MM` (extension) | `docs/design/design-system.md` §1 컬러 토큰 |
+    | ColorTier | `MMColorTier` | `docs/design/design-system.md` §1.5.1 (5단계 도감 등급, server-data ADR-302 v1.1 정합) |
     | Typography | `MMTypography` | `docs/design/design-system.md` §2 (특히 §2.5 Dynamic Type `relativeTo` SSOT 11개 토큰) |
     | Spacing | `MMSpacing` | `docs/design/design-system.md` §3 스페이싱 |
     | Radius | `MMRadius` | `docs/design/design-system.md` §4 라운드 |
-    | Shadow | `MMShadow` | `docs/design/design-system.md` §5 그림자 |
+    | Shadow | `MMShadow` (`struct Shadow: Sendable` + ViewModifier) | `docs/design/design-system.md` §5 그림자 |
     | Motion | `MMMotion` | `docs/design/design-system.md` §6 모션/애니메이션 |
+    | OriginCoords | `MatchaOriginCoordsProvider` | `docs/design/design-system.md` §9 (8 region × {lat,lng} hardcoded + Fallback) |
   - **폰트 등록**: 디자인 시스템이 결정한 폰트 패밀리(NotoSerifKR + Pretendard 등 — 본문은 `docs/design/design-system.md` §2.1 폰트 스택 SSOT). `MMTypography` 11개 토큰 모두 `Font.custom(_:size:relativeTo:)` 패턴으로 정의 — `Font.system(size:)` 직접 사용은 PR 차단.
   - **공통 컴포넌트**: `MMButton`, `MMCard`, `MMTag`, `MMRatingBadge`, `MMSearchBar`, `MMEmptyState` 등 (`docs/design/components.md` 13개 카탈로그).
   - **매장 핀 SVG** (`MatchaPinBasic/Premium/Iconic`) — `_design_assets/svg/pin/`에서 Asset Catalog로 변환.
   - **Liquid Glass 머터리얼** 헬퍼 (`MMGlassBackground` ViewModifier).
 - **금지**: `Domain` import, 비즈니스 로직, 네트워크. **Sendable 미준수** public 타입 금지(아래).
 - **Sendable 강제**: 모든 public `struct`/`enum`/`class` 타입은 `Sendable` 준수.
-  - `enum` + `static let` 토큰은 자동 Sendable (`MMColor`, `MMTypography`, `MMSpacing`, `MMRadius`, `MMShadow`, `MMMotion`).
+  - `enum` + `static let` 토큰은 자동 Sendable.
   - `struct Shadow`처럼 컴포지트 값 타입은 명시 `: Sendable` 필수.
   - 위반 시 PR 차단 (`.coderabbit.yaml` DesignSystem path_instructions 룰).
 - **Feature/* 강제 규칙**: 다른 LocalPackages는 `DesignSystem`만 import. Color 리터럴/폰트 리터럴/하드코딩 spacing 사용 시 `.coderabbit.yaml`이 PR 차단.
+- **Namespace 컨벤션**: `Color.MM.<token>` (Color extension 패턴) — designer-lead 결정 (2026-05-04, design-system.md §1.1 SSOT). SwiftUI의 `Color.` 자동완성에서 즉시 발견 가능. `MMColor.<token>` top-level enum 별칭은 v1.x에서 추가하지 않음 (필요 시 향후 alias 도입). 타이포/스페이스/라디우스/섀도/모션은 top-level enum (`MMTypography`/`MMSpacing`/`MMRadius`/`MMShadow`/`MMMotion`).
 - **Public API 예시**:
   ```swift
-  public enum MMColor: Sendable {
-      public static let matchaPrimary: Color = Color("MatchaPrimary", bundle: .module)
+  public extension Color {
+      enum MM: Sendable {
+          public static let deep: Color = Color("MMDeep", bundle: .module)
+          public static let matchaPrimary: Color = Color("MMMatchaPrimary", bundle: .module)
+          public static let matchaSoft: Color = Color("MMMatchaSoft", bundle: .module)
+          // 나머지 17개 토큰은 docs/design/design-system.md §1 SSOT
+      }
   }
   public enum MMTypography: Sendable {
-      // Dynamic Type relativeTo 매핑은 design-system.md §2.5 SSOT 참조.
-      public static let body: Font = .system(.body, design: .default)
-      public static let title2: Font = .system(.title2, design: .default).weight(.semibold)
+      // 11개 relativeTo 매핑 SSOT는 docs/design/design-system.md §2.5
+      public static let body: Font = .custom("Pretendard-Regular", size: 14, relativeTo: .body)
+      public static let title2: Font = .custom("NotoSerifKR-Bold", size: 26, relativeTo: .title2)
+      // Font.system(size:) 직접 사용 금지 — .coderabbit.yaml에서 PR 차단.
   }
   public struct MMButton<Label: View>: View {
       public init(action: @escaping () -> Void, @ViewBuilder label: () -> Label)

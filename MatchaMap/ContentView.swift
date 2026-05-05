@@ -14,14 +14,16 @@ struct ContentView: View {
         VStack(spacing: MMSpacing.md) {
             Image(systemName: "leaf.fill")
                 .imageScale(.large)
-                .foregroundStyle(MMColor.matchaPrimary)
+                .foregroundStyle(Color.MM.matcha)
             Text("MatchaMap")
                 .font(.title)
+                .foregroundStyle(Color.MM.deep)
             Text("Domain v\(Domain.version) · DesignSystem v\(DesignSystem.version)")
                 .font(.caption)
-                .foregroundStyle(MMColor.onSurface.opacity(0.6))
+                .foregroundStyle(Color.MM.muted)
         }
         .padding(MMSpacing.xl)
+        .background(Color.MM.bg)
     }
 }
 

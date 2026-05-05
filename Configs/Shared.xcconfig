@@ -1,0 +1,27 @@
+// Shared.xcconfig — Debug/Release 공통 빌드 설정.
+// GENERATE_INFOPLIST_FILE=YES 환경에서 권한 사용 이유 등을 INFOPLIST_KEY_*로 주입.
+// project.pbxproj의 baseConfigurationReference 통해 연결.
+//
+// 외부 비공개 값(AdMob 등)은 vault에서 환경 변수로 주입 → Configs/AdMob.local.xcconfig (gitignored)에서 #include.
+// 본 파일은 시크릿 미포함이므로 public 가능.
+
+// ───────────────────────────────────────────────────────────
+// 권한 사용 이유 (App Store 심사 필수). 다국어는 InfoPlist.xcstrings로 보강 예정.
+// ───────────────────────────────────────────────────────────
+INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = 주변 말차 카페를 지도에 표시하고 길찾기를 제공하기 위해 사용됩니다.
+INFOPLIST_KEY_NSPhotoLibraryUsageDescription = 리뷰와 도감에 첨부할 사진을 선택하기 위해 사용됩니다.
+INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = 저장하신 매장 사진을 사진 보관함에 보관하기 위해 사용됩니다.
+INFOPLIST_KEY_NSCameraUsageDescription = 리뷰와 도감에 추가할 매장 사진을 촬영하기 위해 사용됩니다.
+INFOPLIST_KEY_NSUserTrackingUsageDescription = 나에게 더 잘 맞는 광고를 보여드리기 위해 사용됩니다. 거부하셔도 앱은 정상 동작합니다.
+
+// ───────────────────────────────────────────────────────────
+// AdMob 앱 ID — 빌드 타임에 vault에서 주입.
+// 미주입 시 Google이 권장하는 테스트 ID로 fallback (실 제출 빌드는 fastlane이 덮어씀).
+// ───────────────────────────────────────────────────────────
+ADMOB_APP_ID_IOS = ca-app-pub-3940256099942544~1458002511
+INFOPLIST_KEY_GADApplicationIdentifier = $(ADMOB_APP_ID_IOS)
+
+// ───────────────────────────────────────────────────────────
+// Universal Links / 기타.
+// ───────────────────────────────────────────────────────────
+INFOPLIST_KEY_LSRequiresIPhoneOS = YES

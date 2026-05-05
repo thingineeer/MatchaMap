@@ -3,6 +3,7 @@ import { onSchedule } from 'firebase-functions/v2/scheduler';
 
 import { db } from '../utils/admin.js';
 import { logInfo, logWarn } from '../utils/logger.js';
+import { derivePinTier } from '../utils/pinTier.js';
 import { DEFAULT_REGION } from '../utils/region.js';
 
 /**
@@ -58,11 +59,15 @@ export const recomputeStoreAggregates = onSchedule(
 );
 
 async function recomputeOne(storeId: string): Promise<void> {
-  const reviewsSnap = await db()
-    .collection('reviews')
-    .where('storeId', '==', storeId)
-    .where('flagged', '==', false)
-    .get();
+  const storeRef = db().collection('stores').doc(storeId);
+  const [reviewsSnap, storeSnap] = await Promise.all([
+    db()
+      .collection('reviews')
+      .where('storeId', '==', storeId)
+      .where('flagged', '==', false)
+      .get(),
+    storeRef.get(),
+  ]);
 
   let count = 0;
   let sum = 0;
@@ -77,13 +82,22 @@ async function recomputeOne(storeId: string): Promise<void> {
     histogram[String(rating)] = (histogram[String(rating)] ?? 0) + 1;
   }
   const avg = count > 0 ? sum / count : 0;
-  await db()
-    .collection('stores')
-    .doc(storeId)
-    .update({
-      reviewCount: count,
-      ratingAvg: avg,
-      ratingHistogram: histogram,
-      updatedAt: FieldValue.serverTimestamp(),
-    });
+
+  // ADR-302 v1.2 — pinTier도 같이 derive (matchaScore 갱신 직후).
+  const store = storeSnap.data() as
+    | { verified?: boolean; pinTier?: string }
+    | undefined;
+  const newPinTier = derivePinTier(avg, store?.verified ?? false);
+
+  const patch: Record<string, unknown> = {
+    reviewCount: count,
+    ratingAvg: avg,
+    ratingHistogram: histogram,
+    matchaScore: avg, // SCH-5 (가중평균 도입)는 Phase 3.
+    updatedAt: FieldValue.serverTimestamp(),
+  };
+  if (store?.pinTier !== newPinTier) {
+    patch.pinTier = newPinTier;
+  }
+  await storeRef.update(patch);
 }

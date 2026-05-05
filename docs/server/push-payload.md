@@ -15,22 +15,46 @@
 
 ## 2. 토큰 등록 (클라 → Firestore)
 
+> SSOT: schema.md §1A (server-data v1.3, 2026-05-04). `users.notification.fcmToken` 단일 필드는 **deprecated** — 본 서브컬렉션이 단일 진실 원천.
+
 ```
-사용자 가입 + 푸시 권한 허용 → iOS 클라가 FCM token 받음 → Firestore users/{uid}/fcmTokens/{tokenId} 저장.
+사용자 가입 + 푸시 권한 허용 → iOS 클라가 FCM token 받음 →
+Firestore users/{uid}/fcmTokens/{tokenId} create (셀프 등록, ADR-303 P1.1).
+tokenId = UIDevice.identifierForVendor.uuidString (디바이스별 고유, 재설치 시 변경).
 ```
 
 | 필드 | 타입 | 설명 |
 |---|---|---|
-| `uid` | string | 본인 uid (path 일치) |
-| `token` | string | FCM token (디바이스별 고유) |
+| `tokenId` | string | == doc.id, 디바이스별 vendor ID |
+| `uid` | string | 본인 uid (path 일치, invariant) |
+| `token` | string | FCM token (Firebase Messaging SDK 발급) |
 | `platform` | string | `ios` (v1.0.0은 iOS만) |
-| `appVersion` | string | 클라 앱 버전 |
-| `locale` | string | BCP-47 (다국어 페이로드 라우팅) |
+| `appVersion` | string | `CFBundleShortVersionString` (예: `1.0.0`) |
+| `buildNumber` | string | `CFBundleVersion` = `YYMMDD_HHMM` 포맷 — 푸시 호환성 필터용 |
+| `locale` | string | BCP-47 (`ko-KR` 등). 다국어 페이로드 라우팅 |
+| `country` | string? | ISO-3166 alpha-2 (선택). 시장별 분석용 |
+| `pushPermission` | string | enum: `granted` / `provisional` / `denied` / `not_determined`. **`granted`/`provisional`만 fanout 대상** |
 | `createdAt` | timestamp | 서버 |
 | `updatedAt` | timestamp | 서버 |
-| `lastSeenAt` | timestamp | 마지막 활성 (만료 토큰 정리 기준) |
+| `lastSeenAt` | timestamp | 앱 포그라운드 시 갱신 (1시간 throttle 권고). 만료 토큰 정리 기준 |
 
-> 다중 디바이스 지원 — 동일 사용자가 여러 토큰 가질 수 있음. Functions 푸시 발송 시 `users/{uid}/fcmTokens/*` 모두에 fanout.
+### 디노멀 캐시
+
+부모 `users/{uid}.notification.lastTokenAt`에 가장 최근 토큰 갱신 시각이 디노멀 저장됨 (Functions `onCreate/onUpdate fcmTokens/{tokenId}` 트리거). 푸시 가능 사용자 빠른 필터용 (서브컬렉션 쿼리 없이).
+
+### 다중 디바이스 지원
+
+동일 사용자가 여러 토큰 가질 수 있음. Functions 푸시 발송 시:
+1. `users/{uid}/fcmTokens` where `pushPermission in ['granted', 'provisional']` read.
+2. 각 토큰에 send.
+3. APNs 401/404 응답 시 해당 doc 즉시 delete.
+
+### 인덱스 (firestore.indexes.json)
+
+| 쿼리 | 필드 | 용도 |
+|---|---|---|
+| 활성 토큰 fanout | `pushPermission` ASC, `lastSeenAt` DESC | 푸시 발송 시 권한 허용 토큰 우선 |
+| Stale 정리 (collection group) | `lastSeenAt` ASC | scheduled cleanup 60일 초과 토큰 |
 
 ## 3. 페이로드 구조
 
