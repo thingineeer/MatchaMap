@@ -1,0 +1,152 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "도감" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도감" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Index" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Index" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sammlung" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "図鑑" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Catalogue" } }
+      }
+    },
+    "수집" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "수집" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Collected" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Collected" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Gesammelt" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コレクション" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Collectés" } }
+      }
+    },
+    "메모" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "메모" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Notes" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Notes" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Notizen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "メモ" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Notes" } }
+      }
+    },
+    "색감" : {
+      "extractionState" : "manual",
+      "comment" : "Memory page — colour palette label.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "색감" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colour" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Colour" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Farbe" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "色合い" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Couleur" } }
+      }
+    },
+    "원산지" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원산지" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Origin" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Origin" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Herkunft" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "産地" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Origine" } }
+      }
+    },
+    "내 위시리스트" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "내 위시리스트" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "My wishlist" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "My wish list" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Meine Merkliste" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マイウィッシュリスト" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mes favoris" } }
+      }
+    },
+    "위시리스트" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "위시리스트" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Wishlist" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Wish list" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Merkliste" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ウィッシュリスト" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Favoris" } }
+      }
+    },
+    "친구" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "친구" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Friends" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Friends" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Freunde" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "友達" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Amis" } }
+      }
+    },
+    "리뷰" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리뷰" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reviews" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Reviews" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rezensionen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "レビュー" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Avis" } }
+      }
+    },
+    "최근 마신 말차" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "최근 마신 말차" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent matcha" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Recent matcha" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zuletzt getrunken" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "最近飲んだ抹茶" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Matchas récents" } }
+      }
+    },
+    "전체 →" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전체 →" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "See all →" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "See all →" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Alle →" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "すべて →" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tout voir →" } }
+      }
+    },
+    "UNLOCK" : {
+      "extractionState" : "manual",
+      "comment" : "Collection grid lock CTA.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠금 해제" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "UNLOCK" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "UNLOCK" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "FREISCHALTEN" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "解放する" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "DÉBLOQUER" } }
+      }
+    },
+    "PINS" : {
+      "extractionState" : "manual",
+      "comment" : "Wishlist counter unit (e.g. \"12 PINS\"). Keep short.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "핀" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "PINS" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "PINS" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "PINS" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ピン" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "ÉPINGLES" } }
+      }
+    }
+  }
+}

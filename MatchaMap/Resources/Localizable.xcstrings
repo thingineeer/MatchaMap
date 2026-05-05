@@ -1,0 +1,192 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "말차맵" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "말차맵" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "MatchaMap" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "MatchaMap" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "MatchaMap" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "抹茶マップ" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "MatchaMap" } }
+      }
+    },
+    "MATCHAMAP" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "MATCHAMAP" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "MATCHAMAP" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "MATCHAMAP" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "MATCHAMAP" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "MATCHAMAP" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "MATCHAMAP" } }
+      }
+    },
+    "세상의 말차를\n한 잔씩 모아두는 곳" : {
+      "extractionState" : "manual",
+      "comment" : "Splash tagline. Preserve newline; keep both lines balanced.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "세상의 말차를\n한 잔씩 모아두는 곳" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Collecting the world's matcha,\none cup at a time" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Collecting the world's matcha,\none cup at a time" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Matcha-Welt,\nTasse für Tasse gesammelt" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "世界の抹茶を\n一杯ずつ集める場所" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Le matcha du monde,\nune tasse à la fois" } }
+      }
+    },
+    "EST. 2025 · KYOTO" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "EST. 2025 · KYOTO" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "EST. 2025 · KYOTO" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "EST. 2025 · KYOTO" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "EST. 2025 · KYOTO" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "EST. 2025 · KYOTO" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "EST. 2025 · KYOTO" } }
+      }
+    },
+    "말차맵에\n오신 걸 환영해요" : {
+      "extractionState" : "manual",
+      "comment" : "Login welcome headline. 2 lines.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "말차맵에\n오신 걸 환영해요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome\nto MatchaMap" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Welcome\nto MatchaMap" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Willkommen\nbei MatchaMap" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "MatchaMapへ\nようこそ" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Bienvenue\nsur MatchaMap" } }
+      }
+    },
+    "로그인하면 마신 말차와 위시리스트를\n모든 기기에서 동기화할 수 있어요." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "로그인하면 마신 말차와 위시리스트를\n모든 기기에서 동기화할 수 있어요." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in to sync your matcha log\nand wishlist across every device." } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Sign in to sync your matcha log\nand wish list across all your devices." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Melde dich an, um Matcha-Log und\nMerkliste auf allen Geräten zu synchronisieren." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "サインインすると、飲んだ抹茶と\nウィッシュリストを全端末で同期できます。" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Connectez-vous pour synchroniser votre journal\nde matcha et votre liste de souhaits." } }
+      }
+    },
+    "Apple로 시작하기" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Apple로 시작하기" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Apple" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Apple" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mit Apple fortfahren" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Appleで続ける" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Continuer avec Apple" } }
+      }
+    },
+    "Passkey로 시작하기" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Passkey로 시작하기" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Passkey" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Passkey" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mit Passkey fortfahren" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パスキーで続ける" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Continuer avec Passkey" } }
+      }
+    },
+    "지도" : {
+      "extractionState" : "manual",
+      "comment" : "Tab title — Map.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "지도" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Map" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Map" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Karte" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マップ" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Carte" } }
+      }
+    },
+    "피드" : {
+      "extractionState" : "manual",
+      "comment" : "Tab title — Feed.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "피드" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Feed" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Feed" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Feed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フィード" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fil" } }
+      }
+    },
+    "위시리스트" : {
+      "extractionState" : "manual",
+      "comment" : "Tab title — Wishlist.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "위시리스트" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Wishlist" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Wish list" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Merkliste" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ウィッシュリスト" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Favoris" } }
+      }
+    },
+    "내정보" : {
+      "extractionState" : "manual",
+      "comment" : "Tab title — My profile.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "내정보" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Profile" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Profile" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Profil" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マイページ" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Profil" } }
+      }
+    },
+    "Google Maps SDK 통합 — Phase 5" : {
+      "extractionState" : "manual",
+      "comment" : "Internal placeholder; will be removed before App Store submission.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Google Maps SDK 통합 — Phase 5" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Google Maps SDK integration — Phase 5" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Google Maps SDK integration — Phase 5" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Google-Maps-SDK-Integration — Phase 5" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Google Maps SDK 連携 — Phase 5" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Intégration Google Maps SDK — Phase 5" } }
+      }
+    },
+    "친구 활동 — FeatureSocial" : {
+      "extractionState" : "manual",
+      "comment" : "Internal placeholder.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "친구 활동 — FeatureSocial" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Friends activity — FeatureSocial" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Friends' activity — FeatureSocial" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Freundes-Aktivität — FeatureSocial" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "友達のアクティビティ — FeatureSocial" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Activité des amis — FeatureSocial" } }
+      }
+    },
+    "국가별 그룹 + 미니 세계지도 — FeatureCollection" : {
+      "extractionState" : "manual",
+      "comment" : "Internal placeholder.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "국가별 그룹 + 미니 세계지도 — FeatureCollection" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Country groups + mini world map — FeatureCollection" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Country groups + mini world map — FeatureCollection" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ländergruppen + Mini-Weltkarte — FeatureCollection" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "国別グループ + ミニ世界地図 — FeatureCollection" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Groupes par pays + mini carte du monde — FeatureCollection" } }
+      }
+    },
+    "도감 / 리뷰 / 친구 — FeatureCollection.ProfileView" : {
+      "extractionState" : "manual",
+      "comment" : "Internal placeholder.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도감 / 리뷰 / 친구 — FeatureCollection.ProfileView" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Index / Reviews / Friends — FeatureCollection.ProfileView" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Index / Reviews / Friends — FeatureCollection.ProfileView" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sammlung / Rezensionen / Freunde — FeatureCollection.ProfileView" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "図鑑 / レビュー / 友達 — FeatureCollection.ProfileView" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Catalogue / Avis / Amis — FeatureCollection.ProfileView" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "매장 검색" : {
+      "extractionState" : "manual",
+      "comment" : "Map search FAB / placeholder.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "매장 검색" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search shops" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Search shops" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Cafés suchen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "店舗を検索" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Rechercher un café" } }
+      }
+    }
+  }
+}

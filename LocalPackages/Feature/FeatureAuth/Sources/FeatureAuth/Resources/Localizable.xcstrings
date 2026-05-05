@@ -1,0 +1,51 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "말차맵에\n오신 걸 환영해요" : {
+      "extractionState" : "manual",
+      "comment" : "Login welcome headline. 2 lines.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "말차맵에\n오신 걸 환영해요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome\nto MatchaMap" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Welcome\nto MatchaMap" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Willkommen\nbei MatchaMap" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "MatchaMapへ\nようこそ" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Bienvenue\nsur MatchaMap" } }
+      }
+    },
+    "로그인하면 마신 말차와 위시리스트를\n모든 기기에서 동기화할 수 있어요." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "로그인하면 마신 말차와 위시리스트를\n모든 기기에서 동기화할 수 있어요." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in to sync your matcha log\nand wishlist across every device." } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Sign in to sync your matcha log\nand wish list across all your devices." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Melde dich an, um Matcha-Log und\nMerkliste auf allen Geräten zu synchronisieren." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "サインインすると、飲んだ抹茶と\nウィッシュリストを全端末で同期できます。" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Connectez-vous pour synchroniser votre journal\nde matcha et votre liste de souhaits." } }
+      }
+    },
+    "Apple로 시작하기" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Apple로 시작하기" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Apple" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Apple" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mit Apple fortfahren" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Appleで続ける" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Continuer avec Apple" } }
+      }
+    },
+    "Passkey로 시작하기" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Passkey로 시작하기" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Passkey" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Passkey" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mit Passkey fortfahren" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パスキーで続ける" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Continuer avec Passkey" } }
+      }
+    }
+  }
+}
