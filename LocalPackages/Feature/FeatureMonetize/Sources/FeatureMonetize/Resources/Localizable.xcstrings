@@ -1,0 +1,42 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "광고" : {
+      "extractionState" : "manual",
+      "comment" : "Ad slot label shown beside banner / interstitial.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "광고" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ad" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Ad" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Anzeige" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "広告" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Annonce" } }
+      }
+    },
+    "att.prompt.title" : {
+      "extractionState" : "manual",
+      "comment" : "ATT prompt secondary explainer (system shows after Info.plist key).",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "맞춤 광고를 위해 추적을 허용해주세요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Allow tracking for personalised ads" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Allow tracking for personalised ads" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Tracking für personalisierte Anzeigen erlauben" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パーソナライズ広告のためトラッキングを許可" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Autoriser le suivi pour des annonces personnalisées" } }
+      }
+    },
+    "att.prompt.body" : {
+      "extractionState" : "manual",
+      "comment" : "ATT explainer body. Maps to NSUserTrackingUsageDescription. ASCII-safe length.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "허용하면 더 관련성 높은 광고를 보여드릴 수 있어요. 거부해도 앱은 정상 동작합니다." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "We use this to show more relevant ads. The app works either way." } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "We use this to show more relevant ads. The app works either way." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Damit zeigen wir relevantere Anzeigen. Die App funktioniert auch ohne." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "より関連性の高い広告のために使用します。許可しなくてもアプリは動作します。" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Pour des annonces plus pertinentes. L'application fonctionne dans tous les cas." } }
+      }
+    }
+  }
+}

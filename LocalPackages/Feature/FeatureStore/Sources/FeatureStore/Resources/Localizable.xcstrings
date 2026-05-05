@@ -1,0 +1,372 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "검색" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "검색" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Search" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Suche" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "検索" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Rechercher" } }
+      }
+    },
+    "필터" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "필터" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Filter" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Filter" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Filter" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フィルター" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Filtres" } }
+      }
+    },
+    "초기화" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "초기화" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reset" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Reset" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zurücksetzen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リセット" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réinitialiser" } }
+      }
+    },
+    "적용" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "적용" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Apply" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Apply" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Anwenden" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "適用" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Appliquer" } }
+      }
+    },
+    "영업중" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "영업중" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open now" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Open now" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Geöffnet" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "営業中" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ouvert" } }
+      }
+    },
+    "휴무" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "휴무" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Closed" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Closed" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Geschlossen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "休業" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fermé" } }
+      }
+    },
+    "매장 이름이나 도시로 검색해보세요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "매장 이름이나 도시로 검색해보세요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search by shop name or city" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Search by shop name or city" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Suche nach Café-Name oder Stadt" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "店舗名または都市で検索" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Recherchez par nom ou ville" } }
+      }
+    },
+    "예: 마차하우스, 교토, 우지" : {
+      "extractionState" : "manual",
+      "comment" : "Search empty-state hint. Each language uses local example terms.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "예: 마차하우스, 교토, 우지" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "e.g. Matcha House, Kyoto, Uji" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "e.g. Matcha House, Kyoto, Uji" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "z. B. Matcha House, Kyoto, Uji" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "例: マッチャハウス、京都、宇治" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "ex. Matcha House, Kyoto, Uji" } }
+      }
+    },
+    "결과가 없어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "결과가 없어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No results" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "No results" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Ergebnisse" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "結果がありません" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun résultat" } }
+      }
+    },
+    "검색에 실패했어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "검색에 실패했어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search failed" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Search failed" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Suche fehlgeschlagen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "検索に失敗しました" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Échec de la recherche" } }
+      }
+    },
+    "최근 검색어" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "최근 검색어" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent searches" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Recent searches" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zuletzt gesucht" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "最近の検索" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Recherches récentes" } }
+      }
+    },
+    "최근 본 매장" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "최근 본 매장" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recently viewed" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Recently viewed" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zuletzt angesehen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "最近見た店舗" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Vus récemment" } }
+      }
+    },
+    "메뉴" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "메뉴" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Menu" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Menu" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Karte" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "メニュー" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Menu" } }
+      }
+    },
+    "리뷰" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리뷰" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reviews" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Reviews" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rezensionen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "レビュー" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Avis" } }
+      }
+    },
+    "주소" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "주소" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Address" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Address" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Adresse" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "住所" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Adresse" } }
+      }
+    },
+    "영업시간" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "영업시간" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hours" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Opening hours" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Öffnungszeiten" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "営業時間" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Horaires" } }
+      }
+    },
+    "메뉴 정보는 Phase 4에서 연동돼요." : {
+      "extractionState" : "manual",
+      "comment" : "Internal placeholder; remove in v1.1.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "메뉴 정보는 Phase 4에서 연동돼요." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Menu data is connected in Phase 4." } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Menu data is connected in Phase 4." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Menüdaten werden in Phase 4 angebunden." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "メニュー情報はフェーズ4で連携します。" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Les menus sont connectés en phase 4." } }
+      }
+    },
+    "매장 정보를 불러오지 못했어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "매장 정보를 불러오지 못했어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Couldn't load shop details" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Couldn't load shop details" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Café-Details konnten nicht geladen werden" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "店舗情報を読み込めませんでした" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible de charger les détails" } }
+      }
+    },
+    "리뷰 작성" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리뷰 작성" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Write a review" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Write a review" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rezension schreiben" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "レビューを書く" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Écrire un avis" } }
+      }
+    },
+    "취소" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "취소" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abbrechen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "キャンセル" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Annuler" } }
+      }
+    },
+    "등록" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "등록" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Submit" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Submit" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Senden" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "投稿" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Publier" } }
+      }
+    },
+    "등록 중…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "등록 중…" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Submitting…" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Submitting…" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wird gesendet…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "投稿中…" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Publication…" } }
+      }
+    },
+    "닫기" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "닫기" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Close" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Close" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Schließen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "閉じる" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fermer" } }
+      }
+    },
+    "재시도" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "재시도" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erneut versuchen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "再試行" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réessayer" } }
+      }
+    },
+    "추가" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "추가" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Add" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinzufügen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "追加" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ajouter" } }
+      }
+    },
+    "별점" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "별점" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Rating" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Rating" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bewertung" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "評価" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Note" } }
+      }
+    },
+    "별점순" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "별점순" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "By rating" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "By rating" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nach Bewertung" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "評価順" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Par note" } }
+      }
+    },
+    "이 매장의 말차는 어땠나요?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 매장의 말차는 어땠나요?" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "How was the matcha here?" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "How was the matcha here?" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wie war der Matcha hier?" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ここの抹茶はどうでしたか？" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Comment était le matcha ?" } }
+      }
+    },
+    "사진 첨부는 Phase 4에서 PhotosPicker로 활성화돼요." : {
+      "extractionState" : "manual",
+      "comment" : "Internal placeholder.",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "사진 첨부는 Phase 4에서 PhotosPicker로 활성화돼요." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Photo upload via PhotosPicker is enabled in Phase 4." } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Photo upload via PhotosPicker is enabled in Phase 4." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Foto-Upload via PhotosPicker wird in Phase 4 aktiviert." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "写真添付はフェーズ4で PhotosPicker により有効化されます。" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "L'envoi de photos via PhotosPicker arrive en phase 4." } }
+      }
+    },
+    "리뷰 등록 실패" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리뷰 등록 실패" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Couldn't post review" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Couldn't post review" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rezension nicht veröffentlicht" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "レビューを投稿できませんでした" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Échec de la publication" } }
+      }
+    },
+    "리뷰를 불러오지 못했어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리뷰를 불러오지 못했어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Couldn't load reviews" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Couldn't load reviews" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rezensionen konnten nicht geladen werden" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "レビューを読み込めませんでした" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible de charger les avis" } }
+      }
+    },
+    "아직 리뷰가 없어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "아직 리뷰가 없어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No reviews yet" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "No reviews yet" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Noch keine Rezensionen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "まだレビューがありません" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun avis pour le moment" } }
+      }
+    },
+    "이 매장의 첫 리뷰를 남겨보세요." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 매장의 첫 리뷰를 남겨보세요." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Be the first to leave a review." } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Be the first to leave a review." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sei der oder die Erste mit einer Rezension." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "この店舗の最初のレビューを書いてみましょう。" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Soyez le premier à laisser un avis." } }
+      }
+    }
+  }
+}

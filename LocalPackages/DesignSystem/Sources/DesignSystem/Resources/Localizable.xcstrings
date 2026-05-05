@@ -1,0 +1,160 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "취소" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "취소" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abbrechen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "キャンセル" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Annuler" } }
+      }
+    },
+    "완료" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "완료" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Done" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Fertig" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "完了" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
+      }
+    },
+    "확인" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "확인" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
+      }
+    },
+    "다음" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다음" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Next" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Weiter" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "次へ" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Suivant" } }
+      }
+    },
+    "이전" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이전" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Back" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Back" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zurück" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "戻る" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Retour" } }
+      }
+    },
+    "닫기" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "닫기" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Close" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Close" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Schließen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "閉じる" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fermer" } }
+      }
+    },
+    "재시도" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "재시도" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erneut versuchen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "再試行" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réessayer" } }
+      }
+    },
+    "다시 시도" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다시 시도" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Try again" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Try again" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erneut versuchen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "もう一度試す" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réessayer" } }
+      }
+    },
+    "오류가 발생했어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "오류가 발생했어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Something went wrong" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Something went wrong" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Etwas ist schiefgelaufen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "エラーが発生しました" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Une erreur est survenue" } }
+      }
+    },
+    "네트워크 연결을 확인해주세요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "네트워크 연결을 확인해주세요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Check your network connection" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Check your network connection" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bitte prüfe deine Netzwerkverbindung" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ネットワーク接続を確認してください" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Vérifiez votre connexion réseau" } }
+      }
+    },
+    "추가" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "추가" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Add" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Hinzufügen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "追加" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ajouter" } }
+      }
+    },
+    "등록" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "등록" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Submit" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Submit" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Senden" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "投稿" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Publier" } }
+      }
+    },
+    "적용" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "적용" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Apply" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Apply" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Anwenden" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "適用" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Appliquer" } }
+      }
+    },
+    "초기화" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "초기화" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reset" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Reset" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zurücksetzen" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リセット" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réinitialiser" } }
+      }
+    }
+  }
+}
