@@ -36,3 +36,15 @@ type: project
 - 새 UseCase/Entity 추가 시 TDD 사이클: Tests에 실패 테스트 → 통과 → 리팩터.
 - `import Data`를 `Feature/*`에서 시도하면 코드리뷰에서 차단.
 - 상세는 `docs/architecture/ADR-001~003.md` 참조.
+
+**후속 결정 (Phase 3 진입 시 추가, 2026-05-04)**:
+
+1. **Color namespace 컨벤션 + SSOT 8 카테고리**: `Color.MM.<token>` (Color extension 패턴) — designer-lead 결정. `MMColor` top-level enum 별칭은 v1.x에서 추가하지 않음.
+   - 토큰 SSOT 표 8 카테고리(ADR-001 §DesignSystem):
+     Color(`Color.MM`) / ColorTier(`MMColorTier` 5단계, ADR-302 v1.1) / Typography(`MMTypography` 11 토큰 + relativeTo SSOT §2.5) / Spacing(`MMSpacing`) / Radius(`MMRadius`) / Shadow(`MMShadow` + `struct Shadow: Sendable` ViewModifier) / Motion(`MMMotion`) / OriginCoords(`MatchaOriginCoordsProvider` 8 region × {lat,lng} hardcoded §9).
+   - Color만 namespace, 나머지 7 카테고리는 top-level enum (의도된 비대칭).
+2. **StoreGrade → PinTier (server-side derive)**: server-data 의제 2 결정. Domain의 `StoreGrade.from(matchaScore:)` 함수는 **삭제 예정** — server-functions가 `pinTier` enum(S/A/B/C)을 doc에 캐시. iOS는 `Store.pinTier: PinTier`로 받기만. designer-icon 4등급 핀과 1:1 정합. Phase 3 ios-store가 schema.md §2.1 정합 수정.
+3. **Domain Entity Phase 3 매핑**: server-data 의제 1·3·4·5·6 회신 동의 — `id: String` Data 검증, geohash 미보유, `StoreOrigin`/`OpeningHours` value type, `storesInBounds` 시그니처에 `minPinTier: PinTier?` 추가.
+4. **Info.plist 옵션 1 채택** (ios-auth-monetize 제안): `INFOPLIST_KEY_NS*UsageDescription` 빌드 설정으로 권한 카피 5종 주입 (NSLocationWhenInUseUsageDescription, NSCameraUsageDescription, NSPhotoLibraryUsageDescription, NSUserTrackingUsageDescription, GADApplicationIdentifier 별도). PBXFileSystemSynchronizedRootGroup + GENERATE_INFOPLIST_FILE=YES 유지. Phase 4 ios-lead 통합 시점에 main이 적용.
+5. **RepositoryError enum 표준** (server-lead Task #16 합의): 12 케이스 enum + Data Mappers/RepositoryErrorMapper.swift. Phase 3 ADR-001 v0.2 또는 별도 ADR-006으로 형식화 검토.
+6. **PushTokenRepository protocol 신규** (ADR-302 v1.3, server-data 권고 2026-05-04): `users/{uid}/fcmTokens/{tokenId}` 서브컬렉션이 SSOT. `users.notification.fcmToken` 단일 필드 deprecated. Domain에 `PushTokenRepository` + `PushPermission` enum 추가, ios-auth-monetize Phase 3 own. 3 메서드: `registerToken(_:permission:)` / `updateLastSeen()`(1h throttle) / `deleteCurrentDeviceToken()`.
