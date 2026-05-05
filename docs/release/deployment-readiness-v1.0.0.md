@@ -10,11 +10,17 @@
 ## A. Apple Developer Portal (사용자 직접 처리)
 
 ### A-1. APNs Auth Key (.p8) — FCM 푸시 필수
+
+**옵션 A (권장): 기존 Team Scoped 키 재사용**
+- 확인 결과 `WADW3XGZWW` (fearindexPushKey) 키가 **Team Scoped (All topics) / Sandbox & Production** 설정으로 이미 발급됨.
+- Apple 팀(8Q4H7X3Q58) 내 모든 Bundle ID에 작동 — `th1ngjin.MatchaMap` 포함.
+- 수동 단계: `cp ~/.env-vault/apple/apns/fearindex-iOS/AuthKey_WADW3XGZWW.p8 ~/.env-vault/projects/matchamap-ios/` → Firebase 콘솔 → Cloud Messaging → APNs 인증 키 업로드 (KeyID `WADW3XGZWW`, Team ID `8Q4H7X3Q58`)
+
+**옵션 B (격리 권장): 신규 발급**
 1. https://developer.apple.com/account → Keys → "+"
 2. 키 이름: `MatchaMap APNs`, 권한: Apple Push Notifications service (APNs)
-3. 다운로드한 `AuthKey_<KEY_ID>.p8` → vault `~/.env-vault/projects/matchamap-ios/AuthKey_<KEY_ID>.p8`
-4. KeyID + Team ID(8Q4H7X3Q58) 기록
-5. Firebase 콘솔 → Cloud Messaging → APNs 인증 → "APNs 인증 키" 업로드
+3. 다운로드한 `AuthKey_<KEY_ID>.p8` → vault `~/.env-vault/projects/matchamap-ios/`
+4. Firebase 콘솔 → Cloud Messaging → APNs 인증 키 업로드
 
 ### A-2. DeviceCheck Key (.p8) — App Check fallback
 1. Apple Developer → Keys → "+"
@@ -38,45 +44,50 @@
 
 ---
 
-## B. AdMob 콘솔 (po-growth + 사용자)
+## B. AdMob 콘솔 ✅ COMPLETED 2026-05-05
 
-### B-1. SSV (Server-Side Verification) Public Key
-1. https://apps.admob.com → 앱 선택 → 광고 단위 → 보상형(`/2979863655`) → SSV 설정
-2. Public Key 발급 → 복사
-3. `firebase functions:secrets:set ADMOB_SSV_PUBLIC_KEY` (placeholder 갱신)
-4. `firebase deploy --only functions:verifyRewardedAd`
+### B-1. SSV Callback URL — ✅ 등록 완료
+- AdMob "publisher-별 SSV 키 발급"은 존재하지 않음 (Google 공통 ECDSA 키, `gstatic.com/admob/reward/verifier-keys.json`).
+- 실제 작업: Rewarded-Collection 광고 단위 → 고급 설정 → 서버 측 확인 → Callback URL 등록.
+- ✅ 등록 URL: `https://asia-northeast3-one-problem-app.cloudfunctions.net/verifyAdMobSsvCallback`
+- ✅ `verifyAdMobSsvCallback` HTTPS 함수 deploy 완료 (asia-northeast3, public invoker, ECDSA 검증 + 1시간 키 캐시 + idempotent rewardedReceipts).
+- AdMob 콘솔 "URL 확인" 검증 PASS + 페이지 reload로 영속성 확인 완료.
 
-### B-2. AdMob 검수 (옵션)
+### B-2. AdMob 검수 (옵션, 자동)
 - 첫 광고 노출 후 24-48시간 내 AdMob이 앱 정책 검수 (콘솔 이메일 도착)
 - ATT 프롬프트 카피 6언어 정합 확인
 
 ---
 
-## C. Google Cloud Console — Maps + Places
+## C. Google Cloud Console — Maps + Places ✅ COMPLETED 2026-05-05
 
-### C-1. Maps SDK for iOS API Key (실 값 발급)
-1. https://console.cloud.google.com → APIs & Services → Credentials
-2. "+ CREATE CREDENTIALS" → API key
-3. 제한: iOS 앱 Bundle ID `th1ngjin.MatchaMap`
-4. Maps SDK for iOS + Places API 둘 다 enable
-5. vault `.env`의 `GMS_API_KEY_IOS` 실 값으로 갱신
-6. Phase 5에서 `FeatureMap/MapView.swift`의 `// TODO(Phase5): GMSMapView 교체`를 `GMSMapView`로 교체
+### C-1. iOS Key — ✅ 제한 적용 완료
+- `AIzaSyCRdA5oGuL5ZNfZ1BTs1Jn42XGEOty7Dpk` (Firebase 자동 생성 키 재사용)
+- Application 제한: **iOS 앱 + Bundle ID `th1ngjin.MatchaMap`**
+- API 제한: **27개** (Firebase 25개 + Maps SDK for iOS + Places API)
+- gcloud로 적용 완료. updateTime 2026-05-05T12:56:34Z.
+- 사용처: iOS 앱의 `GMSServices.provideAPIKey()`, Places SDK 호출.
+- Phase 5 잔여: `FeatureMap/MapView.swift`의 `// TODO(Phase5): GMSMapView 교체` 활성화.
 
-### C-2. Functions 용 Places API Key (별도 권장)
-1. 동일 콘솔에서 두 번째 API key 생성 (제한: Places API only, 서버 IP 제한)
-2. `firebase functions:secrets:set GOOGLE_PLACES_API_KEY`
-3. `firebase deploy --only functions:mergeStoreSearch`
+### C-2. Server Key — ✅ 신규 발급 완료
+- 신규 키 `AIzaSyDLd18Ztp1MyWZjdFTYwb7wLDagzCDWO3Q` (vault api-keys.json `places_server_key`)
+- 이름: "Places Server Key (Cloud Functions)"
+- Application 제한: 없음 (Cloud Functions egress IP 동적)
+- API 제한: **Places API only**
+- ✅ Firebase secret `GOOGLE_PLACES_API_KEY` v2 갱신 + `mergeStoreSearch` 재배포 완료.
+- vault `.env`: `GMS_API_KEY_IOS` + `GOOGLE_PLACES_API_KEY` 추가됨.
 
 ---
 
-## D. fastlane match Git Repo (인증서 동기화)
+## D. fastlane match Git Repo ✅ PARTIAL 2026-05-05
 
-### D-1. match git repo 생성
-1. GitHub에 비공개 repo `matchamap-ios-certificates` 생성
-2. `MATCH_GIT_URL=git@github.com:thingineeer/matchamap-ios-certificates.git` (vault `.env`)
-3. `MATCH_PASSWORD` 강력한 패스프레이즈 (vault `.env`)
-4. 첫 실행: `bundle exec fastlane match appstore --readonly false` (인증서 + 프로비저닝 생성 + 암호화 push)
-5. 이후 모든 머신: `bundle exec fastlane sync_certificates` (readonly)
+### D-1. match git repo — ✅ 생성 + vault 갱신 완료
+- ✅ GitHub Private repo: https://github.com/thingineeer/matchamap-ios-certificates
+- ✅ `MATCH_GIT_URL` + `MATCH_PASSWORD` (32자 random) → vault `.env` 추가됨
+
+### 잔여 (사용자 처리, ~30분)
+- 첫 실행: `bundle exec fastlane match appstore --readonly false` (인증서 + 프로비저닝 생성 + 암호화 push) — ASC API Key 필요 (§A-4)
+- 이후 모든 머신: `bundle exec fastlane sync_certificates` (readonly)
 
 ---
 
