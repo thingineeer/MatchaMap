@@ -29,6 +29,7 @@ export { acceptFriend, removeFriend, requestFriend } from './friends/friends.js'
 
 // Ads — server-side rewarded verification
 export { verifyRewardedAd } from './ads/verifyRewardedAd.js';
+export { verifyAdMobSsvCallback } from './ads/verifyAdMobSsvCallback.js';
 
 // Search
 export { mergeStoreSearch } from './search/mergeStoreSearch.js';
