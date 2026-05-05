@@ -91,13 +91,56 @@ App Store Connect는 최대 10장. v1.0.0은 6장 강제 + 4장 선택 보충.
 
 ---
 
-## 5. 출력 위치
+## 5. 출력 위치 + 디바이스 매트릭스
+
+### 5.1 결과물 경로
 
 | 결과물 | 경로 |
 |---|---|
 | 키비주얼 SVG 마스터 (1290×2796) | `_design_assets/svg/marketing/keyvisual-cup-leaf.svg` (B 채택 후속에서 작성) |
-| 슬롯별 PNG (자동 생성) | `fastlane/screenshots/{ko,en-US,en-GB,de-DE,ja,fr-FR}/iPhone-67/` |
+| 슬롯별 PNG — iPhone 6.7" | `fastlane/screenshots/{ko,en-US,en-GB,de-DE,ja,fr-FR}/iPhone-67/` |
+| 슬롯별 PNG — iPhone 6.5" | `fastlane/screenshots/{ko,...}/iPhone-65/` |
+| 슬롯별 PNG — iPhone 5.5" | `fastlane/screenshots/{ko,...}/iPhone-55/` |
+| 슬롯별 PNG — iPad 12.9" | `fastlane/screenshots/{ko,...}/iPad-129/` |
 | 메타데이터 (제목/설명/whatsnew) | `fastlane/metadata/{ko,en-US,en-GB,de-DE,ja,fr-FR}/` |
+
+### 5.2 디바이스별 해상도 (App Store Connect 정합)
+
+| 디바이스 슬롯 | 해상도 (px) | 시뮬레이터 디바이스 | App Store Connect 카테고리 |
+|---|---|---|---|
+| iPhone 6.7" | **1290 × 2796** | iPhone 17 Pro Max / iPhone 15 Pro Max | 6.7"/6.9" Display |
+| iPhone 6.5" | **1242 × 2688** | iPhone 11 Pro Max / iPhone XS Max | 6.5" Display |
+| iPhone 5.5" | **1242 × 2208** | iPhone 8 Plus | 5.5" Display (필수) |
+| iPad 12.9" | **2048 × 2732** | iPad Pro 12.9" (3rd gen+) | 12.9" Display |
+
+> **Apple 정책**: 6.7" 마스터 1세트면 5.5" 자동 다운스케일이 가능했으나, 5.5"는 별도 1242×2208 세트 업로드가 강제. 12.9" iPad도 별도 마스터 필수(앱이 iPad 호환 — `TARGETED_DEVICE_FAMILY = "1,2"`).
+
+### 5.3 총 산출물 수량
+
+- 슬롯 = 5장 (필수 1~5: hero / map / store / collection / wishlist) + 옵션 1장(6: social-feed)으로 v1.0.0은 슬롯 5장 강제, 6장 권장.
+- 디바이스 = 4종 (6.7" / 6.5" / 5.5" / 12.9").
+- 언어 = 6 (ko / en-US / en-GB / de-DE / ja / fr-FR).
+
+| 강제 (5장) | 권장 (6장) |
+|---|---|
+| 5 × 4 × 6 = **120장** | 6 × 4 × 6 = **144장** |
+
+> 12.9" iPad는 가로/세로 둘 다 허용 — v1.0.0은 **세로(2048×2732)** 만 강제, 가로는 v1.1.0 검토.
+
+### 5.4 마스터 1장에서 다운스케일 자동화
+
+`fastlane screenshots` lane에서 키비주얼 SVG 마스터(1290×2796)를 4종 해상도로 동시 렌더. 각 디바이스의 시뮬레이터 UI 캡처는 `snapshot` 사용:
+
+```ruby
+# fastlane/Snapfile (예시)
+devices([
+  "iPhone 17 Pro Max",     # 1290×2796 (6.7")
+  "iPhone 11 Pro Max",     # 1242×2688 (6.5")
+  "iPhone 8 Plus",         # 1242×2208 (5.5") — 필수
+  "iPad Pro (12.9-inch) (6th generation)" # 2048×2732
+])
+languages(["ko", "en-US", "en-GB", "de-DE", "ja", "fr-FR"])
+```
 
 ---
 
@@ -120,7 +163,9 @@ App Store Connect는 최대 10장. v1.0.0은 6장 강제 + 4장 선택 보충.
 1. `_design_assets/svg/marketing/keyvisual-cup-leaf.svg` 마스터 작성 — Phase 2 진입 직전 또는 ios-store 매장 상세 화면 시안 동결 후.
 2. fastlane `screenshots` lane 작성 — `ios-lead` + `qa-functional` 협업.
 3. `aso.xcstrings` 키 카탈로그 — `qa-localization`이 6개 언어 카탈로그에 키 일괄 등록.
-4. App Store Connect 메타데이터 디렉토리(`fastlane/metadata/`) 생성 + 카피 적재 — `po-growth` 협업.
+4. ✅ App Store Connect 메타데이터 디렉토리(`fastlane/metadata/`) 생성 + 카피 적재 — `po-lead` (Phase 5 완료 2026-05-05).
+5. App Store Connect 앱 본체 생성 + Bundle ID `th1ngjin.MatchaMap` 등록 — 사용자 처리 필요(Phase 5 후반).
+6. Marketing/Support/Privacy URL 실 도메인 (`thingineeer.github.io/matchamap/*`) 페이지 호스팅 — `po-growth` + `server-lead` 협업, v1.0.0 심사 제출 전 마감.
 
 ---
 
@@ -129,6 +174,7 @@ App Store Connect는 최대 10장. v1.0.0은 6장 강제 + 4장 선택 보충.
 | 일자 | 변경 | 사인오프 |
 |---|---|---|
 | 2026-05-04 | 초안 — 컵+잎 키비주얼 정책 + 10 슬롯 구성 + 6개 언어 카피 매트릭스 + vein 시그니처 동결 | designer-icon (po-lead 사인오프 대기) |
+| 2026-05-05 | §5 디바이스 매트릭스 4종(6.7"/6.5"/5.5"/12.9") + 해상도 + 시뮬레이터 디바이스 + Snapfile 예시 추가. §7에 메타데이터 적재 완료 표시 + Phase 5 후속 항목(앱 생성, URL 호스팅) 명시. | po-lead |
 
 ---
 
