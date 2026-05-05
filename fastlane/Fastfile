@@ -1,6 +1,16 @@
 # Fastfile — 말차맵(MatchaMap) iOS CI/CD
 # 레퍼런스: ~/Desktop/FearIndex-iOS/fastlane/Fastfile (성공 출시 검증된 패턴)
 # 빌드 번호 규칙: YYMMDD_HHMM (KST) — CLAUDE.md § 7
+#
+# 7개 핵심 lane:
+#   - sync_certificates : match로 인증서/프로비저닝 동기화
+#   - bump_build        : CFBundleVersion = YYMMDD_HHMM (agvtool 사용)
+#   - beta              : sync_certificates → bump_build → gym → pilot (TestFlight)
+#   - submit_for_review : deliver(submit + automatic_release)
+#   - refresh_dsyms     : download_dsyms → upload_symbols_to_crashlytics
+#   - screenshots       : capture_ios_screenshots (6개 언어)
+#   - upload_metadata   : deliver(skip_binary, skip_screenshots, force)
+# 보조: doctor (헬스체크)
 
 default_platform(:ios)
 
@@ -8,7 +18,14 @@ default_platform(:ios)
 APP_IDENTIFIER = ENV["APP_IDENTIFIER"] || "th1ngjin.MatchaMap"
 SCHEME         = "MatchaMap"
 PROJECT        = "MatchaMap.xcodeproj"
-INFO_PLIST     = "MatchaMap/Info.plist"
+GSP_PATH       = "MatchaMap/GoogleService-Info.plist"
+
+LANGUAGES      = %w[ko en-US en-GB de-DE ja fr-FR]
+SCREENSHOT_DEVICES = [
+  "iPhone 17 Pro Max",
+  "iPhone 8 Plus",
+  "iPad Pro 12.9-inch"
+]
 
 # ─── before_all ─────────────────────────────────────────
 before_all do
@@ -19,43 +36,37 @@ end
 platform :ios do
 
   # ============================================
-  # 1) 빌드 번호 — YYMMDD_HHMM (KST)
+  # 1) sync_certificates — match (인증서/프로비저닝 동기화)
   # ============================================
-  desc "빌드 번호를 YYMMDD_HHMM(KST)로 갱신"
-  lane :bump_build do
-    bn = Time.now.strftime("%y%m%d_%H%M")
-    set_info_plist_value(path: INFO_PLIST, key: "CFBundleVersion", value: bn)
-    UI.success("Build number → #{bn}")
-    bn
-  end
-
-  # ============================================
-  # 2) 인증서 — match로 동기화 (vault git repo 사용)
-  # ============================================
-  desc "인증서·프로비저닝 프로파일 동기화 (match)"
+  desc "인증서·프로비저닝 프로파일 동기화 (match readonly + nostorage)"
   lane :sync_certificates do
     setup_api_key_lane
     match(
       type: "appstore",
       app_identifier: [APP_IDENTIFIER],
-      readonly: is_ci
+      readonly: true,
+      storage_mode: "git"
     )
   end
 
-  desc "ASC API 키 로드 (~/.env-vault/projects/matchamap-ios/api_key.json)"
-  private_lane :setup_api_key_lane do
-    key_path = ENV["ASC_API_KEY_PATH"] || File.expand_path("~/.env-vault/projects/matchamap-ios/api_key.json")
-    if File.exist?(key_path)
-      app_store_connect_api_key(json_key_filepath: key_path, in_house: false)
-    else
-      UI.user_error!("ASC API key not found at #{key_path}. vault에 저장하세요.")
-    end
+  # ============================================
+  # 2) bump_build — CFBundleVersion = YYMMDD_HHMM (KST)
+  # ============================================
+  desc "빌드 번호를 YYMMDD_HHMM(KST)로 갱신 (agvtool, Xcode auto-plist 호환)"
+  lane :bump_build do
+    bn = Time.now.strftime("%y%m%d_%H%M")
+    # PBXFileSystemSynchronizedRootGroup 환경에서는 Info.plist를 Xcode가 빌드 타임 생성하므로
+    # set_info_plist_value 대신 agvtool로 모든 타깃에 일관 적용.
+    # MARKETING_VERSION (CFBundleShortVersionString) 은 별도 lane에서 관리.
+    sh("cd .. && xcrun agvtool new-version -all '#{bn}'")
+    UI.success("Build number → #{bn}")
+    bn
   end
 
   # ============================================
-  # 3) Beta — TestFlight 업로드
+  # 3) beta — TestFlight 업로드
   # ============================================
-  desc "TestFlight 업로드 (build → archive → upload)"
+  desc "TestFlight 업로드 (sync_certificates → bump_build → gym → pilot)"
   lane :beta do |options|
     setup_api_key_lane
     sync_certificates
@@ -83,13 +94,13 @@ platform :ios do
   end
 
   # ============================================
-  # 4) Release — 심사 제출 (자동 출시)
+  # 4) submit_for_review — App Store 심사 제출 (자동 출시)
   # ============================================
   desc "App Store 심사 제출 (이미 ASC에 올라간 빌드 사용, 자동 출시)"
   lane :submit_for_review do |options|
     setup_api_key_lane
     current_version = get_version_number(xcodeproj: PROJECT, target: SCHEME)
-    target_version = options[:app_version] || current_version
+    target_version  = options[:app_version] || current_version
 
     upload_to_app_store(
       app_identifier: APP_IDENTIFIER,
@@ -101,7 +112,7 @@ platform :ios do
       automatic_release: true,
       force: true,
       precheck_include_in_app_purchases: false,
-      run_precheck_before_submit: false,
+      run_precheck_before_submit: true,
       submission_information: {
         add_id_info_uses_idfa: true,
         export_compliance_uses_encryption: false,
@@ -116,22 +127,46 @@ platform :ios do
   end
 
   # ============================================
-  # 5) dSYM — Crashlytics 업로드
+  # 5) refresh_dsyms — Crashlytics 업로드
   # ============================================
   desc "최신 dSYM을 Crashlytics에 업로드"
   lane :refresh_dsyms do
     setup_api_key_lane
-    download_dsyms(version: "latest", wait_for_dsym_processing: true) rescue UI.message("dSYM not yet available")
+    begin
+      download_dsyms(version: "latest", wait_for_dsym_processing: true)
+    rescue => e
+      UI.message("dSYM 다운로드 스킵: #{e.message}")
+    end
+
     if Dir.glob("*.dSYM.zip").any?
-      upload_symbols_to_crashlytics(gsp_path: "MatchaMap/GoogleService-Info.plist")
+      upload_symbols_to_crashlytics(gsp_path: GSP_PATH)
       clean_build_artifacts
+    else
+      UI.message("업로드할 dSYM 없음 (정상 — 최초 빌드 직후일 수 있음)")
     end
   end
 
   # ============================================
-  # 6) 메타데이터 업로드 (6개 언어)
+  # 6) screenshots — capture_ios_screenshots (6개 언어)
   # ============================================
-  desc "App Store 메타데이터/whatsnew 6개 언어 업로드"
+  desc "시뮬레이터 스크린샷 6개 언어 일괄 생성 (UI 테스트 타깃 필요)"
+  lane :screenshots do
+    capture_ios_screenshots(
+      project: PROJECT,
+      scheme: "#{SCHEME}UITests",
+      devices: SCREENSHOT_DEVICES,
+      languages: LANGUAGES,
+      output_directory: "fastlane/screenshots",
+      clear_previous_screenshots: true,
+      stop_after_first_error: false,
+      concurrent_simulators: true
+    )
+  end
+
+  # ============================================
+  # 7) upload_metadata — 메타데이터/whatsnew 6개 언어 업로드
+  # ============================================
+  desc "App Store 메타데이터/whatsnew 6개 언어 업로드 (바이너리/스크린샷 제외)"
   lane :upload_metadata do
     setup_api_key_lane
     upload_to_app_store(
@@ -145,15 +180,7 @@ platform :ios do
   end
 
   # ============================================
-  # 7) 스크린샷 (snapshot)
-  # ============================================
-  desc "시뮬레이터 스크린샷 6개 언어 일괄 생성"
-  lane :screenshots do
-    capture_screenshots(workspace: nil, project: PROJECT, scheme: "#{SCHEME}UITests")
-  end
-
-  # ============================================
-  # 8) 헬스체크
+  # 보조) doctor — 빌드 헬스체크
   # ============================================
   desc "프로젝트 빌드 헬스체크 (Debug, 시뮬레이터)"
   lane :doctor do
@@ -166,5 +193,20 @@ platform :ios do
       clean: true
     )
     UI.success("Build OK")
+  end
+
+  # ============================================
+  # 헬퍼) ASC API 키 로드 (vault)
+  # ============================================
+  desc "ASC API 키 로드 (~/.env-vault/projects/matchamap-ios/api_key.json)"
+  private_lane :setup_api_key_lane do
+    key_path = ENV["ASC_API_KEY_PATH"] ||
+               File.expand_path("~/.env-vault/projects/matchamap-ios/api_key.json")
+    if File.exist?(key_path)
+      app_store_connect_api_key(json_key_filepath: key_path, in_house: false)
+    else
+      UI.user_error!("ASC API key not found at #{key_path}. vault에 저장하세요. " \
+                      "scripts/setup-vault-symlinks.sh 참조.")
+    end
   end
 end
