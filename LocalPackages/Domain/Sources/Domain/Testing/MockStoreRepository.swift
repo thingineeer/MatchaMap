@@ -44,8 +44,20 @@ public extension Store {
             grade: .from(matchaScore: matchaScore),
             matchaScore: matchaScore,
             countryCode: countryCode,
+            city: "Seoul",
             address: "Seoul, Jongno-gu",
-            photoURLs: []
+            photoURLs: [],
+            primaryPhotoURL: nil,
+            coverPhotoURL: nil,
+            priceLevel: 3,
+            openingHours: nil,
+            pinTier: matchaScore >= 4.5 ? .S : .A,
+            origin: StoreOrigin(region: "uji", country: "JP", grade: "ceremonial"),
+            reviewCount: 128,
+            ratingAvg: matchaScore,
+            ratingHistogram: [5: 80, 4: 30, 3: 10, 2: 5, 1: 3],
+            tagsTop: ["usucha", "traditional", "umami"],
+            verified: true
         )
     }
 

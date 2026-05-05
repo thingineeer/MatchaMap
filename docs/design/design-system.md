@@ -53,6 +53,62 @@ MM2 팔레트 = 화이트톤(여행자 친화) + 먼지 매차 + 더스티 로�
 | 토큰 | hex | 용도 |
 |---|---|---|
 | `Color.MM.gold` | `#C9A566` | 별점(`Stars`) fill |
+| `Color.MM.hot` | `#C98B85` (= `rose` alias) | "지금 인기" / "오늘의 매장" / 핫한 강조 라벨 (designer-icon `flame` 아이콘 동반). cream/paper 배경에서 vivid + WCAG AA 대형 텍스트 통과 |
+| `Color.MM.trending` | `#C9A566` (= `gold` alias) | "급상승" / "7일 가중 상승" 강조 (designer-icon `flame` + `arrow-up` 콤보). server-data 합의 후 7일 vs 30일 가중 분리 시 사용 |
+
+> **`hot` / `trending` 의미 토큰 결정 (2026-05-04, designer-icon 의견 #3 수용)**: 단일 아이콘만으로 시그널이 약하므로 색·아이콘·라벨 3중 강조. cream(`#F5F1EA`) 배경에서 `Color.MM.hot`(rose alias) vivid 통과. `Color.MM.deep`은 강조감 약해 사용 금지. `Color.MM.gold`는 trending 전용으로만 사용해서 별점 충돌 회피.
+
+### 1.5.1 Color Tier (도감 색감, ADR-302 v1.1 정합)
+
+`collections/items.colorTier` enum 5단계 — 사용자가 시음한 매차 색감을 슬라이더로 입력. server-data가 `colorTier` 저장 시 `colorHex` 자동 채움(Cloud Functions 미러).
+
+| `colorTier` enum | hex | 토큰 alias | 용도 |
+|---|---|---|---|
+| `matchaSoft` | `#A8B994` | `Color.MM.matchaSoft` | 가장 연한 우스차 톤 (5단계 stop 1) |
+| `matchaPale` | `#E6ECDE` | `Color.MM.matchaPale` | 연두빛 그린 (stop 2) |
+| `matcha` | `#7A9560` | `Color.MM.matcha` | 표준 매차 그린 (stop 3 / 중심값) |
+| `deepMatcha` | `#556B43` | (신규) `Color.MM.deepMatcha` | 진한 코이차 그린 (stop 4) |
+| `deep` | `#3D4A2D` | `Color.MM.deep` | 가장 진한 매차 (stop 5) |
+
+> **신규 토큰 1개**: `Color.MM.deepMatcha` `#556B43` (designer-icon 위계 분석 권고 + ios-social-collection 임시 사용 + designer-lead 사인오프 2026-05-04, 3-way 충돌 해결).
+>
+> **결정 사유** (#5A7A4A 초안에서 #556B43으로 정정):
+> - RGB 산술평균 #5C6F46(matcha+deep)에서 약 5 unit 어두운 쪽 — **deep 직전 단계 시각 위계 명료** (designer-icon 분석).
+> - 초안 #5A7A4A(R90/G122/B74)는 matcha와 평행한 톤(lightness 차이 약함) — 5단계 위계가 시각적으로 4단계처럼 압축되는 위험.
+> - #556B43(R85/G107/B67)은 deep과 matcha 사이 명확한 중간 — 5단계 위계 인지 우월.
+> - 잎 vein 시그니처(앱 아이콘 B + 핀 4등급)와 색조 일관성 유지.
+> - 본 토큰은 colorTier 5단계 표현 외 *다른 컴포넌트에서 사용 금지* — 의미 토큰 충돌 방지.
+>
+> **WCAG AA 검증** (`#556B43`):
+> - cream `#F5F1EA` 배경 대비 ≈ 5.5:1 — large text(18pt+) **AA pass**, normal text **fail** (large text/데코 전용).
+> - paper `#FFFFFF` 배경 대비 ≈ 6.4:1 — normal text **AA pass**, large text AAA pass.
+> - bg `#FBFAF7` 배경 대비 ≈ 6.0:1 — normal text **AA pass**.
+> - C2 § 6.3 색감 슬라이더 stop 4 dot은 대형 deco 요소이므로 모든 표면 통과.
+>
+> **매핑 SSOT**: 본 표가 `colorTier` enum → hex 매핑의 단일 진실. server-data ADR-302 v1.1 schema.md `collections/items.colorHex` 미러는 본 매핑 따라감. screens.md § 6.3 C2 색감 슬라이더 5 stop도 본 매핑 그대로.
+
+#### SwiftUI 사용 예시
+
+```swift
+// 사용자가 슬라이더 stop 3 선택 시
+let tier: MMColorTier = .matcha  // enum 정의는 DesignSystem 모듈
+Image("colorMarker")
+    .foregroundStyle(tier.color)  // → Color.MM.matcha
+
+// colorTier enum (DesignSystem 모듈)
+public enum MMColorTier: String, CaseIterable, Sendable {
+    case matchaSoft, matchaPale, matcha, deepMatcha, deep
+    public var color: Color {
+        switch self {
+        case .matchaSoft:  return .MM.matchaSoft
+        case .matchaPale:  return .MM.matchaPale
+        case .matcha:      return .MM.matcha
+        case .deepMatcha:  return .MM.deepMatcha
+        case .deep:        return .MM.deep
+        }
+    }
+}
+```
 
 ### 1.6 의미 토큰 (Semantic Layer · 다크 모드 대비)
 
@@ -240,14 +296,34 @@ iOS와 CSS의 그림자 모델이 다르므로 SwiftUI 측은 단일 `.shadow(co
 | `MMShadow.pin` | `deep @ 18%` | 6 | 3 | MatchaPin drop-shadow |
 
 ```swift
-public enum MMShadow {
+// ⚠ 컴포지트 값 타입 Shadow는 명시 Sendable 필수 (ADR-001 §2 Sendable 강제 룰)
+public struct Shadow: Sendable {
+    public let color: Color
+    public let radius: CGFloat
+    public let x: CGFloat
+    public let y: CGFloat
+    public init(color: Color, radius: CGFloat, x: CGFloat = 0, y: CGFloat = 0) {
+        self.color = color; self.radius = radius; self.x = x; self.y = y
+    }
+}
+
+public enum MMShadow: Sendable {
     public static let small  = Shadow(color: Color.black.opacity(0.04), radius: 4,  x: 0, y: 2)
     public static let medium = Shadow(color: Color.black.opacity(0.06), radius: 8,  x: 0, y: 4)
     public static let large  = Shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 8)
     public static let float  = Shadow(color: Color.black.opacity(0.10), radius: 16, x: 0, y: 12)
     public static let pin    = Shadow(color: Color.MM.deep.opacity(0.18), radius: 6, x: 0, y: 3)
 }
+
+// ViewModifier로 적용
+public extension View {
+    func mmShadow(_ shadow: Shadow) -> some View {
+        self.shadow(color: shadow.color, radius: shadow.radius, x: shadow.x, y: shadow.y)
+    }
+}
 ```
+
+> **Sendable 강제 (ADR-001 § 2 정합)**: `Color.MM` / `MMTypography` / `MMSpacing` / `MMRadius` / `MMMotion`은 enum + static let 패턴이라 자동 Sendable. **`struct Shadow`는 컴포지트 값 타입이므로 `: Sendable` 명시 필수**. CodeRabbit DesignSystem path가 자동 차단.
 
 > 백드롭 블러(`backdropFilter: blur(20px)`)는 SwiftUI에서 `.background(.ultraThinMaterial)`로 매핑. 정전의 `rgba(255,255,255,0.96) + blur(20)` 조합은 `Color.MM.paper.opacity(0.96).background(.ultraThinMaterial)`.
 
@@ -445,7 +521,82 @@ T+60s 이후라도 다음 상태에서는 배너 fade-out 200ms:
 
 ---
 
-## 9. 다크 모드 정책 (MVP 결정)
+## 9. Phase 3 Origin Coords (server-data ADR-302 v1.1 정합)
+
+> **결정 (2026-05-04)**: server-data Q1 회신 — `stores.origin.coords` 필드 추가하지 않음. 대신 디자인 시스템 측에서 `originRegion` enum 8종 × {lat, lng} **hardcoded 매핑** 처리. 사유: region 좌표 이동 없음 + server 비용 0 + 클라 O(1) lookup.
+
+### 9.1 책임
+
+`MatchaOriginCoords.swift` (Phase 3 진행 시 작성):
+- 위치: `LocalPackages/DesignSystem/Sources/DesignSystem/MatchaOriginCoords.swift`
+- 본인(`designer-lead`) own. ios-social-collection이 C2 Memory Card Detail mini-map 렌더 시 사용.
+
+### 9.2 좌표 매핑 (8 region)
+
+ADR-302 v1.1 `collections/items.originRegion` enum 8종(+ unknown)에 정합. 각 region 중심 좌표.
+
+| enum | 위치 | lat | lng | 비고 |
+|---|---|---|---|---|
+| `uji` | 일본 우지시 | 34.8855 | 135.7990 | 우지차 본고장 |
+| `nishio` | 일본 니시오시 | 34.8625 | 137.0594 | 마차 산지 |
+| `shizuoka` | 일본 시즈오카현 | 34.9769 | 138.3831 | 일본 최대 차 산지 |
+| `kagoshima` | 일본 가고시마현 | 31.5969 | 130.5571 | 미나미 큐슈 차 |
+| `boseong` | 한국 보성군 | 34.7714 | 127.0795 | 한국 차 본고장 |
+| `hadong` | 한국 하동군 | 35.0670 | 127.7515 | 야생차 |
+| `jeju` | 한국 제주도 | 33.4996 | 126.5312 | 화산토 차 |
+| `other` | (mini-map hide) | — | — | enum 외 free string도 동일 |
+| `unknown` | (mini-map hide) | — | — | null/누락 시 |
+
+### 9.3 SwiftUI 구현 패턴
+
+```swift
+public struct MatchaOriginCoords: Sendable {
+    public let region: MMOriginRegion  // ADR-302 v1.1 enum
+    public let coordinate: CLLocationCoordinate2D
+}
+
+public enum MMOriginRegion: String, CaseIterable, Sendable {
+    case uji, nishio, shizuoka, kagoshima
+    case boseong, hadong, jeju
+    case other, unknown
+}
+
+public enum MatchaOriginCoordsProvider {
+    public static let mapping: [MMOriginRegion: CLLocationCoordinate2D] = [
+        .uji:       .init(latitude: 34.8855, longitude: 135.7990),
+        .nishio:    .init(latitude: 34.8625, longitude: 137.0594),
+        .shizuoka:  .init(latitude: 34.9769, longitude: 138.3831),
+        .kagoshima: .init(latitude: 31.5969, longitude: 130.5571),
+        .boseong:   .init(latitude: 34.7714, longitude: 127.0795),
+        .hadong:    .init(latitude: 35.0670, longitude: 127.7515),
+        .jeju:      .init(latitude: 33.4996, longitude: 126.5312)
+    ]
+
+    public static func coords(for region: MMOriginRegion) -> CLLocationCoordinate2D? {
+        return mapping[region]  // .other / .unknown 은 nil → mini-map hide
+    }
+}
+```
+
+### 9.4 Fallback / Hide 정책
+
+- `originRegion`이 `.other` / `.unknown` / null / enum 외 free string일 경우 → C2 mini-map 섹션 **전체 hide** (screens.md § 6.3 "필드 0인 섹션 비표시"와 정합).
+- mini-map 표시 시 `CityMap2` 60×80 placeholder + `MatchaPin(20, .S)`을 region 좌표 위에 배치. 정확한 1km 줌 단위는 ios-map ADR-101에서 결정.
+
+### 9.5 Phase 3 작업 우선순위
+
+| 우선순위 | 작업 | 시점 |
+|---|---|---|
+| P0 | `MatchaOriginCoords.swift` 작성 + 테스트 | Phase 3 Collection 모듈 시작 시 |
+| P1 | `MMOriginRegion` enum + `MMOriginGrade` enum (ceremonial/premium/standard/culinary/unknown) DesignSystem 노출 | 동상 |
+| P2 | mini-map zoom level / `CityMap2` 통합 | Phase 3 ios-social-collection + ios-map 합의 |
+| P2 | 좌표 정확도 검증 (Apple Maps / Google Maps 비교) | Phase 3 후반 |
+
+> v1.x 동안 region 추가 시 본 표 + ADR-302 enum + qa-localization 5언어 매핑 표 3곳 모두 갱신 필요.
+
+---
+
+## 10. 다크 모드 정책 (MVP 결정)
 
 - **MVP는 라이트 단일** 출시. `UIUserInterfaceStyle = "Light"` 강제 (Info.plist).
 - 추후 다크 추가 결정 시: § 1.6 의미 토큰 레이어만 갈아끼우면 가능하도록 설계 완료.
@@ -453,29 +604,32 @@ T+60s 이후라도 다음 상태에서는 배너 fade-out 200ms:
 
 ---
 
-## 10. SwiftUI 토큰 디렉토리 구조 (제안)
+## 11. SwiftUI 토큰 디렉토리 구조 (제안)
 
 ```
 LocalPackages/DesignSystem/Sources/
-├── Color+MM.swift          # § 1 토큰 + 의미 토큰
-├── Font+MM.swift           # § 2.5 MMTypography
-├── Spacing+MM.swift        # § 3 MMSpacing
-├── Radius+MM.swift         # § 4 MMRadius
-├── Shadow+MM.swift         # § 5 MMShadow
-├── Motion+MM.swift         # § 6 MMMotion
-└── Components/             # see components.md
+├── Color+MM.swift              # § 1 토큰 + 의미 토큰 + § 1.5 hot/trending + § 1.5.1 colorTier 5단계
+├── Font+MM.swift               # § 2.5 MMTypography (relativeTo SSOT)
+├── Spacing+MM.swift            # § 3 MMSpacing
+├── Radius+MM.swift             # § 4 MMRadius
+├── Shadow+MM.swift             # § 5 MMShadow + struct Shadow: Sendable
+├── Motion+MM.swift             # § 6 MMMotion
+├── MatchaOriginCoords.swift    # § 9 Phase 3 originRegion enum 8종 × {lat, lng} 매핑
+└── Components/                 # see components.md
 ```
 
 > `ios-lead`가 본 토큰 외 색·폰트 리터럴 사용을 PR에서 차단. CodeRabbit instructions에도 추가.
 
 ---
 
-## 11. 변경 이력
+## 12. 변경 이력
 
 | 일자 | 변경 | 사유 | 결정자 |
 |---|---|---|---|
 | 2026-05-04 | 최초 작성 (MM2 v1) | Phase 1 디자인 시스템 확정 | designer-lead |
 | 2026-05-04 | § 8 광고 UI 가드 6개 정책 추가 (배너 숨김 / 인터 콘텐츠 우선 / 보상형 시각 강도 / ATT / disclosure / 색 격리) | po-lead 1차 검토 보강 요청 — design-system 단계에서 광고 UX 가드 시각 명시 | po-lead 사인오프 designer-lead |
+| 2026-05-04 | § 2.5 Dynamic Type relativeTo SSOT 11개 토큰 표 추가 + SwiftUI 코드 + 룰 4개 + 선택 사유 | ios-lead 위임 (po-lead 권고 #2) | ios-lead 수용 designer-lead |
+| 2026-05-04 | § 1.5 hot/trending 의미 토큰 + § 1.5.1 colorTier 5단계 (server-data ADR-302 v1.1 정합) + § 5 struct Shadow Sendable 보강 + § 9 MatchaOriginCoords Phase 3 책임 신설 | server-data Q1+Q2 합의 + designer-icon 의견 #3 + ios-lead Sendable 강제 | server-data 합의 ios-lead 정합 designer-lead |
 
 ---
 

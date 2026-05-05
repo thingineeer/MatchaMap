@@ -1,0 +1,2 @@
+// Release.xcconfig — Release 전용 오버라이드 (실 광고 ID 등 fastlane이 덮어쓰기).
+#include "Shared.xcconfig"

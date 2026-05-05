@@ -1,0 +1,2 @@
+// Debug.xcconfig — Debug 전용 오버라이드.
+#include "Shared.xcconfig"
