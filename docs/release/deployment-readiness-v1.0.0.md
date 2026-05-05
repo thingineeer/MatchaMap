@@ -7,40 +7,34 @@
 
 ---
 
-## A. Apple Developer Portal (사용자 직접 처리)
+## A. Apple Developer Portal ✅ COMPLETED 2026-05-05
 
-### A-1. APNs Auth Key (.p8) — FCM 푸시 필수
-
-**옵션 A (권장): 기존 Team Scoped 키 재사용**
-- 확인 결과 `WADW3XGZWW` (fearindexPushKey) 키가 **Team Scoped (All topics) / Sandbox & Production** 설정으로 이미 발급됨.
+### A-1. APNs Auth Key (.p8) — ✅ vault 적재 완료
+- `WADW3XGZWW` (fearindexPushKey) — Team Scoped (All topics) / Sandbox & Production
 - Apple 팀(8Q4H7X3Q58) 내 모든 Bundle ID에 작동 — `th1ngjin.MatchaMap` 포함.
-- 수동 단계: `cp ~/.env-vault/apple/apns/fearindex-iOS/AuthKey_WADW3XGZWW.p8 ~/.env-vault/projects/matchamap-ios/` → Firebase 콘솔 → Cloud Messaging → APNs 인증 키 업로드 (KeyID `WADW3XGZWW`, Team ID `8Q4H7X3Q58`)
+- ✅ vault 복사 완료: `~/.env-vault/projects/matchamap-ios/AuthKey_WADW3XGZWW.p8` (private repo 커밋됨)
 
-**옵션 B (격리 권장): 신규 발급**
-1. https://developer.apple.com/account → Keys → "+"
-2. 키 이름: `MatchaMap APNs`, 권한: Apple Push Notifications service (APNs)
-3. 다운로드한 `AuthKey_<KEY_ID>.p8` → vault `~/.env-vault/projects/matchamap-ios/`
-4. Firebase 콘솔 → Cloud Messaging → APNs 인증 키 업로드
+**잔여 (사용자 직접 1분):** Firebase 콘솔 → MatchaMapAPP → 프로젝트 설정 → Cloud Messaging → APNs 인증 키 → 업로드 (.p8 + KeyID `WADW3XGZWW` + Team ID `8Q4H7X3Q58`)
 
-### A-2. DeviceCheck Key (.p8) — App Check fallback
-1. Apple Developer → Keys → "+"
-2. 키 이름: `MatchaMap DeviceCheck`, 권한: DeviceCheck
-3. 다운로드 → vault 보관
-4. Firebase 콘솔 → App Check → DeviceCheck → KeyID + .p8 등록
+### A-2. DeviceCheck Key (.p8) — ✅ 발급 + vault 적재 완료
+- ✅ Apple Developer Portal에서 신규 발급: `MatchaMap DeviceCheck`
+- ✅ KeyID: `GZ8UP8C6Y6`
+- ✅ vault: `~/.env-vault/projects/matchamap-ios/AuthKey_GZ8UP8C6Y6.p8` (private repo 커밋됨)
 
-### A-3. App Store Connect 앱 생성
-1. https://appstoreconnect.apple.com → 나의 앱 → "+"
-2. 플랫폼: iOS
-3. 이름: 말차맵 (한국 기본 언어 ko, 영문 부제 MatchaMap)
-4. Bundle ID: `th1ngjin.MatchaMap`
-5. SKU: `matchamap-ios-v1`
-6. 다운로드한 `Apple ID`(숫자형) → vault `.env`에 `APP_STORE_CONNECT_APPLE_ID=` 갱신
-7. App Store Connect API Key 발급 (Users and Access → Keys) → vault `AuthKey_*.p8`
+**잔여 (사용자 직접 1분):** Firebase 콘솔 → App Check → MatchaMap iOS → DeviceCheck → 업로드 (.p8 + KeyID `GZ8UP8C6Y6` + Team ID `8Q4H7X3Q58` + Token TTL 1 hour) → 저장
+(Firebase Console DeviceCheck UI는 Angular validator가 native file picker만 허용하여 자동 업로드 차단됨)
 
-### A-4. App Store Connect API Key
-1. Users and Access → Keys → "+"
-2. 권한: Admin (배포 자동화용)
-3. KeyID + IssuerID + .p8 → vault `~/.env-vault/projects/matchamap-ios/`
+### A-3. App Store Connect 앱 — ✅ 생성 완료
+- ✅ App 이름: 말차맵 / Apple ID: `6766536774` / Bundle ID: `th1ngjin.MatchaMap` / 기본 언어: 한국어 / SKU: `matchamap-ios-v1` / 사용자 액세스 권한: 전체 액세스
+- ✅ App Identifier 등록(th1ngjin.MatchaMap) + App Attest + Push Notifications + Sign In with Apple capabilities 활성화
+- ✅ vault `.env`에 `APP_STORE_CONNECT_APPLE_ID=6766536774` 추가
+
+### A-4. App Store Connect API Key — ✅ 발급 + vault 적재 완료
+- ✅ 키 이름: `MatchaMap-CI`, 권한: 관리자
+- ✅ KeyID: `7HY84GW35N`
+- ✅ Issuer ID: `e5ea7eb2-038f-46e0-91c7-719bb0c07b2e`
+- ✅ vault: `~/.env-vault/projects/matchamap-ios/AuthKey_7HY84GW35N.p8` (private repo 커밋됨)
+- ✅ vault `.env` 환경변수: `APP_STORE_CONNECT_API_KEY_ID` / `APP_STORE_CONNECT_API_ISSUER_ID` / `APP_STORE_CONNECT_API_KEY_PATH` / `APP_STORE_CONNECT_TEAM_ID`
 
 ---
 
@@ -107,7 +101,23 @@ ADR-303 §5에 따른 MAU 임계 사전 경보:
 
 ---
 
-## F. 6언어 번역 검수 (qa-localization 보강)
+## F. Marketing/Support/Privacy URL 호스팅 — TODO (사용자)
+
+**상태**: GitHub Pages public repo 생성은 사용자 권한 필요해서 보류 (이번 자동화 세션에서 차단됨).
+
+### F-1. URL 호스팅 (사용자 직접 진행)
+1. GitHub에 public repo 생성: `thingineeer/matchamap` (homepage URL: `https://thingineeer.github.io/matchamap`)
+2. `index.md`, `support.md`, `privacy.md` 3개 페이지 작성 (Privacy 정책은 6개국 컴플라이언스 — GDPR + CCPA + 개인정보보호법)
+3. Settings → Pages → Source: main branch root → Enable
+4. App Store Connect 메타데이터에서 URL 갱신:
+   - Marketing URL: `https://thingineeer.github.io/matchamap`
+   - Support URL: `https://thingineeer.github.io/matchamap/support`
+   - Privacy URL: `https://thingineeer.github.io/matchamap/privacy`
+5. `fastlane/metadata/{ko,en-US,...}/marketing_url.txt` `support_url.txt` `privacy_url.txt` 갱신.
+
+**중요**: Privacy URL은 심사 제출 전 반드시 작동해야 함 (Apple 5.1.1 거절 사유).
+
+## F-bis. 6언어 번역 검수 (qa-localization 보강)
 
 자동 생성된 String Catalog 6언어 번역 → 네이티브 검수:
 - ko: imyeongjin (본인)
@@ -121,9 +131,15 @@ ADR-303 §5에 따른 MAU 임계 사전 경보:
 
 ---
 
-## G. Privacy Manifest
+## G. Privacy Manifest ✅ COMPLETED 2026-05-05
 
-`MatchaMap/PrivacyInfo.xcprivacy` 작성 (iOS 17+ 필수):
+`MatchaMap/PrivacyInfo.xcprivacy` 작성 완료 (iOS 17+ 심사 필수):
+- 4 NSPrivacyAccessedAPI: UserDefaults / FileTimestamp / DiskSpace / SystemBootTime
+- 11 NSPrivacyCollectedDataType: UserID / Email / Name / CoarseLocation / PhotosOrVideos / OtherUserContent / ProductInteraction / AdvertisingData / DeviceID / CrashData / PerformanceData
+- 4 NSPrivacyTrackingDomains: googletagmanager.com / googleadservices.com / doubleclick.net / googlesyndication.com
+- 1.0.0 브랜치 머지 완료 (커밋 `c6ccee7` 기준)
+
+원본 템플릿:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
