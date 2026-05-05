@@ -1,1 +1,9 @@
-Première version de MatchaMap — carte mondiale des cafés, journal du matcha, fil d'amis et liste de souhaits.
+v1.0.0 — Première version !
+
+• Carte mondiale des cafés matcha avec zoom fluide par ville
+• Détails des cafés, menus, notes et avis
+• Votre journal personnel du matcha (grade / origine / couleur)
+• Fil d'amis et liste de souhaits avec mini carte du monde
+• Connexion avec Apple ou Passkey
+
+La première application de découverte mondiale pour les amateurs de matcha — commencez votre collection dès aujourd'hui.

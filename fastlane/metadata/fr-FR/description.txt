@@ -1,10 +1,23 @@
-MatchaMap est la carte mondiale des amateurs de matcha — découvrir, noter, collectionner.
+MatchaMap est la carte mondiale des amateurs de matcha — une application pour découvrir, noter et collectionner chaque matcha que vous dégustez, de Tokyo et Kyoto à Séoul, New York, Londres et Paris.
 
-- Carte mondiale : propulsée par Google Maps. Zoom par ville et épingles pour balayer un quartier d'un coup d'œil.
-- Détails des cafés : menu, heures d'affluence, itinéraires, Street View.
-- Journal du matcha : collectez chaque matcha dégusté avec son grade, son origine, sa couleur et vos notes.
-- Fil d'amis : retrouvez les journaux et avis de vos amis sur une timeline.
-- Liste de souhaits : les cafés à visiter, regroupés par pays avec une mini carte du monde.
-- Connexion avec Apple / Passkey : sans mot de passe.
+[ Fonctionnalités ]
+• Carte mondiale des cafés — propulsée par Google Maps, avec un zoom fluide par ville, des épingles matcha personnalisées et un clustering.
+• Détails des cafés — menu, prix, horaires, heures d'affluence, itinéraires et Street View sur un seul écran.
+• Journal du matcha — collectionnez chaque matcha dégusté sous forme de carte. Notez le grade, l'origine, la couleur et vos notes de dégustation.
+• Notes et avis — avis photo rapides et tags pour chaque café.
+• Fil d'amis — voyez ce que vos amis dégustent sur une timeline épurée.
+• Liste de souhaits — sauvegardez les cafés à visiter, regroupés par pays avec une mini carte du monde.
+• Connexion avec Apple ou Passkey — sans mot de passe, totalement sécurisé.
 
-Lancement initial en Corée du Sud, au Japon, aux États-Unis, au Royaume-Uni, en Allemagne et en France.
+[ Pourquoi MatchaMap ]
+• Notation de couleur sur 5 niveaux — de Pale Spring à Deep Forest. Comparez les matchas par couleur, pas seulement par marque.
+• 9 catégories d'origine — Uji, Shizuoka, Kagoshima, Corée, Taïwan et plus. Filtrez les cafés selon la provenance des feuilles.
+• Liste de souhaits sur mini carte du monde — transformez votre liste de voyages en une constellation d'étoiles à travers le globe.
+
+[ Langues ]
+Coréen, anglais (US et UK), japonais, allemand et français — six localisations complètes. Voyagez dans votre langue.
+
+[ Pour commencer ]
+Ouvrez l'app, acceptez la localisation, connectez-vous avec Apple ou Passkey en une seconde, et les cafés matcha autour de vous apparaissent sur la carte.
+
+MatchaMap est lancé d'abord en Corée du Sud, puis au Japon, aux États-Unis, au Royaume-Uni, en Allemagne et en France. Aucune publicité durant les 60 premières secondes — la découverte d'abord, les pubs ensuite.

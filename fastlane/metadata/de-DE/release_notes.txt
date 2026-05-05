@@ -1,1 +1,9 @@
-Erste Veröffentlichung von MatchaMap — Weltkarte, Matcha-Tagebuch, Freunde-Feed und Wunschliste.
+v1.0.0 — Erste Veröffentlichung!
+
+• Weltweite Matcha-Café-Karte mit flüssigem Stadt-Zoom
+• Café-Details, Menüs, Bewertungen und Rezensionen
+• Dein persönliches Matcha-Tagebuch (Sorte / Herkunft / Farbe)
+• Freunde-Feed und Wunschliste mit Mini-Weltkarte
+• Anmeldung mit Apple oder Passkey
+
+Die erste globale Entdeckungs-App für Matcha-Liebhaber — starte heute deine Sammlung.

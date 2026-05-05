@@ -1,0 +1,72 @@
+{
+  "sourceLanguage" : "ko",
+  "version" : "1.0",
+  "strings" : {
+    "새로운 친구를 추가했어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "새로운 친구를 추가했어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Added a new friend" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Added a new friend" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Neue Freundschaft hinzugefügt" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "新しい友達を追加しました" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Nouvel ami ajouté" } }
+      }
+    },
+    "도감에 추가했어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도감에 추가했어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Added to the index" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Added to the index" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zur Sammlung hinzugefügt" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "図鑑に追加しました" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ajouté au catalogue" } }
+      }
+    },
+    "리뷰를 남겼어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리뷰를 남겼어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Left a review" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Left a review" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rezension geschrieben" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "レビューを投稿しました" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "A laissé un avis" } }
+      }
+    },
+    "친구가 됐어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "친구가 됐어요" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You're now friends" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "You're now friends" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ihr seid jetzt Freunde" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "友達になりました" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Vous êtes amis" } }
+      }
+    },
+    "팔로워" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "팔로워" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Followers" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Followers" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Follower" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フォロワー" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Abonnés" } }
+      }
+    },
+    "팔로잉" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "팔로잉" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Following" } },
+        "en-GB" : { "stringUnit" : { "state" : "translated", "value" : "Following" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Folge ich" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フォロー中" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Abonnements" } }
+      }
+    }
+  }
+}

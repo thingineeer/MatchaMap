@@ -1,1 +1,9 @@
-First release of MatchaMap — global café map, matcha journal, friends feed, and wishlist.
+v1.0.0 — Initial release!
+
+• Global matcha café map with smooth city zoom
+• Café details, menus, ratings, and reviews
+• Your personal matcha journal (grade / origin / colour)
+• Friends feed and wishlist with a mini world map
+• Sign in with Apple or Passkey
+
+The first global discovery app for matcha lovers — start your collection today.
