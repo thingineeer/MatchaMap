@@ -7,6 +7,9 @@ import DesignSystem
 public struct CollectionGridView: View {
     @Bindable private var viewModel: CollectionGridViewModel
     /// 보상형 광고 잠금 해제 핸들러 — FeatureMonetize composition root에서 주입.
+    /// 시그니처는 SwiftUI Button action 표준(`() -> Void`). Composition Root에서
+    /// `Task { @MainActor in await rewardedAdCoordinator.showRewardedAd(...) }`
+    /// 패턴으로 wrap (ios-lead 합의 2026-05-04 옵션 A).
     private let onRequestUnlock: () -> Void
 
     private let columns: [GridItem] = [
