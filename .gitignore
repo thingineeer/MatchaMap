@@ -86,3 +86,9 @@ _handoff/
 *.xcarchive
 build/
 out/
+
+# Phase 3 worktree noise
+.claude/worktrees/
+.firebase/
+.claude/scheduled_tasks.lock
+.claude/.cache/
