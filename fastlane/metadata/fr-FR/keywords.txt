@@ -1,1 +1,1 @@
-matcha,café,carte,voyage,kyoto,thé,latte,liste,journal,collection,passkey
+matcha,café matcha,Kyoto,carte café,voyage,collection,Japon,latte matcha,liste

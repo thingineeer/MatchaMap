@@ -1,10 +1,23 @@
-MatchaMap is the world map for matcha lovers — discover, log, and collect.
+MatchaMap is the world map for matcha lovers — a discover, log, and collect app for every matcha you taste, from Tokyo and Kyoto to Seoul, New York, London, and Paris.
 
-- Global map: Powered by Google Maps. City zoom + pins to scan a neighborhood at a glance.
-- Place details: menu, popular times, directions, Street View.
-- Matcha journal: collect every matcha you taste. Track grade, origin, color, and notes.
-- Friends feed: see your friends' journals and reviews on a timeline.
-- Wishlist: places you want to visit, grouped by country with a mini world map.
-- Sign in with Apple / Passkey: no passwords.
+[ Features ]
+• Global cafe map — Google Maps powered, with smooth city zoom, custom matcha pins, and clustering.
+• Cafe details — menu, prices, hours, popular times, directions, and Street View on one screen.
+• Matcha journal — collect every matcha you taste as a card. Track grade, origin, color, and tasting notes.
+• Ratings & reviews — quick photo reviews and tags for each cafe.
+• Friends feed — see what your friends are drinking on a clean timeline.
+• Wishlist — save places you want to visit, grouped by country with a mini world map.
+• Sign in with Apple / Passkey — no passwords, fully secure.
 
-Launching first in Korea, Japan, United States, United Kingdom, Germany, and France.
+[ Why MatchaMap ]
+• Color grading on a 5-step scale — from Pale Spring to Deep Forest. Compare matcha by color, not just brand.
+• 9 origin categories — Uji, Shizuoka, Kagoshima, Korea, Taiwan, and more. Filter cafes by where the leaves come from.
+• Mini world map wishlist — turn your travel list into a constellation of stars across the globe.
+
+[ Languages ]
+Korean, English (US / UK), Japanese, German, and French — six full localizations. Travel in your language.
+
+[ Get started ]
+Open the app, accept location, sign in with Apple or Passkey in one second, and the matcha cafes around you appear on the map.
+
+MatchaMap launches first in Korea, then Japan, the United States, the United Kingdom, Germany, and France. We do not show ads in the first 60 seconds — you discover first, ads later.
