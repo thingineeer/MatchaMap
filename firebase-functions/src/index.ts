@@ -33,10 +33,18 @@ export { verifyRewardedAd } from './ads/verifyRewardedAd.js';
 // Search
 export { mergeStoreSearch } from './search/mergeStoreSearch.js';
 
-// Background — feed audit + 디노멀 fanout
+// Background — feed audit + 디노멀 fanout + pinTier derive
 export { fanoutFeedEvent } from './feed/fanoutFeedEvent.js';
 export { onUpdateUser } from './fanout/onUpdateUser.js';
 export { onUpdateStore } from './fanout/onUpdateStore.js';
+export {
+  onCreateStorePinTier,
+  onUpdateStorePinTier,
+} from './stores/derivePinTierTriggers.js';
+
+// Notifications (FCM)
+export { onWriteFcmToken } from './notifications/onWriteFcmToken.js';
+// sendNotificationToUser: 헬퍼 (트리거 X). reviews/friends/feed 콜러블이 호출.
 
 // Moderation
 export { checkReviewContent } from './moderation/checkReviewContent.js';
@@ -45,5 +53,6 @@ export { checkReviewContent } from './moderation/checkReviewContent.js';
 export { aggregatePopularStores } from './scheduler/aggregatePopularStores.js';
 export { cleanupFeedEvents } from './scheduler/cleanupFeedEvents.js';
 export { cleanupAnalyticsEvents } from './scheduler/cleanupAnalyticsEvents.js';
+export { cleanupStaleFcmTokens } from './scheduler/cleanupStaleFcmTokens.js';
 export { recomputeStoreAggregates } from './scheduler/recomputeStoreAggregates.js';
 export { purgeDeletedUsers } from './scheduler/purgeDeletedUsers.js';

@@ -17,6 +17,14 @@
 		71ADE2AC082FA87741002AF431 /* FeatureSocial in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB082FA87741002AF431 /* FeatureSocial */; };
 		71ADE2AC092FA87741002AF431 /* FeatureCollection in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB092FA87741002AF431 /* FeatureCollection */; };
 		71ADE2AC102FA87741002AF431 /* FeatureMonetize in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2AB102FA87741002AF431 /* FeatureMonetize */; };
+		71ADE2FB012FA87741002AF431 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP012FA87741002AF431 /* FirebaseCore */; };
+		71ADE2FB022FA87741002AF431 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP022FA87741002AF431 /* FirebaseAuth */; };
+		71ADE2FB032FA87741002AF431 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP032FA87741002AF431 /* FirebaseFirestore */; };
+		71ADE2FB042FA87741002AF431 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP042FA87741002AF431 /* FirebaseStorage */; };
+		71ADE2FB052FA87741002AF431 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP052FA87741002AF431 /* FirebaseAppCheck */; };
+		71ADE2FB062FA87741002AF431 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP062FA87741002AF431 /* FirebaseMessaging */; };
+		71ADE2FB072FA87741002AF431 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP072FA87741002AF431 /* FirebaseAnalytics */; };
+		71ADE2FB082FA87741002AF431 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 71ADE2FP082FA87741002AF431 /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +54,14 @@
 				71ADE2AC082FA87741002AF431 /* FeatureSocial in Frameworks */,
 				71ADE2AC092FA87741002AF431 /* FeatureCollection in Frameworks */,
 				71ADE2AC102FA87741002AF431 /* FeatureMonetize in Frameworks */,
+				71ADE2FB012FA87741002AF431 /* FirebaseCore in Frameworks */,
+				71ADE2FB022FA87741002AF431 /* FirebaseAuth in Frameworks */,
+				71ADE2FB032FA87741002AF431 /* FirebaseFirestore in Frameworks */,
+				71ADE2FB042FA87741002AF431 /* FirebaseStorage in Frameworks */,
+				71ADE2FB052FA87741002AF431 /* FirebaseAppCheck in Frameworks */,
+				71ADE2FB062FA87741002AF431 /* FirebaseMessaging in Frameworks */,
+				71ADE2FB072FA87741002AF431 /* FirebaseAnalytics in Frameworks */,
+				71ADE2FB082FA87741002AF431 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +114,14 @@
 				71ADE2AB082FA87741002AF431 /* FeatureSocial */,
 				71ADE2AB092FA87741002AF431 /* FeatureCollection */,
 				71ADE2AB102FA87741002AF431 /* FeatureMonetize */,
+				71ADE2FP012FA87741002AF431 /* FirebaseCore */,
+				71ADE2FP022FA87741002AF431 /* FirebaseAuth */,
+				71ADE2FP032FA87741002AF431 /* FirebaseFirestore */,
+				71ADE2FP042FA87741002AF431 /* FirebaseStorage */,
+				71ADE2FP052FA87741002AF431 /* FirebaseAppCheck */,
+				71ADE2FP062FA87741002AF431 /* FirebaseMessaging */,
+				71ADE2FP072FA87741002AF431 /* FirebaseAnalytics */,
+				71ADE2FP082FA87741002AF431 /* FirebaseCrashlytics */,
 			);
 			productName = MatchaMap;
 			productReference = 71ADE2542FA8773F002AF431 /* MatchaMap.app */;
@@ -127,20 +151,21 @@
 			);
 			mainGroup = 71ADE24B2FA8773F002AF431;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
-				packageReferences = (
-				71ADE2AA012FA87741002AF431 /* XCLocalSwiftPackageReference "Core" */,
-				71ADE2AA022FA87741002AF431 /* XCLocalSwiftPackageReference "DesignSystem" */,
-				71ADE2AA032FA87741002AF431 /* XCLocalSwiftPackageReference "Domain" */,
-				71ADE2AA042FA87741002AF431 /* XCLocalSwiftPackageReference "Data" */,
-				71ADE2AA052FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureMap" */,
-				71ADE2AA062FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureAuth" */,
-				71ADE2AA072FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureStore" */,
-				71ADE2AA082FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureSocial" */,
-				71ADE2AA092FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureCollection" */,
-				71ADE2AA102FA87741002AF431 /* XCLocalSwiftPackageReference "FeatureMonetize" */,
+			packageReferences = (
+				71ADE2AA012FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Core" */,
+				71ADE2AA022FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/DesignSystem" */,
+				71ADE2AA032FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Domain" */,
+				71ADE2AA042FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Data" */,
+				71ADE2AA052FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureMap" */,
+				71ADE2AA062FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureAuth" */,
+				71ADE2AA072FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureStore" */,
+				71ADE2AA082FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureSocial" */,
+				71ADE2AA092FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureCollection" */,
+				71ADE2AA102FA87741002AF431 /* XCLocalSwiftPackageReference "LocalPackages/Feature/FeatureMonetize" */,
+				71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
-		productRefGroup = 71ADE2552FA8773F002AF431 /* Products */;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 71ADE2552FA8773F002AF431 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -320,6 +345,12 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 말차 카페를 지도에 표시하고 길찾기를 제공하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "리뷰와 도감에 첨부할 사진을 선택하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "저장하신 매장 사진을 사진 보관함에 보관하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰와 도감에 추가할 매장 사진을 촬영하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "나에게 더 잘 맞는 광고를 보여드리기 위해 사용됩니다. 거부하셔도 앱은 정상 동작합니다.";
+				INFOPLIST_KEY_GADApplicationIdentifier = "ca-app-pub-3940256099942544~1458002511";
 			};
 			name = Debug;
 		};
@@ -352,6 +383,12 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "주변 말차 카페를 지도에 표시하고 길찾기를 제공하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "리뷰와 도감에 첨부할 사진을 선택하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "저장하신 매장 사진을 사진 보관함에 보관하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "리뷰와 도감에 추가할 매장 사진을 촬영하기 위해 사용됩니다.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "나에게 더 잘 맞는 광고를 보여드리기 위해 사용됩니다. 거부하셔도 앱은 정상 동작합니다.";
+				INFOPLIST_KEY_GADApplicationIdentifier = "ca-app-pub-3940256099942544~1458002511";
 			};
 			name = Release;
 		};
@@ -421,6 +458,18 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+
 /* Begin XCSwiftPackageProductDependency section */
 		71ADE2AB012FA87741002AF431 /* Core */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -462,8 +511,47 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = FeatureMonetize;
 		};
+		71ADE2FP012FA87741002AF431 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		71ADE2FP022FA87741002AF431 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		71ADE2FP032FA87741002AF431 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		71ADE2FP042FA87741002AF431 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		71ADE2FP052FA87741002AF431 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		71ADE2FP062FA87741002AF431 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		71ADE2FP072FA87741002AF431 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		71ADE2FP082FA87741002AF431 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71ADE2F0012FA87741002AF431 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 /* End XCSwiftPackageProductDependency section */
-
 	};
 	rootObject = 71ADE24C2FA8773F002AF431 /* Project object */;
 }

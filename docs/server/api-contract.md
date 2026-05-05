@@ -83,9 +83,10 @@ iOS 클라(`FirebaseFunctions.HTTPSCallableResult`)에서 `error.details.code`�
 interface AddCollectionItemRequest {
   storeId: string;                 // Google Place ID
   drink: 'usucha' | 'koicha' | 'matcha_latte' | 'iced_matcha' | 'matcha_dessert' | 'other';
-  grade?: 'ceremonial' | 'premium' | 'cooking' | 'unknown';
-  originRegion?: string;
-  colorHex?: string;
+  grade?: 'ceremonial' | 'premium' | 'standard' | 'culinary' | 'unknown';   // v1.1
+  originRegion?: 'uji' | 'nishio' | 'kagoshima' | 'shizuoka' | 'boseong'    // v1.1: jeju 추가 (9종)
+              | 'hadong' | 'jeju' | 'other' | 'unknown';
+  colorTier?: 'matchaSoft' | 'matchaPale' | 'matcha' | 'deepMatcha' | 'deep'; // v1.1
   note?: string;
   photos?: string[];               // 0~3 items, gs:// 경로
   visitedAt?: number;              // epoch ms (과거 시음 입력 허용)
@@ -99,14 +100,20 @@ interface AddCollectionItemResponse {
 }
 ```
 
+**v1.1 enum 변경**:
+- `grade`: `cooking` 제거 → `standard` + `culinary` 분리. 클라가 `cooking`을 보내면 `INVALID_ARGUMENT`.
+- `originRegion`: `jeju` 추가 (9종).
+- `colorTier`: 신규. 클라는 enum만 입력. **`colorHex`는 직접 입력 금지** — 서버가 design-system.md § 1.5.1 매핑으로 자동 채움. 클라가 `colorHex` 직접 보내면 무시(향후 strict mode에서 거부 예정).
+
 **fanout 트랜잭션 (모두 같은 transaction)**:
-1. `collections/{uid}/items/{itemId}` create (디노멀 store + viaReview/linkedReviewId).
+1. `collections/{uid}/items/{itemId}` create (디노멀 store + colorTier + colorHex(서버 자동) + viaReview/linkedReviewId).
 2. `users/{uid}.stats.collectionCount += 1`.
 3. `feed_events/{eventId}` create with `audienceUids = [uid, ...accepted_friends ≤ 500]`.
 
 **오류**:
 - 매장 미존재 → `RESOURCE_NOT_FOUND`.
 - viaReview=true & linkedReviewId 미제공 → `INVALID_ARGUMENT`.
+- `grade`/`originRegion`/`colorTier` enum 위반 → `INVALID_ARGUMENT`.
 
 **observability**: 본 doc create = `store_collection_added` 이벤트 SSOT (observability §3.4). 클라가 콜러블 응답 후 analytics 발화.
 
@@ -225,6 +232,7 @@ interface MergeStoreSearchRequest {
   locale: string;                   // BCP-47
   maxResults?: number;              // 디폴트 20, 최대 50
   cursor?: string;                  // ADR-302 D5
+  minPinTier?: 'S' | 'A' | 'B' | 'C';  // v1.2: viewport 디클러스터링 ("S만"/"A 이상")
 }
 
 interface MergeStoreSearchResponse {
@@ -240,10 +248,18 @@ interface SearchResult {
   lat: number;
   lng: number;
   country: string;
+  pinTier?: 'S' | 'A' | 'B' | 'C';  // v1.2 — 서버 derive (utils/pinTier.ts)
   rating?: number;
   isFirstParty: boolean;
 }
 ```
+
+**`pinTier` derive 정책 (ADR-302 v1.2)**:
+- `S` = `verified && matchaScore ≥ 4.5`
+- `A` = `verified && 4.0 ≤ matchaScore < 4.5`
+- `B` = `(3.0 ≤ matchaScore < 4.0)` 또는 `(verified && matchaScore < 4.0)`
+- `C` = `!verified && matchaScore < 3.0`
+- 트리거: `onCreate stores`, `onUpdate stores.{matchaScore,verified}`, `recomputeStoreAggregates` (idempotent skip).
 
 **Phase 2**: 자사 매장만 검색. Places 통합은 Phase 3 (ios-store 합의 후).
 
@@ -314,7 +330,27 @@ onDocumentUpdated('stores/{placeId}')
 
 `origin` 변경: 현재 디노멀 안 됨 → no-op + audit 로그. server-data와 합의 후 보강.
 
-### 3.5 `checkReviewContent` — 모더레이션
+### 3.5 `onCreateStorePinTier` / `onUpdateStorePinTier` — pinTier derive (v1.2)
+
+```
+onDocumentCreated('stores/{placeId}')
+onDocumentUpdated('stores/{placeId}')
+```
+
+`stores.matchaScore` 또는 `verified` 변경 시 `pinTier` 자동 derive (위 § 2.2 derive 정책).
+Idempotent skip — 동일 input → 동일 output, 무한 루프 방지. `recomputeStoreAggregates` 매시
+정각도 동일 derive 로직 직접 적용.
+
+### 3.6 `onWriteFcmToken` — 부모 user `notification.lastTokenAt` 갱신 (v1.3)
+
+```
+onDocumentWritten('users/{uid}/fcmTokens/{tokenId}')
+```
+
+토큰 create/update 시 부모 user doc의 `notification.lastTokenAt`을 max로 갱신. delete는 no-op.
+schema.md §1A 정합.
+
+### 3.7 `checkReviewContent` — 모더레이션
 
 ```
 onDocumentCreated('reviews/{reviewId}')
@@ -368,7 +404,17 @@ schema §9. GA4 export가 SSOT, 본 컬렉션은 보조.
 
 cost-projection §5 절감 레버 — 디노멀 drift 보정.
 
-### 4.5 `purgeDeletedUsers`
+### 4.5 `cleanupStaleFcmTokens` (v1.3)
+
+| 항목 | 값 |
+|---|---|
+| schedule | `30 4 * * *` (KST) |
+| 대상 | collection_group `fcmTokens.lastSeenAt < now - 60d` |
+| 동작 | 400/iter 삭제 |
+
+schema §1A 정합.
+
+### 4.6 `purgeDeletedUsers`
 
 | 항목 | 값 |
 |---|---|
@@ -377,6 +423,34 @@ cost-projection §5 절감 레버 — 디노멀 drift 보정.
 | 동작 | 사용자 서브컬렉션 일괄 삭제 + reviews soft-delete + Auth.deleteUser |
 
 cost-projection §4.2 GDPR + 비용. 처음 deletedAt set은 사용자 탈퇴 시점(클라 요청).
+
+---
+
+## 4.7 헬퍼 함수 (v1.3)
+
+### `sendNotificationToUser(uid, payload)` — push 발송
+
+콜러블 X. Functions 내부에서만 import. push-payload.md (server-auth)와 정합.
+
+```ts
+interface PushPayload {
+  notification?: { title?: string; body?: string };
+  data?: Record<string, string>;
+  category: 'friend_request' | 'friend_accepted' | 'feed_collection' | 'feed_review' | 'system';
+}
+interface SendResult { delivered: number; failed: number; pruned: number }
+
+sendNotificationToUser(uid: string, payload: PushPayload): Promise<SendResult>
+```
+
+흐름:
+1. `users/{uid}/fcmTokens` where `pushPermission ∈ ['granted','provisional']` read.
+2. admin SDK `sendEachForMulticast`.
+3. 401/404 응답 토큰 doc 삭제 (만료/디바이스 분리). pruned count 반환.
+4. `lastSeenAt` 갱신 X (push 수신 ≠ 앱 활성).
+
+호출자: `acceptFriend` (양쪽 알림), `submitReview` / `addCollectionItem` (친구 fanout 알림),
+기타 시스템 알림 콜러블/트리거.
 
 ---
 
@@ -428,3 +502,4 @@ ErrorCodes는 iOS `Domain/Error.swift`의 enum으로 매핑. 추가/변경 시 �
 | 일자 | 변경 | 사인오프 |
 |---|---|---|
 | 2026-05-04 | 초안 (콜러블 6 + 트리거 5 + 스케줄러 5 + 공통 규약). server-data ADR-302 정합: addCollectionItem/submitReview/friend* 콜러블, audienceUids 모델, 디노멀 fanout(onUpdateUser/onUpdateStore), cleanup/recompute/purge 스케줄러, cursor 페이지네이션. | server-functions (server-lead + ios-lead 사인오프 대기) |
+| 2026-05-04 | ADR-302 v1.1/v1.2/v1.3 정합 보강: addCollectionItem enum 검증(grade `cooking`→`standard|culinary`, originRegion 9종+jeju, colorTier 5단계 enum→colorHex 자동) + design-system.md § 1.5.1 SSOT 인용; mergeStoreSearch `minPinTier` 필터; pinTier derive 트리거 2종(onCreate/onUpdateStorePinTier) + recomputeStoreAggregates 통합; fcmTokens 60d cleanup 스케줄러 + onWriteFcmToken 트리거 + sendNotificationToUser 헬퍼. | server-functions |

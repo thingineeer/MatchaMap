@@ -300,11 +300,11 @@ UI 가드:
      - 우상단 fallback 표시: 사용자 입력 시 mono 라벨 "내 기록", 매장 origin fallback 시 mono 라벨 "매장 정보"
      - 본문: region chip `Color.MM.matchaPale` (예: "🇯🇵 우지" / "🇰🇷 보성") + grade enum chip (`ceremonial`/`premium`/`standard`/`culinary` — i18n 5언어 카피)
      - origin notes 200자 본문 `MMTypography.callout` `Color.MM.text`
-     - 우측 mini-map (`CityMap2` 60×80) — region 좌표 표시 (server-data origin coords 추가 합의 필요, MVP는 원산지 region 라벨만)
-  4. **"색감" 섹션**:
+     - 우측 mini-map (`CityMap2` 60×80) — region 좌표 표시. **좌표 매핑 SSOT**: `design-system.md § 9 MatchaOriginCoords` (8 region × {lat, lng} hardcoded — server-data Q1 (b) 채택, 2026-05-04). enum 외 / `.other` / `.unknown` / null 시 mini-map **전체 hide**.
+  4. **"색감" 섹션** (server-data ADR-302 v1.1 `colorTier` enum 5단계):
      - 좌상단 mono "COLOR"
-     - 5단계 색 슬라이더: matchaSoft → matcha → deep (5 stop) — `Color.MM.matchaSoft / matchaPale / matcha / deep`의 명도 단계
-     - 사용자 평가 마커: `colorHex` 위치에 deep dot. 미입력 시 슬라이더 hide.
+     - 5단계 색 슬라이더 stop: `matchaSoft` → `matchaPale` → `matcha` → `deepMatcha` → `deep` (matchaSoft가 가장 연함). **매핑 SSOT**: `design-system.md § 1.5.1 colorTier`. server-data Q2 (하이브리드) 채택 — 사용자는 enum 5단계만 입력, `colorHex`는 Cloud Functions가 자동 미러.
+     - 사용자 평가 마커: `colorTier` stop 위치에 `Color.MM.deep` dot. 미입력(`colorTier=null`) 시 슬라이더 hide.
   5. **하단** `PrimaryButton(.fullWidth)` "다시 방문" → 매장 상세 (07)로.
 
 ##### 다국어 라벨 매핑 (origin.grade enum)

@@ -20,9 +20,9 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
-        .package(path: "../Domain")
-        // Phase 3에서 추가 (앱 타깃 SPM dependency로 등록 후):
-        // .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "11.0.0"),
+        .package(path: "../Domain"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "11.0.0")
+        // Phase 3 후속 — Map/Places SDK는 FeatureMap이 직접 의존:
         // .package(url: "https://github.com/googlemaps/ios-maps-sdk", from: "9.0.0"),
         // .package(url: "https://github.com/googlemaps/ios-places-sdk", from: "9.0.0")
     ],
@@ -31,16 +31,11 @@ let package = Package(
             name: "Data",
             dependencies: [
                 .product(name: "Core", package: "Core"),
-                .product(name: "Domain", package: "Domain")
-                // Phase 3 추가 예정:
-                // .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
-                // .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                // .product(name: "FirebaseStorage", package: "firebase-ios-sdk"),
-                // .product(name: "FirebaseAppCheck", package: "firebase-ios-sdk"),
-                // .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
-                // .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
-                // .product(name: "GoogleMaps", package: "ios-maps-sdk"),
-                // .product(name: "GooglePlaces", package: "ios-places-sdk")
+                .product(name: "Domain", package: "Domain"),
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseStorage", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk")
             ],
             swiftSettings: [
                 .enableUpcomingFeature("MemberImportVisibility")

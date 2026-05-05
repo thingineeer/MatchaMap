@@ -222,6 +222,7 @@ erDiagram
 | users → reviews | 1 : N | 한 사용자가 N개 리뷰 작성. |
 | users → wishlist items | 1 : N | 서브컬렉션. doc.id = storeId(중복 불가). |
 | users → collection items | 1 : N | 서브컬렉션. 같은 매장의 다른 음료 = 별도 카드 → 1 : N (storeId 단위 N 가능). |
+| users → fcmTokens | 1 : N | 서브컬렉션. 다중 디바이스 푸시 토큰 SSOT (server-auth ADR-303 P1.1 정합). doc.id = `identifierForVendor`. |
 | users ↔ users (friendships) | M : N | 양방향 두 doc(`A→B`+`B→A`). status 머신. |
 | users → feed_events (actor) | 1 : N | actorUid 인덱스. |
 | users ↔ feed_events (audience) | M : N | audienceUids array-contains. |
@@ -282,6 +283,7 @@ READ PATH (Single doc, 추가 read 0)
 ```
 firestore-root/
 ├── users/{uid}
+│   └── fcmTokens/{tokenId}                 ← 서브컬렉션, FCM 토큰 SSOT (다중 디바이스)
 ├── wishlists/{uid}/items/{storeId}        ← 서브컬렉션
 ├── collections/{uid}/items/{itemId}       ← 서브컬렉션
 ├── friendships/{uid}/edges/{friendUid}    ← 서브컬렉션 + 양방향 fanout

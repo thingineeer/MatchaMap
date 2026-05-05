@@ -85,9 +85,9 @@
 | `stats.reviewCount` | int | Y | ≥ 0 | 작성한 리뷰 수. |
 | `stats.wishlistCount` | int | Y | ≥ 0 | 위시리스트 수. |
 | `stats.friendCount` | int | Y | ≥ 0 | 수락된 친구 수. observability `friend_count` user property SSOT. |
-| `notification` | map? | N | — | FCM 토큰/설정. |
-| `notification.fcmToken` | string? | N | — | iOS 디바이스 토큰. 만료 시 Functions가 정리. |
+| `notification` | map? | N | — | FCM 푸시 설정. **토큰 SSOT은 §1A `users/{uid}/fcmTokens` 서브컬렉션** (다중 디바이스 지원). |
 | `notification.feedEnabled` | bool? | N | default true | 친구 피드 푸시 on/off. |
+| `notification.lastTokenAt` | timestamp? | N | server | 디노멀 캐시 — 가장 최근 활성 토큰 갱신 시각. 푸시 가능 사용자 빠른 필터용(서브컬렉션 쿼리 없이). 실 토큰 데이터는 §1A SSOT. |
 | `deletedAt` | timestamp? | N | server | 탈퇴 soft-delete. 30일 후 hard delete (cost-projection §4.2 GDPR + 비용). |
 
 ### 1.2 보안 규칙 매핑
@@ -104,6 +104,77 @@
 - `cohortD0` ↔ user property `cohort_d0`: 가입 시 1회 set, 불변.
 - `stats.friendCount` ↔ user property `friend_count`: Functions가 friendship accepted 시 ±1, 매월 첫 세션 클라가 user property로 갱신.
 - `homeCountry`/`country`/`travelMode` ↔ user property `home_country`/`country`/`travel_mode`: 클라가 user property로도 set.
+
+---
+
+## 1A. `users/{uid}/fcmTokens/{tokenId}` (서브컬렉션) — FCM 토큰 SSOT
+
+다중 디바이스 푸시 토큰 저장소. **server-auth ADR-303 P1.1 패턴 정합** (셀프 등록 + 다중 디바이스). v1.0.0 단일 디바이스 케이스도 본 서브컬렉션이 SSOT — `users.notification.fcmToken` 단일 필드는 deprecated.
+
+### 1A.1 doc.id 규약
+
+- `tokenId` = 디바이스 식별자. iOS 클라는 `UIDevice.current.identifierForVendor.uuidString` 사용 권고.
+- 동일 디바이스 재가입/토큰 갱신 시 같은 `tokenId`로 upsert → 디바이스당 1 doc 보장.
+
+### 1A.2 필드
+
+| 필드 | 타입 | 필수 | 제약 | 비고 |
+|---|---|---|---|---|
+| `tokenId` | string | Y | == doc.id | invariant. |
+| `uid` | string | Y | == 부모 path uid | 보안 규칙 셀프 검증용. |
+| `token` | string | Y | 1 – 4096 chars | FCM token. APNs 환경별로 다를 수 있음. |
+| `platform` | string | Y | enum: `ios` | v1.1.0+ `android` 추가 예정. |
+| `appVersion` | string | Y | SemVer | `CFBundleShortVersionString`. 푸시 호환성 필터. |
+| `buildNumber` | string | Y | YYMMDD_HHMM | `CFBundleVersion`. |
+| `locale` | string | Y | BCP-47 | 다국어 푸시 라우팅(KR/JP/US/UK/DE/FR). |
+| `country` | string? | N | ISO-3166 alpha-2 | 디바이스 현재 국가. 글로벌 캠페인 라우팅. |
+| `pushPermission` | string | Y | enum: `granted`, `provisional`, `denied`, `not_determined` | 권한 상태. `granted`/`provisional`만 fanout 대상. |
+| `createdAt` | timestamp | Y | server, 불변 | 첫 등록 시각. |
+| `updatedAt` | timestamp | Y | server | 토큰 갱신 시각. |
+| `lastSeenAt` | timestamp | Y | server | 앱 포그라운드/푸시 수신 시 갱신. **stale 정리 기준**(60일 초과 자동 삭제). |
+
+### 1A.3 보안 규칙 매핑
+
+`security-rules.md` 패턴 P1.1 (server-auth ADR-303 v1.2):
+- read: `isSelf(uid) && isAppCheckOk()` (본인 토큰만 조회 가능)
+- create/update: `isSelf(uid) && isAppCheckOk()` + 클라가 보낸 `uid`/`tokenId` invariant 검증
+- delete: `isSelf(uid) && isAppCheckOk()` (사용자 디바이스 분리/로그아웃 시)
+
+> 푸시 발송은 Functions Admin SDK가 본 컬렉션 read해 토큰 fanout. 클라는 `token` 필드 read 자체는 가능(자기 토큰 확인용)이지만 **타인 토큰 read 불가**.
+
+### 1A.4 인덱스
+
+| 쿼리 | 필드 | dir |
+|---|---|---|
+| 활성 토큰 fanout (Functions) | `pushPermission` ASC, `lastSeenAt` DESC | "granted/provisional 토큰만 → 최근 활성 우선" |
+| stale 정리 (Functions scheduled) | `lastSeenAt` ASC | 60일 초과 토큰 일괄 삭제 |
+
+서브컬렉션 자동 한정. 부모 path(`users/{uid}/fcmTokens`)에 한정된 쿼리.
+
+### 1A.5 fanout 정책
+
+- **푸시 발송**(Functions `sendNotification` 헬퍼):
+  1. `users/{uid}/fcmTokens` where `pushPermission in ['granted','provisional']` read.
+  2. 각 토큰에 FCM admin SDK로 send.
+  3. 401/404 응답 시 해당 doc 삭제(토큰 만료/디바이스 분리).
+- **stale 정리**(`cleanupStaleFcmTokens` scheduled):
+  - 매일 04:30 KST. `lastSeenAt < now-60d` 토큰 삭제.
+  - migrations/v1.0.0.md § 2.4 Cloud Scheduler 작업에 추가.
+- **`users.notification.lastTokenAt` 디노멀 갱신**: Functions `onCreate/onUpdate fcmTokens/{tokenId}` 트리거 시 부모 user doc의 `notification.lastTokenAt`를 max로 갱신.
+
+### 1A.6 iOS 책임
+
+- 가입 + 푸시 권한 허용 시: `users/{uid}/fcmTokens/{deviceId}` create (셀프 register).
+- FCM 토큰 갱신 콜백 시: 같은 deviceId로 upsert.
+- 앱 포그라운드 시: `lastSeenAt = serverTimestamp` 갱신 (1시간 throttle 권고, write 비용 절감).
+- 로그아웃/디바이스 분리: 본인 토큰 doc delete.
+
+### 1A.7 observability 정합
+
+- v1.0.0은 별도 이벤트 발화 없음 (토큰 등록은 분석 SSOT 아님).
+- `permission_request.result == granted` (observability §3.10) → 본 서브컬렉션 create 트리거.
+
+---
 
 ---
 
@@ -274,9 +345,9 @@
 | `storeId` | string | Y | Google Place ID | |
 | `drink` | string | Y | enum: `usucha`, `koicha`, `matcha_latte`, `iced_matcha`, `matcha_dessert`, `other` | |
 | `grade` | string? | N | enum: `ceremonial`, `premium`, `standard`, `culinary`, `unknown` | 사용자 입력. **`stores.origin.grade` enum과 동일 4종 정합** (designer-lead screens.md § 6.3 5언어 매핑) + `unknown`. v1.0(초안)의 `cooking`은 `culinary`로 통합. |
-| `originRegion` | string? | N | enum: `uji`, `nishio`, `kagoshima`, `shizuoka`, `boseong`, `hadong`, `jeju`, `other`, `unknown` | 산지. **`stores.origin.region` enum과 정합** + `unknown`. `jeju` 추가. |
-| `colorTier` | string? | N | enum: `matchaSoft`, `matchaPale`, `matcha`, `deepMatcha`, `deep` | **5단계 색감 enum** (designer-lead Q2 합의 v1.1). 사용자 입력 단순화 + 분석/필터 효율. `MMColor` 디자인 토큰과 1:1. |
-| `colorHex` | string? | N | `#RRGGBB` | **렌더용 hex 미러** (디자인 토큰에서 `colorTier`로 매핑된 값). 미래 free hex picker(v1.x.x) 도입 시 `colorTier=null` + `colorHex` 직접 입력 케이스 호환. v1.0.0은 `colorTier`로 채워지고 Functions가 hex로 미러. |
+| `originRegion` | string? | N | enum: `uji`, `nishio`, `kagoshima`, `shizuoka`, `boseong`, `hadong`, `jeju`, `other`, `unknown` | 산지. **`stores.origin.region` enum과 정합** + `unknown`. `jeju` 추가. **mini-map 좌표 SSOT = `docs/design/design-system.md` § 9** (designer-lead v1.1 정합 완료, MatchaOriginCoords). |
+| `colorTier` | string? | N | enum: `matchaSoft`, `matchaPale`, `matcha`, `deepMatcha`, `deep` | **5단계 색감 enum** (designer-lead Q2 합의 v1.1). 사용자 입력 단순화 + 분석/필터 효율. `MMColor` 디자인 토큰과 1:1. **enum → hex 매핑 SSOT = `docs/design/design-system.md` § 1.5.1** (designer-lead v1.1 정합 완료). 신규 토큰 `Color.MM.deepMatcha` `#5A7A4A` 추가. |
+| `colorHex` | string? | N | `#RRGGBB` | **렌더용 hex 미러** (design-system.md § 1.5.1 매핑 표 기준 Functions가 자동 채움). 미래 free hex picker(v1.x.x) 도입 시 `colorTier=null` + `colorHex` 직접 입력 케이스 호환. v1.0.0은 `colorTier`로 채워지고 Functions가 hex로 미러. |
 | `note` | string? | N | 0 – 500 chars | 메모. |
 | `photos` | array<string> | N | 0 – 3 items, gs:// | Storage `users/{uid}/collection/{itemId}/{n}.jpg`. |
 | `country` | string | Y | ISO-3166 alpha-2 | **디노멀** from `stores.country`. |
@@ -515,3 +586,4 @@ read = `request.auth.uid in audienceUids`. write = Functions Admin SDK만.
 | 2026-05-04 | 초안 (10 컬렉션 + 컬렉션 그룹 + 변경 영향 매트릭스) | server-data |
 | 2026-05-04 | v1.1: designer-lead 합의 반영 — `collections/items.colorTier` 5단계 enum 추가 + `colorHex` 미러 정책, `grade`/`originRegion` enum을 `stores.origin`과 정합(`culinary`로 통합, `jeju` 추가), `origin.region` mini-map 좌표는 디자인 시스템 hardcoded 매핑(server 비용 0) | server-data |
 | 2026-05-04 | v1.2: ios-lead 의제 2 합의 — `stores.pinTier` 추가(S/A/B/C, Functions derive). designer-icon MatchaPin 4등급 + ios-map viewport 인덱스 정합. 클라 분기 0, 인덱스 가능. | server-data |
+| 2026-05-04 | v1.3: server-auth 권고 반영 — §1A `users/{uid}/fcmTokens/{tokenId}` 서브컬렉션 SSOT 신설(다중 디바이스 푸시). ADR-303 P1.1 정합. `users.notification.fcmToken` 단일 필드 deprecated → `notification.lastTokenAt` 디노멀 캐시로 대체. ERD/indexes 정합 갱신. | server-data |

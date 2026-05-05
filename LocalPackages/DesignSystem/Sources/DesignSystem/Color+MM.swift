@@ -12,7 +12,7 @@ public extension Color {
         // Brand — matcha 5단계 (ADR-302 v1.1 colorTier와 1:1)
         // SSOT: design-system.md §1.5.1 (designer-lead). server-functions utils/colorTier.ts 정합.
         public static let deep        = Color(hex: 0x3D4A2D)
-        public static let deepMatcha  = Color(hex: 0x5A7A4A)   // designer-lead 사인오프 2026-05-04
+        public static let deepMatcha  = Color(hex: 0x556B43)   // designer-lead 사인오프 2026-05-04 (designer-icon 위계 분석 채택)
         public static let matcha      = Color(hex: 0x7A9560)
         public static let matchaSoft  = Color(hex: 0xA8B994)
         public static let matchaPale  = Color(hex: 0xE6ECDE)
@@ -42,7 +42,7 @@ public extension Color {
             case .matchaSoft:  return matchaSoft    // #A8B994 — 가장 옅음
             case .matchaPale:  return matchaPale    // #E6ECDE
             case .matcha:      return matcha        // #7A9560
-            case .deepMatcha:  return deepMatcha    // #5A7A4A
+            case .deepMatcha:  return deepMatcha    // #556B43
             case .deep:        return deep          // #3D4A2D — 가장 짙음
             }
         }
