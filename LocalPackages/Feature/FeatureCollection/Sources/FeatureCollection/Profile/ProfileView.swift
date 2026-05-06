@@ -13,17 +13,56 @@ public struct ProfileView: View {
 
     public var body: some View {
         ScrollView {
-            VStack(spacing: MMSpacing.lg) {
-                avatarRow
-                statsHero
-                recentCollectionsSection
-                menuList
+            if viewModel.isGuest {
+                guestCTACard
+                    .padding(MMSpacing.md)
+            } else {
+                VStack(spacing: MMSpacing.lg) {
+                    avatarRow
+                    statsHero
+                    recentCollectionsSection
+                    menuList
+                }
+                .padding(MMSpacing.md)
             }
-            .padding(MMSpacing.md)
         }
         .background(Color.MM.bg)
         .task { await viewModel.load() }
         .refreshable { await viewModel.load() }
+    }
+
+    /// ADR-304 — 게스트 빈 상태 CTA. 도감/친구/메모리는 로그인 시작.
+    private var guestCTACard: some View {
+        VStack(spacing: MMSpacing.md) {
+            Image(systemName: "leaf.circle.fill")
+                .font(.system(size: 56))
+                .foregroundStyle(Color.MM.matcha)
+                .padding(.top, MMSpacing.lg)
+            Text("로그인하면 시작돼요")
+                .font(.system(size: 22, weight: .bold, design: .serif))
+                .foregroundStyle(Color.MM.deep)
+            Text("도감으로 마신 말차를 모으고\n친구·메모리도 함께해요.")
+                .font(.system(size: 13))
+                .foregroundStyle(Color.MM.muted)
+                .multilineTextAlignment(.center)
+                .lineSpacing(4)
+            Button(action: { viewModel.tapSignIn() }) {
+                Text("로그인 / 가입")
+                    .font(.system(size: 15, weight: .semibold))
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                    .foregroundStyle(.white)
+                    .background(Color.MM.deep, in: RoundedRectangle(cornerRadius: MMRadius.md))
+            }
+            .padding(.top, MMSpacing.sm)
+        }
+        .padding(MMSpacing.lg)
+        .frame(maxWidth: .infinity)
+        .background(Color.MM.paper)
+        .clipShape(RoundedRectangle(cornerRadius: MMRadius.xxl))
+        .overlay(
+            RoundedRectangle(cornerRadius: MMRadius.xxl)
+                .strokeBorder(Color.MM.lineSoft, lineWidth: 1)
+        )
     }
 
     private var avatarRow: some View {
@@ -165,25 +204,42 @@ public final class ProfileViewModel {
     public private(set) var error: String?
 
     private let uid: String
+    private var authState: AuthState
     private let userRepo: any UserRepository
     private let listCollections: any ListCollectionItemsUseCase
 
+    /// ADR-304 — 게스트가 프로필 탭에서 로그인 CTA 클릭 시.
+    public var onRequireLogin: ((LoginIntent) -> Void)?
+
     public init(
         uid: String,
+        authState: AuthState = .authenticated(.fixture()),
         userRepository: any UserRepository,
         listCollections: any ListCollectionItemsUseCase
     ) {
         self.uid = uid
+        self.authState = authState
         self.userRepo = userRepository
         self.listCollections = listCollections
     }
 
+    public func updateAuthState(_ newValue: AuthState) {
+        self.authState = newValue
+    }
+
+    public var isGuest: Bool { authState.isGuest }
+
     public func load() async {
+        if authState.isGuest { return }
         isLoading = true
         defer { isLoading = false }
         async let profileTask: () = loadProfile()
         async let recentTask: () = loadRecent()
         _ = await (profileTask, recentTask)
+    }
+
+    public func tapSignIn() {
+        onRequireLogin?(.profile)
     }
 
     private func loadProfile() async {
