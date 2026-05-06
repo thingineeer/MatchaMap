@@ -57,14 +57,31 @@ public final class ReviewWriteViewModel {
     private let writeReview: any WriteReviewUseCase
     private let uploader: any PhotoUploader
 
+    /// ADR-304 — 게스트면 submit 차단 + 콜백.
+    private var authState: AuthState
+
+    /// ADR-304 — 게스트가 작성/제출 시도 시 UI에 로그인 시트 요청.
+    public var onRequireLogin: ((LoginGate) -> Void)?
+
     public init(
         storeId: String,
         writeReview: any WriteReviewUseCase,
-        uploader: any PhotoUploader
+        uploader: any PhotoUploader,
+        authState: AuthState = .authenticated(.fixture())
     ) {
         self.storeId = storeId
         self.writeReview = writeReview
         self.uploader = uploader
+        self.authState = authState
+    }
+
+    public func updateAuthState(_ newValue: AuthState) {
+        self.authState = newValue
+    }
+
+    /// FeatureStore가 Domain의 LoginIntent에 의존하지 않도록 별도 라벨 정의(컴포지션 루트가 매핑).
+    public enum LoginGate: String, Sendable, Hashable {
+        case review
     }
 
     // MARK: - Photo intents
@@ -116,9 +133,17 @@ public final class ReviewWriteViewModel {
 
     // MARK: - Validation / Submit
 
-    /// 등록 버튼 활성화 — 별점 ≥ 1 AND 본문 trimmed 비어있지 않음 (handoff-mapping 화면 10).
+    /// 등록 버튼 활성화 — 별점 ≥ 1 AND 본문 trimmed 비어있지 않음 + 정식 인증.
+    /// ADR-304: 게스트는 작성 자체는 가능하나 submit 시점에 차단 → 버튼은 비활성화로 시각화.
     public var canSubmit: Bool {
-        rating >= 1 && !body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        rating >= 1
+            && !body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && authState.isAuthenticated
+    }
+
+    /// 게스트가 리뷰 화면에 들어왔는가 — UI에서 로그인 CTA 카드 노출 분기.
+    public var isGuestBlocked: Bool {
+        authState.isGuest
     }
 
     /// 사진 업로드가 모두 완료되었는가? (failed/pending이 1건도 없어야 submit 가능)
@@ -127,8 +152,13 @@ public final class ReviewWriteViewModel {
     }
 
     /// 등록. 사진 미업로드 시 자동으로 uploadPendingPhotos 호출 후 진행.
+    /// ADR-304: 게스트면 onRequireLogin(.review) 발화 후 즉시 리턴.
     public func submit() async {
         validationError = nil
+        if authState.isGuest {
+            onRequireLogin?(.review)
+            return
+        }
         guard canSubmit else {
             validationError = .invalidInput(rating < 1 ? "rating" : "body")
             return

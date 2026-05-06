@@ -18,7 +18,21 @@ public final class FirebaseAuthDataSource: AuthRepository, @unchecked Sendable {
 
     public func currentUser() async -> AppUser? {
         guard let user = auth.currentUser else { return nil }
+        if user.isAnonymous { return nil }
         return try? await fetchAppUser(uid: user.uid)
+    }
+
+    public func currentAuthState() async -> AuthState {
+        guard let user = auth.currentUser else {
+            return .guest(anonymousUid: nil)
+        }
+        if user.isAnonymous {
+            return .guest(anonymousUid: user.uid)
+        }
+        if let appUser = try? await fetchAppUser(uid: user.uid) {
+            return .authenticated(appUser)
+        }
+        return .guest(anonymousUid: nil)
     }
 
     public func authStateUpdates() -> AsyncStream<AppUser?> {
@@ -66,6 +80,39 @@ public final class FirebaseAuthDataSource: AuthRepository, @unchecked Sendable {
 
     public func registerPasskey(_ registration: PasskeyRegistration) async throws -> AppUser {
         throw MMDomainError.unknown("registerPasskey: Phase 4 customToken flow 미구현")
+    }
+
+    /// ADR-304 — Firebase Anonymous Auth로 익명 UID 발급.
+    public func signInAnonymously() async throws -> String {
+        if let existing = auth.currentUser, existing.isAnonymous {
+            return existing.uid
+        }
+        let result = try await auth.signInAnonymously()
+        return result.user.uid
+    }
+
+    /// ADR-304 — 현재 익명 사용자에 Apple credential을 link → 동일 UID로 정식 사용자 전환.
+    /// 익명 UID로 만든 wishlists/* 데이터가 그대로 보존된다.
+    public func linkAnonymousToApple(
+        identityToken: Foundation.Data,
+        nonce: String,
+        fullName: PersonName?
+    ) async throws -> AppUser {
+        guard let idTokenString = String(data: identityToken, encoding: .utf8) else {
+            throw MMDomainError.invalidInput("Apple identityToken decode 실패")
+        }
+        let credential = OAuthProvider.appleCredential(
+            withIDToken: idTokenString,
+            rawNonce: nonce,
+            fullName: nil
+        )
+        guard let current = auth.currentUser, current.isAnonymous else {
+            // 익명이 아니면 일반 signIn 흐름으로 폴백.
+            let result = try await auth.signIn(with: credential)
+            return try await fetchAppUser(uid: result.user.uid)
+        }
+        let result = try await current.link(with: credential)
+        return try await fetchAppUser(uid: result.user.uid)
     }
 
     public func signOut() async throws {

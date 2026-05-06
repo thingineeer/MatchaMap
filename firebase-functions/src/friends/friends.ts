@@ -3,7 +3,7 @@ import { HttpsError, onCall } from 'firebase-functions/v2/https';
 
 import { db } from '../utils/admin.js';
 import { assertAppCheck } from '../utils/appCheck.js';
-import { assertAuthenticated } from '../utils/auth.js';
+import { assertAuthenticated, assertNotAnonymous } from '../utils/auth.js';
 import { ErrorCodes } from '../utils/errors.js';
 import { logInfo, logWarn } from '../utils/logger.js';
 import { CALLABLE_DEFAULTS } from '../utils/region.js';
@@ -47,6 +47,7 @@ export const requestFriend = onCall<RequestFriendRequest, Promise<OkResponse>>(
   async (req) => {
     assertAppCheck(req);
     const { uid } = assertAuthenticated(req);
+    assertNotAnonymous(req);
     const data = req.data;
     if (!data || typeof data.targetUid !== 'string' || data.targetUid === uid) {
       throw new HttpsError('invalid-argument', 'Invalid target uid.', {
@@ -129,6 +130,7 @@ export const acceptFriend = onCall<AcceptFriendRequest, Promise<OkResponse>>(
   async (req) => {
     assertAppCheck(req);
     const { uid } = assertAuthenticated(req);
+    assertNotAnonymous(req);
     const data = req.data;
     if (!data || typeof data.requesterUid !== 'string' || data.requesterUid === uid) {
       throw new HttpsError('invalid-argument', 'Invalid requester uid.', {
@@ -287,6 +289,7 @@ export const removeFriend = onCall<RemoveFriendRequest, Promise<OkResponse>>(
   async (req) => {
     assertAppCheck(req);
     const { uid } = assertAuthenticated(req);
+    assertNotAnonymous(req);
     const data = req.data;
     if (!data || typeof data.otherUid !== 'string' || data.otherUid === uid) {
       throw new HttpsError('invalid-argument', 'Invalid other uid.', {

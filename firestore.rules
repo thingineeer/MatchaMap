@@ -33,6 +33,15 @@ service cloud.firestore {
     function isAppCheckOk() {
       return request.app != null;
     }
+    // ADR-304 — 익명 사용자는 정식 자원에 write 금지.
+    // sign_in_provider == 'anonymous'이면 게스트.
+    function isFullyAuthed() {
+      return isAuthed()
+             && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+    function isFullySelf(uid) {
+      return isFullyAuthed() && request.auth.uid == uid;
+    }
     function strLen(s, minLen, maxLen) {
       return s is string && s.size() >= minLen && s.size() <= maxLen;
     }
@@ -137,7 +146,8 @@ service cloud.firestore {
     match /reviews/{reviewId} {
       allow read: if isAuthed() && isAppCheckOk();
 
-      allow create: if isAuthed()
+      // ADR-304 — 리뷰 write는 정식 사용자만 (익명 거부).
+      allow create: if isFullyAuthed()
                     && isAppCheckOk()
                     && request.resource.data.uid == request.auth.uid
                     && request.resource.data.author.uid == request.auth.uid
@@ -154,7 +164,7 @@ service cloud.firestore {
                     && request.resource.data.flagCount == 0
                     && request.resource.data.createdAt == request.time;
 
-      allow update: if isAuthed()
+      allow update: if isFullyAuthed()
                     && isAppCheckOk()
                     && resource.data.uid == request.auth.uid
                     && isUnchanged('uid')
@@ -173,7 +183,7 @@ service cloud.firestore {
                     && request.resource.data.rating <= 5
                     && request.resource.data.updatedAt == request.time;
 
-      allow delete: if isAuthed()
+      allow delete: if isFullyAuthed()
                     && isAppCheckOk()
                     && resource.data.uid == request.auth.uid;
     }
@@ -213,7 +223,8 @@ service cloud.firestore {
     //          fanout(users.stats.collectionCount ±1, feed_events create) 보장 위해 Functions only.
     // ========================================================================
     match /collections/{uid}/items/{itemId} {
-      allow read:  if isSelf(uid) && isAppCheckOk();
+      // ADR-304 — 도감 read도 정식 사용자만 (익명 거부).
+      allow read:  if isFullySelf(uid) && isAppCheckOk();
       allow write: if false;
     }
 
@@ -225,12 +236,13 @@ service cloud.firestore {
     //   reviews.likeCount 갱신은 Functions onLikeWrite (server-functions) 책임.
     // ========================================================================
     match /likes/{reviewId}/users/{uid} {
+      // ADR-304 — 좋아요 read는 게스트 OK (피드/리뷰 표시), write는 정식 사용자만.
       allow read:   if isAuthed() && isAppCheckOk();
-      allow create: if isSelf(uid)
+      allow create: if isFullySelf(uid)
                     && isAppCheckOk()
                     && request.resource.data.uid == uid
                     && request.resource.data.reviewId == reviewId;
-      allow delete: if isSelf(uid) && isAppCheckOk();
+      allow delete: if isFullySelf(uid) && isAppCheckOk();
       allow update: if false;
     }
 
@@ -241,7 +253,8 @@ service cloud.firestore {
     //   양방향 정합(A/edges/B + B/edges/A 동시 갱신)을 클라에 맡기지 않음.
     // ========================================================================
     match /friendships/{uid}/edges/{friendUid} {
-      allow read:  if isSelf(uid) && isAppCheckOk();
+      // ADR-304 — 친구 read도 정식 사용자만.
+      allow read:  if isFullySelf(uid) && isAppCheckOk();
       allow write: if false;
     }
 
@@ -253,7 +266,8 @@ service cloud.firestore {
     //   90일 retention은 scheduler/cleanupFeedEvents가 처리.
     // ========================================================================
     match /feed_events/{eventId} {
-      allow read:  if isAuthed()
+      // ADR-304 — 피드 read도 정식 사용자만.
+      allow read:  if isFullyAuthed()
                    && isAppCheckOk()
                    && request.auth.uid in resource.data.audienceUids;
       allow write: if false;

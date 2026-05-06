@@ -3,7 +3,7 @@ import { HttpsError, onCall } from 'firebase-functions/v2/https';
 
 import { db } from '../utils/admin.js';
 import { assertAppCheck } from '../utils/appCheck.js';
-import { assertAuthenticated } from '../utils/auth.js';
+import { assertAuthenticated, assertNotAnonymous } from '../utils/auth.js';
 import { ErrorCodes } from '../utils/errors.js';
 import { logInfo, logWarn } from '../utils/logger.js';
 import { CALLABLE_DEFAULTS } from '../utils/region.js';
@@ -46,6 +46,7 @@ export const submitReview = onCall<SubmitReviewRequest, Promise<SubmitReviewResp
   async (req) => {
     assertAppCheck(req);
     const { uid } = assertAuthenticated(req);
+    assertNotAnonymous(req);
     const data = req.data;
 
     if (
