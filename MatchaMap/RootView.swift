@@ -2,8 +2,8 @@
 //  RootView.swift
 //  MatchaMap
 //
-//  앱 진입 컨테이너. Splash → Login(Apple/Passkey) → MainTab 라우팅.
-//  Phase 3 통합 — Feature 모듈의 실제 View로 4탭 wire.
+//  앱 진입 컨테이너. ADR-304 — Splash → Main 직행 (login 단계 제거).
+//  로그인은 게이트별 시트(LoginIntent)로 띄움.
 //
 
 import SwiftUI
@@ -17,6 +17,7 @@ import FeatureStore
 
 struct RootView: View {
     @State private var phase: Phase = .splash
+    @State private var loginSheet: LoginIntent?
 
     var body: some View {
         Group {
@@ -26,67 +27,50 @@ struct RootView: View {
                     .transition(.opacity)
                     .task {
                         try? await Task.sleep(for: .milliseconds(1400))
-                        withAnimation(.easeOut(duration: 0.4)) { phase = .login }
+                        withAnimation(.easeOut(duration: 0.4)) { phase = .main }
                     }
-            case .login:
-                LoginView { phase = .main }
-                    .transition(.opacity)
             case .main:
-                MainTabView()
+                MainTabView(loginSheet: $loginSheet)
                     .transition(.opacity)
+                    .sheet(item: $loginSheet) { intent in
+                        LoginView(
+                            intent: intent.toAuthIntent(),
+                            onSignIn: { loginSheet = nil },
+                            onSkip: { loginSheet = nil }
+                        )
+                        .presentationDetents([.medium, .large])
+                    }
             }
         }
     }
 
-    enum Phase { case splash, login, main }
+    enum Phase { case splash, main }
 }
 
-/// Phase 3 placeholder — Phase 5에서 실 인증 결과로 main 전환. 디버그/Preview용으로 보존.
-struct LoginPlaceholderView: View {
-    let onSignIn: () -> Void
-    var body: some View {
-        ZStack {
-            Color.MM.bg.ignoresSafeArea()
-            VStack(alignment: .leading, spacing: 16) {
-                Text("말차맵에\n오신 걸 환영해요")
-                    .font(.system(size: 32, weight: .bold, design: .serif))
-                    .foregroundStyle(Color.MM.deep)
-                    .lineSpacing(6)
-                Text("로그인하면 마신 말차와 위시리스트를\n모든 기기에서 동기화할 수 있어요.")
-                    .font(.system(size: 14))
-                    .foregroundStyle(Color.MM.muted)
-                    .lineSpacing(5)
-                Spacer()
-                Button(action: onSignIn) {
-                    HStack {
-                        Image(systemName: "applelogo")
-                        Text("Apple로 시작하기").bold()
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 52)
-                    .foregroundStyle(.white)
-                    .background(Color.MM.ink, in: RoundedRectangle(cornerRadius: 12))
-                }
-                Button(action: onSignIn) {
-                    HStack {
-                        Image(systemName: "key.fill")
-                        Text("Passkey로 시작하기").bold()
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 52)
-                    .foregroundStyle(Color.MM.deep)
-                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.MM.line, lineWidth: 1))
-                }
-                .padding(.bottom, 24)
-            }
-            .padding(.horizontal, 28)
-            .padding(.top, 80)
+private extension LoginIntent {
+    func toAuthIntent() -> LoginView.Intent {
+        switch self {
+        case .review:           return .review
+        case .collectionUnlock: return .collectionUnlock
+        case .wishlistCap:      return .wishlistCap
+        case .friend:           return .friend
+        case .profile:          return .profile
+        case .push:             return .push
+        case .rewarded:         return .rewarded
         }
     }
 }
 
 /// 4탭: 지도 / 피드 / 위시리스트 / 내정보.
 /// Phase 3 mock: in-process Mock repositories로 4 화면 모두 렌더링 가능.
+/// ADR-304: 4번째 탭 진입 시 게스트면 LoginIntent.profile 시트 트리거 (탭 자체는 ProfileView가 게스트 빈상태 카드).
 struct MainTabView: View {
+    @Binding var loginSheet: LoginIntent?
+
     @State private var mockUid: String = "uid_self"
+    /// ADR-304 — 통합 빌드용 게스트 시뮬: AppContainer 미주입 시 .guest로 시작.
+    @State private var authState: AuthState = .guest(anonymousUid: "anon-mock")
+
     // Mock repos — Phase 4에서 AppContainer.shared로 교체.
     private let mockCollection = MockCollectionRepository()
     private let mockWishlist = MockWishlistRepository()
@@ -125,26 +109,43 @@ struct MainTabView: View {
 
     @ViewBuilder
     private var feedTab: some View {
-        let vm = FeedViewModel(
-            uid: mockUid,
-            loadFeed: LoadFeedUseCaseImpl(repository: mockFeed),
-            toggleLike: ToggleLikeUseCaseImpl(repository: mockFeed),
-            addComment: AddCommentUseCaseImpl(repository: mockFeed)
-        )
-        NavigationStack {
-            FeedView(viewModel: vm)
-                .navigationTitle("피드")
-                .navigationBarTitleDisplayMode(.inline)
+        // 게스트 → 친구 피드 차단 (ADR-304). 시트 트리거 + 빈 상태.
+        if authState.isGuest {
+            guestEmpty(
+                title: "친구 피드는 로그인 후",
+                body: "친구의 활동을 보려면 로그인이 필요해요.",
+                cta: "로그인 / 가입",
+                intent: .friend
+            )
+        } else {
+            let vm = FeedViewModel(
+                uid: mockUid,
+                loadFeed: LoadFeedUseCaseImpl(repository: mockFeed),
+                toggleLike: ToggleLikeUseCaseImpl(repository: mockFeed),
+                addComment: AddCommentUseCaseImpl(repository: mockFeed)
+            )
+            NavigationStack {
+                FeedView(viewModel: vm)
+                    .navigationTitle("피드")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
         }
     }
 
     @ViewBuilder
     private var wishlistTab: some View {
-        let vm = WishlistViewModel(
-            uid: mockUid,
-            listUseCase: ListWishlistItemsUseCaseImpl(repository: mockWishlist),
-            toggleUseCase: ToggleWishlistUseCaseImpl(repository: mockWishlist)
-        )
+        let vm: WishlistViewModel = {
+            let viewModel = WishlistViewModel(
+                uid: mockUid,
+                authState: authState,
+                listUseCase: ListWishlistItemsUseCaseImpl(repository: mockWishlist),
+                toggleUseCase: ToggleWishlistUseCaseImpl(repository: mockWishlist)
+            )
+            viewModel.onRequireLogin = { [$loginSheet] intent in
+                $loginSheet.wrappedValue = intent
+            }
+            return viewModel
+        }()
         NavigationStack {
             WishlistView(viewModel: vm)
                 .navigationTitle("위시리스트")
@@ -154,66 +155,50 @@ struct MainTabView: View {
 
     @ViewBuilder
     private var profileTab: some View {
-        let vm = ProfileViewModel(
-            uid: mockUid,
-            userRepository: mockUser,
-            listCollections: ListCollectionItemsUseCaseImpl(repository: mockCollection)
-        )
+        let vm: ProfileViewModel = {
+            let viewModel = ProfileViewModel(
+                uid: mockUid,
+                authState: authState,
+                userRepository: mockUser,
+                listCollections: ListCollectionItemsUseCaseImpl(repository: mockCollection)
+            )
+            viewModel.onRequireLogin = { [$loginSheet] intent in
+                $loginSheet.wrappedValue = intent
+            }
+            return viewModel
+        }()
         NavigationStack {
             ProfileView(viewModel: vm)
                 .navigationTitle("내정보")
                 .navigationBarTitleDisplayMode(.inline)
         }
     }
-}
 
-// MARK: - Placeholders (디버그/Preview 용도, MainTabView에서 더 이상 사용하지 않음)
-
-private struct MapPlaceholderView: View {
-    var body: some View {
+    @ViewBuilder
+    private func guestEmpty(title: String, body: String, cta: String, intent: LoginIntent) -> some View {
         ZStack {
             Color.MM.bg.ignoresSafeArea()
-            VStack(spacing: 16) {
-                Image(systemName: "map.fill").font(.system(size: 56)).foregroundStyle(Color.MM.matchaSoft)
-                Text("지도").font(.system(size: 28, weight: .bold, design: .serif)).foregroundStyle(Color.MM.deep)
-                Text("Google Maps SDK 통합 — Phase 5").font(.caption).foregroundStyle(Color.MM.muted)
+            VStack(spacing: MMSpacing.md) {
+                Image(systemName: "person.2.circle")
+                    .font(.system(size: 56))
+                    .foregroundStyle(Color.MM.matchaSoft)
+                Text(title)
+                    .font(.system(size: 22, weight: .bold, design: .serif))
+                    .foregroundStyle(Color.MM.deep)
+                Text(body)
+                    .font(.system(size: 13))
+                    .foregroundStyle(Color.MM.muted)
+                    .multilineTextAlignment(.center)
+                Button(action: { loginSheet = intent }) {
+                    Text(cta)
+                        .font(.system(size: 15, weight: .semibold))
+                        .frame(maxWidth: 280, minHeight: 48)
+                        .foregroundStyle(.white)
+                        .background(Color.MM.deep, in: RoundedRectangle(cornerRadius: 12))
+                }
+                .padding(.top, MMSpacing.sm)
             }
-        }
-    }
-}
-private struct FeedPlaceholderView: View {
-    var body: some View {
-        ZStack {
-            Color.MM.bg.ignoresSafeArea()
-            VStack(spacing: 16) {
-                Image(systemName: "person.2.fill").font(.system(size: 56)).foregroundStyle(Color.MM.rose)
-                Text("피드").font(.system(size: 28, weight: .bold, design: .serif)).foregroundStyle(Color.MM.deep)
-                Text("친구 활동 — FeatureSocial").font(.caption).foregroundStyle(Color.MM.muted)
-            }
-        }
-    }
-}
-private struct WishlistPlaceholderView: View {
-    var body: some View {
-        ZStack {
-            Color.MM.bg.ignoresSafeArea()
-            VStack(spacing: 16) {
-                Image(systemName: "bookmark.fill").font(.system(size: 56)).foregroundStyle(Color.MM.gold)
-                Text("위시리스트").font(.system(size: 28, weight: .bold, design: .serif)).foregroundStyle(Color.MM.deep)
-                Text("국가별 그룹 + 미니 세계지도 — FeatureCollection").font(.caption).foregroundStyle(Color.MM.muted)
-            }
-        }
-    }
-}
-private struct ProfilePlaceholderView: View {
-    var body: some View {
-        ZStack {
-            Color.MM.bg.ignoresSafeArea()
-            VStack(spacing: 16) {
-                Image(systemName: "person.crop.circle.fill").font(.system(size: 56)).foregroundStyle(Color.MM.matcha)
-                Text("내정보").font(.system(size: 28, weight: .bold, design: .serif)).foregroundStyle(Color.MM.deep)
-                Text("도감 / 리뷰 / 친구 — FeatureCollection.ProfileView").font(.caption).foregroundStyle(Color.MM.muted)
-            }
+            .padding(MMSpacing.lg)
         }
     }
 }

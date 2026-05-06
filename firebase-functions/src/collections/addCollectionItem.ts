@@ -3,7 +3,7 @@ import { HttpsError, onCall } from 'firebase-functions/v2/https';
 
 import { db } from '../utils/admin.js';
 import { assertAppCheck } from '../utils/appCheck.js';
-import { assertAuthenticated } from '../utils/auth.js';
+import { assertAuthenticated, assertNotAnonymous } from '../utils/auth.js';
 import { colorHexForTier, ColorTier, isColorTier } from '../utils/colorTier.js';
 import {
   COLLECTION_DRINKS,
@@ -69,6 +69,7 @@ export const addCollectionItem = onCall<
 >(CALLABLE_DEFAULTS, async (req) => {
   assertAppCheck(req);
   const { uid } = assertAuthenticated(req);
+  assertNotAnonymous(req);
   const data = req.data;
 
   if (
